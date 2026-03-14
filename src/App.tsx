@@ -21,6 +21,7 @@ function App() {
   const {
     data: projects,
     save: saveProjects,
+    loading: projectsLoading,
   } = useKVData<Project[]>({
     endpoint: '/api/projects',
     localKey: 'zoro_projects',
@@ -99,7 +100,7 @@ function App() {
 
       <main>
         <HeroSection config={config} />
-        <ProjectsSection projects={projects} onProjectClick={handleProjectClick} />
+        {!projectsLoading && <ProjectsSection projects={projects} onProjectClick={handleProjectClick} />}
         <AboutSection config={config} />
       </main>
 

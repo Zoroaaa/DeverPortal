@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowDown, Terminal, Users, Star, GitFork, BookOpen } from 'lucide-react';
 import type { SiteConfig } from '../types';
@@ -12,7 +12,10 @@ export function HeroSection({ config }: HeroSectionProps) {
   const [displayed, setDisplayed] = useState('');
   const [titleIndex, setTitleIndex] = useState(0);
   const [typing, setTyping] = useState(true);
-  const taglines = config.heroTaglines?.length ? config.heroTaglines : ['全栈开发者'];
+  const taglines = useMemo(
+    () => config.heroTaglines?.length ? config.heroTaglines : ['全栈开发者'],
+    [config.heroTaglines]
+  );
 
   const { stats } = useGithubStats(config.githubUsername);
 
@@ -22,19 +25,18 @@ export function HeroSection({ config }: HeroSectionProps) {
       if (displayed.length < target.length) {
         const t = setTimeout(() => setDisplayed(target.slice(0, displayed.length + 1)), 75);
         return () => clearTimeout(t);
-      } else {
-        const t = setTimeout(() => setTyping(false), 2200);
-        return () => clearTimeout(t);
       }
-    } else {
-      if (displayed.length > 0) {
-        const t = setTimeout(() => setDisplayed(displayed.slice(0, -1)), 38);
-        return () => clearTimeout(t);
-      } else {
-        setTitleIndex(i => (i + 1) % taglines.length);
-        setTyping(true);
-      }
+      const t = setTimeout(() => setTyping(false), 2200);
+      return () => clearTimeout(t);
     }
+    if (displayed.length > 0) {
+      const t = setTimeout(() => setDisplayed(displayed.slice(0, -1)), 38);
+      return () => clearTimeout(t);
+    }
+    queueMicrotask(() => {
+      setTitleIndex(i => (i + 1) % taglines.length);
+      setTyping(true);
+    });
   }, [displayed, typing, titleIndex, taglines]);
 
   const heroStats = [

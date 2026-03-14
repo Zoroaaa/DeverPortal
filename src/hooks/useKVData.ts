@@ -1,14 +1,10 @@
-/**
- * Generic hook to load/save data from Cloudflare KV via Pages Functions.
- * Falls back to localStorage when running locally (no /api).
- */
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 
 interface UseKVDataOptions<T> {
-  endpoint: string;       // e.g. '/api/projects'
-  localKey: string;       // localStorage fallback key
+  endpoint: string;
+  localKey: string;
   defaultValue: T;
-  token?: string | null;  // admin token for write operations
+  token?: string | null;
 }
 
 export function useKVData<T>({ endpoint, localKey, defaultValue, token }: UseKVDataOptions<T>) {
@@ -16,42 +12,61 @@ export function useKVData<T>({ endpoint, localKey, defaultValue, token }: UseKVD
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Load
-  const load = useCallback(async () => {
-    setLoading(true);
-    try {
-      const res = await fetch(endpoint);
-      if (res.ok) {
-        const json = await res.json() as { success: boolean; data?: T };
-        if (json.success && json.data !== undefined && json.data !== null) {
-          setData(json.data);
-          // Sync to localStorage as cache
-          try { localStorage.setItem(localKey, JSON.stringify(json.data)); } catch {}
-          return;
-        }
-      }
-    } catch {
-      // API not available (local dev) — use localStorage
-    }
-    // Fallback to localStorage
+  const cachedData = useMemo(() => {
     try {
       const cached = localStorage.getItem(localKey);
-      if (cached) setData(JSON.parse(cached));
-    } catch {}
-    setLoading(false);
-  }, [endpoint, localKey]);
+      return cached ? JSON.parse(cached) as T : null;
+    } catch {
+      return null;
+    }
+  }, [localKey]);
 
   useEffect(() => {
-    load().finally(() => setLoading(false));
-  }, [load]);
+    let cancelled = false;
 
-  // Save
+    async function loadData() {
+      try {
+        const res = await fetch(endpoint);
+        if (!cancelled && res.ok) {
+          const json = await res.json() as { success: boolean; data?: T };
+          if (json.success && json.data !== undefined && json.data !== null) {
+            setData(json.data);
+            try {
+              localStorage.setItem(localKey, JSON.stringify(json.data));
+            } catch {
+              // localStorage not available
+            }
+            setLoading(false);
+            return;
+          }
+        }
+      } catch {
+        // API not available (local dev)
+      }
+      if (!cancelled && cachedData) {
+        setData(cachedData);
+      }
+      if (!cancelled) {
+        setLoading(false);
+      }
+    }
+
+    loadData();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [endpoint, localKey, cachedData]);
+
   const save = useCallback(async (newData: T): Promise<boolean> => {
-    // Optimistic update
     setData(newData);
-    try { localStorage.setItem(localKey, JSON.stringify(newData)); } catch {}
+    try {
+      localStorage.setItem(localKey, JSON.stringify(newData));
+    } catch {
+      // localStorage not available
+    }
 
-    if (!token) return true; // local-only mode
+    if (!token) return true;
 
     try {
       const res = await fetch(endpoint, {
@@ -63,7 +78,10 @@ export function useKVData<T>({ endpoint, localKey, defaultValue, token }: UseKVD
         body: JSON.stringify(newData),
       });
       const json = await res.json() as { success: boolean; error?: string };
-      if (!json.success) { setError(json.error || 'Save failed'); return false; }
+      if (!json.success) {
+        setError(json.error || 'Save failed');
+        return false;
+      }
       setError(null);
       return true;
     } catch (e) {
@@ -72,5 +90,5 @@ export function useKVData<T>({ endpoint, localKey, defaultValue, token }: UseKVD
     }
   }, [endpoint, localKey, token]);
 
-  return { data, setData, save, load, loading, error };
+  return { data, setData, save, loading, error };
 }
