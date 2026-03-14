@@ -11,12 +11,8 @@ interface ProjectsSectionProps {
 }
 
 const CATEGORY_COLORS: Record<string, string> = {
-  tool: '#c9a84c',
-  library: '#7c9e8a',
-  website: '#6b8cc4',
-  api: '#c4845a',
-  game: '#b06ea0',
-  other: '#7a7a8a',
+  tool: '#c9a84c', library: '#7c9e8a', website: '#6b8cc4',
+  api: '#c4845a', game: '#b06ea0', other: '#7a7a8a',
 };
 
 export function ProjectsSection({ projects, onProjectClick }: ProjectsSectionProps) {
@@ -25,10 +21,11 @@ export function ProjectsSection({ projects, onProjectClick }: ProjectsSectionPro
 
   const filteredProjects = useMemo(() => {
     return projects.filter(project => {
+      const q = searchQuery.toLowerCase();
       const matchesSearch =
-        project.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        project.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        project.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+        project.name.toLowerCase().includes(q) ||
+        project.description.toLowerCase().includes(q) ||
+        project.tags.some(tag => tag.toLowerCase().includes(q));
       const matchesCategory = selectedCategory === 'all' || project.category === selectedCategory;
       return matchesSearch && matchesCategory;
     }).sort((a, b) => {
@@ -37,6 +34,22 @@ export function ProjectsSection({ projects, onProjectClick }: ProjectsSectionPro
       return b.viewCount - a.viewCount;
     });
   }, [projects, searchQuery, selectedCategory]);
+
+  const inputStyle: React.CSSProperties = {
+    width: '100%',
+    paddingLeft: '32px',
+    paddingRight: searchQuery ? '32px' : '12px',
+    paddingTop: '9px',
+    paddingBottom: '9px',
+    background: 'var(--ink-surface)',
+    border: '1px solid var(--ink-border)',
+    borderRadius: 0,
+    color: 'var(--text-primary)',
+    fontSize: '0.8rem',
+    fontFamily: 'JetBrains Mono',
+    outline: 'none',
+    transition: 'border-color 0.2s',
+  };
 
   return (
     <section id="projects" className="relative py-28 grid-bg" style={{ borderTop: '1px solid var(--ink-border)' }}>
@@ -66,61 +79,41 @@ export function ProjectsSection({ projects, onProjectClick }: ProjectsSectionPro
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          className="flex flex-col sm:flex-row gap-4 mb-10"
+          className="flex flex-col sm:flex-row gap-4 mb-6"
         >
           {/* Search */}
-          <div className="relative flex-1 max-w-sm">
-            <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2"
-              style={{ color: 'var(--text-dim)' }} />
+          <div className="relative flex-1 max-w-xs">
+            <Search size={12} className="absolute left-3 top-1/2 -translate-y-1/2"
+              style={{ color: 'var(--text-dim)', pointerEvents: 'none' }} />
             <input
               type="text"
               placeholder="搜索项目..."
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
-              style={{
-                width: '100%',
-                paddingLeft: '32px',
-                paddingRight: searchQuery ? '32px' : '12px',
-                paddingTop: '9px',
-                paddingBottom: '9px',
-                background: 'var(--ink-surface)',
-                border: '1px solid var(--ink-border)',
-                borderRadius: 0,
-                color: 'var(--text-primary)',
-                fontSize: '0.8rem',
-                fontFamily: 'JetBrains Mono',
-                outline: 'none',
-                transition: 'border-color 0.2s',
-              }}
+              style={inputStyle}
               onFocus={e => (e.currentTarget.style.borderColor = 'var(--gold-dim)')}
               onBlur={e => (e.currentTarget.style.borderColor = 'var(--ink-border)')}
             />
             {searchQuery && (
               <button onClick={() => setSearchQuery('')}
                 className="absolute right-3 top-1/2 -translate-y-1/2"
-                style={{ color: 'var(--text-dim)' }}>
-                <X size={12} />
+                style={{ color: 'var(--text-dim)', background: 'none', border: 'none', cursor: 'pointer' }}>
+                <X size={11} />
               </button>
             )}
           </div>
 
-          {/* Category filters */}
+          {/* Category pills */}
           <div className="flex flex-wrap gap-2">
             <button
               onClick={() => setSelectedCategory('all')}
               style={{
-                fontFamily: 'JetBrains Mono',
-                fontSize: '0.62rem',
-                letterSpacing: '0.1em',
-                textTransform: 'uppercase',
-                padding: '7px 14px',
-                borderRadius: 0,
+                fontFamily: 'JetBrains Mono', fontSize: '0.62rem', letterSpacing: '0.1em',
+                textTransform: 'uppercase', padding: '7px 14px', borderRadius: 0,
                 background: selectedCategory === 'all' ? 'var(--gold)' : 'transparent',
                 color: selectedCategory === 'all' ? 'var(--ink)' : 'var(--text-secondary)',
-                border: '1px solid',
-                borderColor: selectedCategory === 'all' ? 'var(--gold)' : 'var(--ink-border)',
-                cursor: 'pointer',
-                transition: 'all 0.2s',
+                border: `1px solid ${selectedCategory === 'all' ? 'var(--gold)' : 'var(--ink-border)'}`,
+                cursor: 'pointer', transition: 'all 0.2s',
               }}
             >
               ALL
@@ -133,24 +126,16 @@ export function ProjectsSection({ projects, onProjectClick }: ProjectsSectionPro
                   key={category.id}
                   onClick={() => setSelectedCategory(category.id)}
                   style={{
-                    fontFamily: 'JetBrains Mono',
-                    fontSize: '0.62rem',
-                    letterSpacing: '0.1em',
-                    textTransform: 'uppercase',
-                    padding: '7px 14px',
-                    borderRadius: 0,
-                    background: active ? `${color}20` : 'transparent',
+                    fontFamily: 'JetBrains Mono', fontSize: '0.62rem', letterSpacing: '0.1em',
+                    textTransform: 'uppercase', padding: '7px 14px', borderRadius: 0,
+                    background: active ? `${color}18` : 'transparent',
                     color: active ? color : 'var(--text-secondary)',
-                    border: `1px solid`,
-                    borderColor: active ? color : 'var(--ink-border)',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '6px',
+                    border: `1px solid ${active ? color : 'var(--ink-border)'}`,
+                    cursor: 'pointer', transition: 'all 0.2s',
+                    display: 'flex', alignItems: 'center', gap: '6px',
                   }}
                 >
-                  <span className="cat-dot" style={{ background: color, width: '5px', height: '5px', opacity: active ? 1 : 0.4 }} />
+                  <span style={{ width: 5, height: 5, borderRadius: 1, background: color, opacity: active ? 1 : 0.4, display: 'inline-block' }} />
                   {category.name}
                 </button>
               );
@@ -163,7 +148,7 @@ export function ProjectsSection({ projects, onProjectClick }: ProjectsSectionPro
           SHOWING {filteredProjects.length} / {projects.length} PROJECTS
         </div>
 
-        {/* Grid */}
+        {/* Grid — 1px gap creates the dividing line effect */}
         <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px"
           style={{ background: 'var(--ink-border)' }}>
           <AnimatePresence mode="popLayout">
@@ -181,7 +166,7 @@ export function ProjectsSection({ projects, onProjectClick }: ProjectsSectionPro
         {filteredProjects.length === 0 && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
             className="text-center py-20"
-            style={{ fontFamily: 'JetBrains Mono', fontSize: '0.75rem', letterSpacing: '0.1em', color: 'var(--text-dim)' }}>
+            style={{ fontFamily: 'JetBrains Mono', fontSize: '0.72rem', letterSpacing: '0.12em', color: 'var(--text-dim)' }}>
             // NO RESULTS FOUND
           </motion.div>
         )}

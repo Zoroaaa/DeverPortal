@@ -1,9 +1,9 @@
-export { ParticleBackground } from './ParticleBackground';
 export { Header } from './Header';
 export { HeroSection } from './HeroSection';
-export { ProjectCard } from './ProjectCard';
 export { ProjectsSection } from './ProjectsSection';
-export { LoginModal } from './LoginModal';
-export { AdminPanel } from './AdminPanel';
+export { ProjectCard } from './ProjectCard';
 export { AboutSection } from './AboutSection';
 export { Footer } from './Footer';
+export { LoginModal } from './LoginModal';
+export { AdminPanel } from './AdminPanel';
+export { ParticleBackground } from './ParticleBackground';

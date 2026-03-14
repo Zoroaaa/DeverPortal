@@ -10,23 +10,56 @@ import {
   LoginModal,
   AdminPanel,
 } from './components';
-import { useLocalStorage, useAdminAuth } from './hooks';
-import { DEFAULT_PROJECTS } from './constants';
-import type { Project } from './types';
+import { useAdminAuth, useKVData } from './hooks';
+import { DEFAULT_PROJECTS, DEFAULT_SITE_CONFIG } from './constants';
+import type { Project, SiteConfig } from './types';
 
 function App() {
-  const [projects, setProjects] = useLocalStorage<Project[]>('zoro_projects', DEFAULT_PROJECTS);
+  // ── KV-backed data ────────────────────────────────────────────────────────
+  const { isAuthenticated, token, login, logout, isLoading } = useAdminAuth();
+
+  const {
+    data: projects,
+    save: saveProjects,
+  } = useKVData<Project[]>({
+    endpoint: '/api/projects',
+    localKey: 'zoro_projects',
+    defaultValue: DEFAULT_PROJECTS,
+    token,
+  });
+
+  const {
+    data: config,
+    save: saveConfig,
+  } = useKVData<SiteConfig>({
+    endpoint: '/api/config',
+    localKey: 'zoro_site_config',
+    defaultValue: DEFAULT_SITE_CONFIG,
+    token,
+  });
+
+  // ── Admin UI state ────────────────────────────────────────────────────────
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showAdminPanel, setShowAdminPanel] = useState(false);
-  const [showAdminButton, setShowAdminButton] = useState(false);
-  const { isAuthenticated, login, logout, isLoading } = useAdminAuth();
+  const [showAdminHint, setShowAdminHint] = useState(false);
 
-  const handleProjectClick = useCallback((project: Project) => {
-    setProjects(prev =>
-      prev.map(p => p.id === project.id ? { ...p, viewCount: p.viewCount + 1 } : p)
+  // ── Handlers ─────────────────────────────────────────────────────────────
+  const handleProjectClick = useCallback(async (project: Project) => {
+    // Increment view count locally first
+    const updated = projects.map(p =>
+      p.id === project.id ? { ...p, viewCount: p.viewCount + 1 } : p,
     );
-    window.open(project.url, '_blank');
-  }, [setProjects]);
+    await saveProjects(updated);
+
+    // Also fire-and-forget to KV views endpoint (persists without admin token)
+    fetch('/api/views', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ projectId: project.id }),
+    }).catch(() => {});
+
+    window.open(project.demoUrl, '_blank');
+  }, [projects, saveProjects]);
 
   const handleLogin = useCallback(async (password: string) => {
     const success = await login(password);
@@ -39,38 +72,52 @@ function App() {
     setShowAdminPanel(false);
   }, [logout]);
 
-  const handleUpdateProjects = useCallback((newProjects: Project[]) => {
-    setProjects(newProjects);
-  }, [setProjects]);
+  const handleUpdateProjects = useCallback(async (newProjects: Project[]) => {
+    await saveProjects(newProjects);
+  }, [saveProjects]);
+
+  const handleUpdateConfig = useCallback(async (newConfig: SiteConfig) => {
+    await saveConfig(newConfig);
+  }, [saveConfig]);
+
+  const toggleAdmin = useCallback(() => {
+    if (showAdminPanel) {
+      setShowAdminPanel(false);
+    } else if (isAuthenticated) {
+      setShowAdminPanel(true);
+    } else {
+      setShowLoginModal(true);
+    }
+  }, [showAdminPanel, isAuthenticated]);
 
   return (
     <div className="relative min-h-screen overflow-x-hidden" style={{ background: 'var(--ink)', color: 'var(--text-primary)' }}>
-      {/* Noise overlay */}
+      {/* Film-grain noise overlay */}
       <div className="noise-overlay" aria-hidden="true" />
 
-      <Header />
+      <Header config={config} />
 
       <main>
-        <HeroSection />
+        <HeroSection config={config} />
         <ProjectsSection projects={projects} onProjectClick={handleProjectClick} />
-        <AboutSection />
+        <AboutSection config={config} />
       </main>
 
-      <Footer />
+      <Footer config={config} />
 
-      {/* Admin trigger */}
+      {/* ── Admin FAB ──────────────────────────────────────────────────── */}
       <div
         className="fixed bottom-6 right-6 z-40"
-        onMouseEnter={() => setShowAdminButton(true)}
-        onMouseLeave={() => setShowAdminButton(false)}
+        onMouseEnter={() => setShowAdminHint(true)}
+        onMouseLeave={() => setShowAdminHint(false)}
       >
         <AnimatePresence>
-          {showAdminButton && !showAdminPanel && (
+          {showAdminHint && !showAdminPanel && (
             <motion.button
               initial={{ opacity: 0, x: 10 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 10 }}
-              onClick={() => isAuthenticated ? setShowAdminPanel(true) : setShowLoginModal(true)}
+              onClick={toggleAdmin}
               className="absolute bottom-14 right-0 flex items-center gap-2 whitespace-nowrap"
               style={{
                 fontFamily: 'JetBrains Mono',
@@ -81,6 +128,7 @@ function App() {
                 background: 'var(--ink-surface)',
                 border: '1px solid var(--ink-border-bright)',
                 color: 'var(--gold-dim)',
+                cursor: 'pointer',
               }}
             >
               <Settings size={11} />
@@ -90,7 +138,7 @@ function App() {
         </AnimatePresence>
 
         <motion.button
-          onClick={() => showAdminPanel ? setShowAdminPanel(false) : (isAuthenticated ? setShowAdminPanel(true) : setShowLoginModal(true))}
+          onClick={toggleAdmin}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           style={{
@@ -99,16 +147,18 @@ function App() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            background: showAdminPanel ? 'rgba(239,68,68,0.12)' : 'var(--gold)',
-            border: showAdminPanel ? '1px solid rgba(239,68,68,0.3)' : 'none',
-            color: showAdminPanel ? 'rgb(239,68,68)' : 'var(--ink)',
+            background: showAdminPanel ? 'rgba(248,113,113,0.12)' : 'var(--gold)',
+            border: showAdminPanel ? '1px solid rgba(248,113,113,0.3)' : 'none',
+            color: showAdminPanel ? 'rgb(248,113,113)' : 'var(--ink)',
             borderRadius: 0,
+            cursor: 'pointer',
           }}
         >
           {showAdminPanel ? <X size={16} /> : <Settings size={16} />}
         </motion.button>
       </div>
 
+      {/* ── Modals ─────────────────────────────────────────────────────── */}
       <LoginModal
         isOpen={showLoginModal}
         onClose={() => setShowLoginModal(false)}
@@ -121,7 +171,10 @@ function App() {
         onClose={() => setShowAdminPanel(false)}
         projects={projects}
         onUpdateProjects={handleUpdateProjects}
+        config={config}
+        onUpdateConfig={handleUpdateConfig}
         onLogout={handleLogout}
+        token={token}
       />
     </div>
   );

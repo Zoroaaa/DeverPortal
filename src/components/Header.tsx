@@ -1,8 +1,13 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Github, Mail, Menu, X } from 'lucide-react';
+import { Github, Mail, Twitter, Menu, X } from 'lucide-react';
+import type { SiteConfig } from '../types';
 
-export function Header() {
+interface HeaderProps {
+  config: SiteConfig;
+}
+
+export function Header({ config }: HeaderProps) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -36,15 +41,21 @@ export function Header() {
           <a href="#hero" className="flex items-center gap-3">
             <div className="relative w-8 h-8 flex items-center justify-center"
               style={{ border: '1px solid var(--gold-dim)' }}>
-              <span style={{ fontFamily: 'JetBrains Mono', color: 'var(--gold)', fontWeight: 500, fontSize: '0.9rem' }}>Z</span>
+              <span style={{ fontFamily: 'JetBrains Mono', color: 'var(--gold)', fontWeight: 500, fontSize: '0.9rem' }}>
+                {config.ownerName[0]?.toUpperCase() ?? 'Z'}
+              </span>
               <div className="absolute -top-px -left-px w-2 h-2"
                 style={{ borderTop: '1px solid var(--gold)', borderLeft: '1px solid var(--gold)' }} />
               <div className="absolute -bottom-px -right-px w-2 h-2"
                 style={{ borderBottom: '1px solid var(--gold)', borderRight: '1px solid var(--gold)' }} />
             </div>
             <div>
-              <div style={{ fontWeight: 700, fontSize: '0.95rem', letterSpacing: '0.08em', color: 'var(--text-primary)' }}>ZORO</div>
-              <div style={{ fontFamily: 'JetBrains Mono', fontSize: '0.55rem', letterSpacing: '0.2em', color: 'var(--gold-dim)' }}>DEV</div>
+              <div style={{ fontWeight: 700, fontSize: '0.95rem', letterSpacing: '0.08em', color: 'var(--text-primary)' }}>
+                {config.ownerName.toUpperCase()}
+              </div>
+              <div style={{ fontFamily: 'JetBrains Mono', fontSize: '0.55rem', letterSpacing: '0.2em', color: 'var(--gold-dim)' }}>
+                DEV
+              </div>
             </div>
           </a>
 
@@ -73,42 +84,57 @@ export function Header() {
             ))}
           </nav>
 
-          {/* Actions */}
+          {/* Social + CTA */}
           <div className="flex items-center gap-4">
-            <motion.a
-              href="https://github.com/zoro"
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ scale: 1.1 }}
-              style={{ color: 'var(--text-secondary)', transition: 'color 0.2s' }}
-              onMouseEnter={e => (e.currentTarget.style.color = 'var(--gold)')}
-              onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-secondary)')}
-            >
-              <Github size={16} />
-            </motion.a>
-            <motion.a
-              href="mailto:zoro@example.com"
-              whileHover={{ scale: 1.1 }}
-              style={{ color: 'var(--text-secondary)', transition: 'color 0.2s' }}
-              onMouseEnter={e => (e.currentTarget.style.color = 'var(--gold)')}
-              onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-secondary)')}
-            >
-              <Mail size={16} />
-            </motion.a>
+            {config.githubUsername && (
+              <motion.a
+                href={`https://github.com/${config.githubUsername}`}
+                target="_blank" rel="noopener noreferrer"
+                whileHover={{ scale: 1.1 }}
+                style={{ color: 'var(--text-secondary)', transition: 'color 0.2s' }}
+                onMouseEnter={e => (e.currentTarget.style.color = 'var(--gold)')}
+                onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-secondary)')}
+              >
+                <Github size={16} />
+              </motion.a>
+            )}
+            {config.twitterHandle && (
+              <motion.a
+                href={`https://twitter.com/${config.twitterHandle}`}
+                target="_blank" rel="noopener noreferrer"
+                whileHover={{ scale: 1.1 }}
+                style={{ color: 'var(--text-secondary)', transition: 'color 0.2s' }}
+                onMouseEnter={e => (e.currentTarget.style.color = 'var(--gold)')}
+                onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-secondary)')}
+              >
+                <Twitter size={16} />
+              </motion.a>
+            )}
+            {config.email && (
+              <motion.a
+                href={`mailto:${config.email}`}
+                whileHover={{ scale: 1.1 }}
+                style={{ color: 'var(--text-secondary)', transition: 'color 0.2s' }}
+                onMouseEnter={e => (e.currentTarget.style.color = 'var(--gold)')}
+                onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-secondary)')}
+              >
+                <Mail size={16} />
+              </motion.a>
+            )}
             <div style={{ width: '1px', height: '16px', background: 'var(--ink-border)' }} />
             <motion.a
               href="#projects"
-              className="btn-primary"
+              className="btn-primary hidden sm:flex items-center"
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
-              style={{ padding: '7px 16px', borderRadius: 0 }}
+              style={{ padding: '7px 16px', borderRadius: 0, fontSize: '0.72rem' }}
             >
               探索项目
             </motion.a>
             <button
               className="md:hidden"
               onClick={() => setMobileOpen(!mobileOpen)}
-              style={{ color: 'var(--text-secondary)' }}
+              style={{ color: 'var(--text-secondary)', background: 'none', border: 'none', cursor: 'pointer' }}
             >
               {mobileOpen ? <X size={18} /> : <Menu size={18} />}
             </button>
@@ -137,7 +163,10 @@ export function Header() {
                 letterSpacing: '0.2em',
                 color: 'var(--text-secondary)',
                 borderBottom: '1px solid var(--ink-border)',
+                transition: 'color 0.2s',
               }}
+              onMouseEnter={e => (e.currentTarget.style.color = 'var(--gold)')}
+              onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-secondary)')}
             >
               {link.en} / {link.label}
             </a>
