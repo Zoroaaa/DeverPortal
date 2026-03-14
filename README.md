@@ -10,6 +10,8 @@
 
 ## 特性
 
+https://github.com/user-attachments/assets/34f97409-56e5-4029-9b58-b66449bb5900
+
 - **动态粒子背景** - 鼠标跟随光效 + 流动渐变
 - **打字机效果** - Hero区域动态文字展示
 - **GitHub实时统计** - 自动获取Stars、Forks、Repos、Followers
