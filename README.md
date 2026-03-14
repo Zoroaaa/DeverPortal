@@ -2,6 +2,10 @@
 
 > 一个现代化的个人开发者门户，展示项目作品集与实用工具
 
+**演示地址**: [https://neutronx.uk/](https://neutronx.uk/)
+
+![演示截图](./demo.png)
+
 ![React](https://img.shields.io/badge/React-19.2-61DAFB?logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript)
 ![Vite](https://img.shields.io/badge/Vite-6.0-646CFF?logo=vite)
@@ -9,8 +13,6 @@
 ![Cloudflare](https://img.shields.io/badge/Cloudflare-Pages-F38020?logo=cloudflare)
 
 ## 特性
-
-https://github.com/user-attachments/assets/34f97409-56e5-4029-9b58-b66449bb5900
 
 - **动态粒子背景** - 鼠标跟随光效 + 流动渐变
 - **打字机效果** - Hero区域动态文字展示
