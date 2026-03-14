@@ -1,127 +1,168 @@
 import { motion } from 'framer-motion';
-import { Code2, Coffee, Heart, Zap, Globe, Github } from 'lucide-react';
+import { Github, ExternalLink } from 'lucide-react';
+
+const skills = [
+  { name: 'TypeScript', level: 90, tag: 'TS' },
+  { name: 'React', level: 95, tag: 'UI' },
+  { name: 'Node.js', level: 85, tag: 'BE' },
+  { name: 'Python', level: 80, tag: 'PY' },
+  { name: 'Go', level: 70, tag: 'GO' },
+  { name: 'Cloudflare Workers', level: 88, tag: 'CF' },
+];
+
+const stack = [
+  'React', 'TypeScript', 'Vite', 'Tailwind',
+  'Hono', 'Cloudflare Workers', 'D1 SQLite', 'KV',
+  'Node.js', 'Python', 'Go', 'Git',
+];
 
 export function AboutSection() {
-  const skills = [
-    { name: 'TypeScript', level: 90 },
-    { name: 'React', level: 95 },
-    { name: 'Node.js', level: 85 },
-    { name: 'Python', level: 80 },
-    { name: 'Go', level: 70 },
-  ];
-
   return (
-    <section id="about" className="relative py-24 px-4">
-      <div className="max-w-6xl mx-auto">
+    <section id="about" className="relative py-28" style={{ borderTop: '1px solid var(--ink-border)' }}>
+      <div className="max-w-7xl mx-auto px-6">
+        {/* Section header */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="mb-16"
         >
-          <h2 className="text-4xl sm:text-5xl font-bold mb-4">
-            <span className="text-white">关于</span>
-            <span className="text-gradient">我</span>
+          <div className="section-number mb-4">[ 03 ] &nbsp; ABOUT</div>
+          <h2 style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(2.2rem, 5vw, 4rem)', letterSpacing: '-0.02em', lineHeight: 1 }}>
+            <span style={{ color: 'var(--text-primary)' }}>关于</span>
+            <span className="text-gold-gradient">我</span>
           </h2>
-          <p className="text-slate-400 text-lg max-w-xl mx-auto">
-            热爱编程，享受创造的乐趣
-          </p>
+          <div className="line-gold mt-8" />
         </motion.div>
-        
-        <div className="grid md:grid-cols-2 gap-12 items-center">
+
+        <div className="grid lg:grid-cols-2 gap-16">
+          {/* Left: Bio */}
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
+            initial={{ opacity: 0, x: -24 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="space-y-6"
+            className="space-y-8"
           >
-            <div className="glass rounded-2xl p-8">
-              <h3 className="text-2xl font-bold text-white mb-4 flex items-center gap-3">
-                <Code2 className="w-6 h-6 text-indigo-400" />
-                开发者简介
-              </h3>
-              <p className="text-slate-400 leading-relaxed mb-6">
-                你好，我是 Zoro！一名热爱技术的全栈开发者。我喜欢创造各种实用的小工具，
-                希望能通过这些工具帮助更多人提高效率、解决问题。
+            <div className="corner-mark p-8 relative" style={{ background: 'var(--ink-surface)', border: '1px solid var(--ink-border)' }}>
+              <div className="section-number mb-5">BIO.MD</div>
+              <p style={{ color: 'var(--text-secondary)', lineHeight: 1.8, fontSize: '0.92rem', marginBottom: '1.25rem' }}>
+                你好，我是 <span style={{ color: 'var(--gold)', fontWeight: 600 }}>Zoro</span>！一名热爱技术的全栈开发者。
+                我喜欢创造各种实用的小工具，希望能通过这些工具帮助更多人提高效率、解决问题。
               </p>
-              <p className="text-slate-400 leading-relaxed">
-                在工作之余，我热衷于开源社区，喜欢分享知识和经验。这个网站是我个人项目的集合，
-                每一个工具都倾注了我的心血。如果你觉得有用，欢迎 Star 支持！
+              <p style={{ color: 'var(--text-secondary)', lineHeight: 1.8, fontSize: '0.92rem' }}>
+                在工作之余，我热衷于开源社区，喜欢分享知识和经验。
+                这个网站是我个人项目的集合，每一个工具都倾注了我的心血。
               </p>
             </div>
-            
-            <div className="grid grid-cols-2 gap-4">
+
+            {/* Stats grid */}
+            <div className="grid grid-cols-2 gap-px" style={{ background: 'var(--ink-border)' }}>
               {[
-                { icon: Coffee, label: '杯咖啡', value: '1000+' },
-                { icon: Code2, label: '行代码', value: '100K+' },
-                { icon: Heart, label: '开源项目', value: '10+' },
-                { icon: Globe, label: '国家访问', value: '50+' },
-              ].map((stat, index) => (
+                { value: '1000+', label: 'CUPS OF COFFEE', cn: '杯咖啡' },
+                { value: '100K+', label: 'LINES OF CODE', cn: '行代码' },
+                { value: '10+', label: 'OPEN SOURCE', cn: '开源项目' },
+                { value: '50+', label: 'COUNTRIES', cn: '国家访问' },
+              ].map((stat, i) => (
                 <motion.div
                   key={stat.label}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
                   viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                  className="glass rounded-xl p-4 text-center"
+                  transition={{ delay: i * 0.08 }}
+                  className="p-6"
+                  style={{ background: 'var(--ink-surface)' }}
                 >
-                  <stat.icon className="w-6 h-6 text-indigo-400 mx-auto mb-2" />
-                  <div className="text-2xl font-bold text-white">{stat.value}</div>
-                  <div className="text-sm text-slate-500">{stat.label}</div>
+                  <div style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: '1.75rem', color: 'var(--text-primary)', lineHeight: 1 }}>
+                    {stat.value}
+                  </div>
+                  <div style={{ fontFamily: 'JetBrains Mono', fontSize: '0.58rem', letterSpacing: '0.12em', color: 'var(--gold-dim)', marginTop: '6px', textTransform: 'uppercase' }}>
+                    {stat.label}
+                  </div>
                 </motion.div>
               ))}
             </div>
+
+            {/* GitHub CTA */}
+            <motion.a
+              href="https://github.com/zoro"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-between p-5 group"
+              style={{ border: '1px solid var(--ink-border-bright)', transition: 'all 0.2s' }}
+              whileHover={{ borderColor: 'var(--gold)' }}
+            >
+              <div className="flex items-center gap-4">
+                <Github size={20} style={{ color: 'var(--text-secondary)' }} />
+                <div>
+                  <div style={{ fontWeight: 600, fontSize: '0.9rem', color: 'var(--text-primary)' }}>在 GitHub 上关注我</div>
+                  <div style={{ fontFamily: 'JetBrains Mono', fontSize: '0.62rem', color: 'var(--text-dim)', marginTop: '2px', letterSpacing: '0.05em' }}>github.com/zoro</div>
+                </div>
+              </div>
+              <ExternalLink size={14} style={{ color: 'var(--gold-dim)', transition: 'color 0.2s' }}
+                className="group-hover:text-gold" />
+            </motion.a>
           </motion.div>
-          
+
+          {/* Right: Skills */}
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
+            initial={{ opacity: 0, x: 24 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="space-y-6"
+            className="space-y-8"
           >
-            <div className="glass rounded-2xl p-8">
-              <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-                <Zap className="w-6 h-6 text-cyan-400" />
-                技能栈
-              </h3>
-              <div className="space-y-4">
-                {skills.map((skill, index) => (
+            <div className="p-8" style={{ background: 'var(--ink-surface)', border: '1px solid var(--ink-border)' }}>
+              <div className="section-number mb-6">PROFICIENCY</div>
+              <div className="space-y-6">
+                {skills.map((skill, i) => (
                   <motion.div
                     key={skill.name}
-                    initial={{ opacity: 0, width: 0 }}
-                    whileInView={{ opacity: 1, width: '100%' }}
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
                     viewport={{ once: true }}
-                    transition={{ delay: index * 0.1 }}
+                    transition={{ delay: i * 0.08 }}
                   >
-                    <div className="flex justify-between mb-2">
-                      <span className="text-slate-300">{skill.name}</span>
-                      <span className="text-indigo-400">{skill.level}%</span>
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center gap-3">
+                        <span style={{ fontFamily: 'JetBrains Mono', fontSize: '0.6rem', letterSpacing: '0.1em', color: 'var(--gold-dim)', background: 'rgba(201,168,76,0.08)', border: '1px solid rgba(201,168,76,0.15)', padding: '1px 5px' }}>
+                          {skill.tag}
+                        </span>
+                        <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', fontWeight: 500 }}>{skill.name}</span>
+                      </div>
+                      <span style={{ fontFamily: 'JetBrains Mono', fontSize: '0.65rem', color: 'var(--gold-dim)' }}>{skill.level}%</span>
                     </div>
-                    <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
+                    <div className="skill-bar-track">
                       <motion.div
-                        className="h-full bg-gradient-to-r from-indigo-500 to-cyan-500 rounded-full"
+                        className="skill-bar-fill"
                         initial={{ width: 0 }}
                         whileInView={{ width: `${skill.level}%` }}
                         viewport={{ once: true }}
-                        transition={{ duration: 1, delay: index * 0.1 }}
+                        transition={{ duration: 1.2, delay: i * 0.08, ease: 'easeOut' }}
                       />
                     </div>
                   </motion.div>
                 ))}
               </div>
             </div>
-            
-            <motion.a
-              href="https://github.com/zoro"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block glass rounded-2xl p-6 text-center group"
-              whileHover={{ scale: 1.02 }}
-            >
-              <Github className="w-10 h-10 text-slate-400 mx-auto mb-3 group-hover:text-white transition-colors" />
-              <p className="text-white font-medium mb-1">在 GitHub 上关注我</p>
-              <p className="text-slate-500 text-sm">查看更多开源项目</p>
-            </motion.a>
+
+            {/* Tech stack cloud */}
+            <div className="p-8" style={{ background: 'var(--ink-surface)', border: '1px solid var(--ink-border)' }}>
+              <div className="section-number mb-5">TECH STACK</div>
+              <div className="flex flex-wrap gap-2">
+                {stack.map((tech, i) => (
+                  <motion.span
+                    key={tech}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.05 }}
+                    className="tag-chip"
+                    style={{ fontSize: '0.7rem', padding: '4px 10px' }}
+                  >
+                    {tech}
+                  </motion.span>
+                ))}
+              </div>
+            </div>
           </motion.div>
         </div>
       </div>

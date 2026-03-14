@@ -2,7 +2,6 @@ import { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Settings, X } from 'lucide-react';
 import {
-  ParticleBackground,
   Header,
   HeroSection,
   ProjectsSection,
@@ -23,21 +22,15 @@ function App() {
   const { isAuthenticated, login, logout, isLoading } = useAdminAuth();
 
   const handleProjectClick = useCallback((project: Project) => {
-    setProjects(prev => 
-      prev.map(p => 
-        p.id === project.id 
-          ? { ...p, viewCount: p.viewCount + 1 }
-          : p
-      )
+    setProjects(prev =>
+      prev.map(p => p.id === project.id ? { ...p, viewCount: p.viewCount + 1 } : p)
     );
     window.open(project.url, '_blank');
   }, [setProjects]);
 
   const handleLogin = useCallback(async (password: string) => {
     const success = await login(password);
-    if (success) {
-      setShowAdminPanel(true);
-    }
+    if (success) setShowAdminPanel(true);
     return success;
   }, [login]);
 
@@ -51,22 +44,21 @@ function App() {
   }, [setProjects]);
 
   return (
-    <div className="relative min-h-screen bg-slate-950 text-white overflow-x-hidden">
-      <ParticleBackground />
-      
+    <div className="relative min-h-screen overflow-x-hidden" style={{ background: 'var(--ink)', color: 'var(--text-primary)' }}>
+      {/* Noise overlay */}
+      <div className="noise-overlay" aria-hidden="true" />
+
       <Header />
-      
-      <main className="relative z-10">
+
+      <main>
         <HeroSection />
-        <ProjectsSection 
-          projects={projects} 
-          onProjectClick={handleProjectClick}
-        />
+        <ProjectsSection projects={projects} onProjectClick={handleProjectClick} />
         <AboutSection />
       </main>
-      
+
       <Footer />
-      
+
+      {/* Admin trigger */}
       <div
         className="fixed bottom-6 right-6 z-40"
         onMouseEnter={() => setShowAdminButton(true)}
@@ -75,53 +67,55 @@ function App() {
         <AnimatePresence>
           {showAdminButton && !showAdminPanel && (
             <motion.button
-              initial={{ opacity: 0, scale: 0.8, y: 10 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.8, y: 10 }}
-              onClick={() => {
-                if (isAuthenticated) {
-                  setShowAdminPanel(true);
-                } else {
-                  setShowLoginModal(true);
-                }
+              initial={{ opacity: 0, x: 10 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 10 }}
+              onClick={() => isAuthenticated ? setShowAdminPanel(true) : setShowLoginModal(true)}
+              className="absolute bottom-14 right-0 flex items-center gap-2 whitespace-nowrap"
+              style={{
+                fontFamily: 'JetBrains Mono',
+                fontSize: '0.62rem',
+                letterSpacing: '0.1em',
+                textTransform: 'uppercase',
+                padding: '8px 14px',
+                background: 'var(--ink-surface)',
+                border: '1px solid var(--ink-border-bright)',
+                color: 'var(--gold-dim)',
               }}
-              className="absolute bottom-16 right-0 flex items-center gap-2 px-4 py-2 rounded-xl glass text-slate-300 hover:text-white transition-colors whitespace-nowrap"
             >
-              <Settings className="w-4 h-4" />
-              管理面板
+              <Settings size={11} />
+              ADMIN
             </motion.button>
           )}
         </AnimatePresence>
-        
+
         <motion.button
-          onClick={() => {
-            if (showAdminPanel) {
-              setShowAdminPanel(false);
-            } else if (isAuthenticated) {
-              setShowAdminPanel(true);
-            } else {
-              setShowLoginModal(true);
-            }
+          onClick={() => showAdminPanel ? setShowAdminPanel(false) : (isAuthenticated ? setShowAdminPanel(true) : setShowLoginModal(true))}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          style={{
+            width: 40,
+            height: 40,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: showAdminPanel ? 'rgba(239,68,68,0.12)' : 'var(--gold)',
+            border: showAdminPanel ? '1px solid rgba(239,68,68,0.3)' : 'none',
+            color: showAdminPanel ? 'rgb(239,68,68)' : 'var(--ink)',
+            borderRadius: 0,
           }}
-          className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${
-            showAdminPanel
-              ? 'bg-red-500/20 text-red-400 border border-red-500/30'
-              : 'bg-gradient-to-r from-indigo-500 to-cyan-500 text-white'
-          }`}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
         >
-          {showAdminPanel ? <X className="w-5 h-5" /> : <Settings className="w-5 h-5" />}
+          {showAdminPanel ? <X size={16} /> : <Settings size={16} />}
         </motion.button>
       </div>
-      
+
       <LoginModal
         isOpen={showLoginModal}
         onClose={() => setShowLoginModal(false)}
         onLogin={handleLogin}
         isLoading={isLoading}
       />
-      
+
       <AdminPanel
         isOpen={showAdminPanel}
         onClose={() => setShowAdminPanel(false)}

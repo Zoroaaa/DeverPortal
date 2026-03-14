@@ -1,30 +1,35 @@
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Filter, X, Box, type LucideIcon } from 'lucide-react';
+import { Search, X } from 'lucide-react';
 import type { Project, ProjectCategory } from '../types';
 import { CATEGORIES } from '../constants';
 import { ProjectCard } from './ProjectCard';
-import * as Icons from 'lucide-react';
 
 interface ProjectsSectionProps {
   projects: Project[];
   onProjectClick: (project: Project) => void;
 }
 
+const CATEGORY_COLORS: Record<string, string> = {
+  tool: '#c9a84c',
+  library: '#7c9e8a',
+  website: '#6b8cc4',
+  api: '#c4845a',
+  game: '#b06ea0',
+  other: '#7a7a8a',
+};
+
 export function ProjectsSection({ projects, onProjectClick }: ProjectsSectionProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<ProjectCategory | 'all'>('all');
-  const [showFilters, setShowFilters] = useState(false);
 
   const filteredProjects = useMemo(() => {
     return projects.filter(project => {
-      const matchesSearch = 
+      const matchesSearch =
         project.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         project.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
         project.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
-      
       const matchesCategory = selectedCategory === 'all' || project.category === selectedCategory;
-      
       return matchesSearch && matchesCategory;
     }).sort((a, b) => {
       if (a.isPinned && !b.isPinned) return -1;
@@ -33,128 +38,151 @@ export function ProjectsSection({ projects, onProjectClick }: ProjectsSectionPro
     });
   }, [projects, searchQuery, selectedCategory]);
 
-  const handleProjectClick = (project: Project) => {
-    onProjectClick(project);
-  };
-
   return (
-    <section id="projects" className="relative py-24 px-4">
-      <div className="max-w-7xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-12"
-        >
-          <h2 className="text-4xl sm:text-5xl font-bold mb-4">
-            <span className="text-white">我的</span>
-            <span className="text-gradient">项目</span>
-          </h2>
-          <p className="text-slate-400 text-lg max-w-xl mx-auto">
-            精心打造的各种实用工具和有趣项目
-          </p>
-        </motion.div>
-        
+    <section id="projects" className="relative py-28 grid-bg" style={{ borderTop: '1px solid var(--ink-border)' }}>
+      <div className="max-w-7xl mx-auto px-6">
+        {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="flex flex-col sm:flex-row gap-4 mb-8"
+          className="mb-16"
         >
-          <div className="relative flex-1">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
+          <div className="section-number mb-4">[ 02 ] &nbsp; WORKS</div>
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6">
+            <h2 style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: 'clamp(2.2rem, 5vw, 4rem)', letterSpacing: '-0.02em', lineHeight: 1 }}>
+              <span style={{ color: 'var(--text-primary)' }}>我的</span>
+              <span className="text-gold-gradient">项目</span>
+            </h2>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', maxWidth: '320px', lineHeight: 1.6 }}>
+              精心打造的各种实用工具和有趣项目，持续更新中。
+            </p>
+          </div>
+          <div className="line-gold mt-8" />
+        </motion.div>
+
+        {/* Filters */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          className="flex flex-col sm:flex-row gap-4 mb-10"
+        >
+          {/* Search */}
+          <div className="relative flex-1 max-w-sm">
+            <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2"
+              style={{ color: 'var(--text-dim)' }} />
             <input
               type="text"
               placeholder="搜索项目..."
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
-              className="w-full pl-12 pr-4 py-3 rounded-xl glass text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+              style={{
+                width: '100%',
+                paddingLeft: '32px',
+                paddingRight: searchQuery ? '32px' : '12px',
+                paddingTop: '9px',
+                paddingBottom: '9px',
+                background: 'var(--ink-surface)',
+                border: '1px solid var(--ink-border)',
+                borderRadius: 0,
+                color: 'var(--text-primary)',
+                fontSize: '0.8rem',
+                fontFamily: 'JetBrains Mono',
+                outline: 'none',
+                transition: 'border-color 0.2s',
+              }}
+              onFocus={e => (e.currentTarget.style.borderColor = 'var(--gold-dim)')}
+              onBlur={e => (e.currentTarget.style.borderColor = 'var(--ink-border)')}
             />
             {searchQuery && (
-              <button
-                onClick={() => setSearchQuery('')}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white"
-              >
-                <X className="w-4 h-4" />
+              <button onClick={() => setSearchQuery('')}
+                className="absolute right-3 top-1/2 -translate-y-1/2"
+                style={{ color: 'var(--text-dim)' }}>
+                <X size={12} />
               </button>
             )}
           </div>
-          
-          <motion.button
-            onClick={() => setShowFilters(!showFilters)}
-            className={`flex items-center gap-2 px-6 py-3 rounded-xl glass text-white transition-colors ${showFilters ? 'ring-2 ring-indigo-500/50' : ''}`}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            <Filter className="w-5 h-5" />
-            筛选
-          </motion.button>
-        </motion.div>
-        
-        <AnimatePresence>
-          {showFilters && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              className="mb-8 overflow-hidden"
+
+          {/* Category filters */}
+          <div className="flex flex-wrap gap-2">
+            <button
+              onClick={() => setSelectedCategory('all')}
+              style={{
+                fontFamily: 'JetBrains Mono',
+                fontSize: '0.62rem',
+                letterSpacing: '0.1em',
+                textTransform: 'uppercase',
+                padding: '7px 14px',
+                borderRadius: 0,
+                background: selectedCategory === 'all' ? 'var(--gold)' : 'transparent',
+                color: selectedCategory === 'all' ? 'var(--ink)' : 'var(--text-secondary)',
+                border: '1px solid',
+                borderColor: selectedCategory === 'all' ? 'var(--gold)' : 'var(--ink-border)',
+                cursor: 'pointer',
+                transition: 'all 0.2s',
+              }}
             >
-              <div className="flex flex-wrap gap-3 p-4 glass rounded-xl">
+              ALL
+            </button>
+            {CATEGORIES.map(category => {
+              const active = selectedCategory === category.id;
+              const color = CATEGORY_COLORS[category.id] || '#7a7a8a';
+              return (
                 <button
-                  onClick={() => setSelectedCategory('all')}
-                  className={`px-4 py-2 rounded-xl text-sm transition-all ${
-                    selectedCategory === 'all'
-                      ? 'bg-gradient-to-r from-indigo-500 to-cyan-500 text-white'
-                      : 'bg-white/5 text-slate-300 hover:bg-white/10'
-                  }`}
+                  key={category.id}
+                  onClick={() => setSelectedCategory(category.id)}
+                  style={{
+                    fontFamily: 'JetBrains Mono',
+                    fontSize: '0.62rem',
+                    letterSpacing: '0.1em',
+                    textTransform: 'uppercase',
+                    padding: '7px 14px',
+                    borderRadius: 0,
+                    background: active ? `${color}20` : 'transparent',
+                    color: active ? color : 'var(--text-secondary)',
+                    border: `1px solid`,
+                    borderColor: active ? color : 'var(--ink-border)',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                  }}
                 >
-                  全部
+                  <span className="cat-dot" style={{ background: color, width: '5px', height: '5px', opacity: active ? 1 : 0.4 }} />
+                  {category.name}
                 </button>
-                {CATEGORIES.map(category => {
-                  const IconComponent = (Icons as unknown as Record<string, LucideIcon>)[category.icon] || Box;
-                  return (
-                    <button
-                      key={category.id}
-                      onClick={() => setSelectedCategory(category.id)}
-                      className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm transition-all ${
-                        selectedCategory === category.id
-                          ? 'bg-gradient-to-r from-indigo-500 to-cyan-500 text-white'
-                          : 'bg-white/5 text-slate-300 hover:bg-white/10'
-                      }`}
-                    >
-                      <IconComponent className="w-4 h-4" />
-                      {category.name}
-                    </button>
-                  );
-                })}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-        
-        <motion.div
-          layout
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
-        >
+              );
+            })}
+          </div>
+        </motion.div>
+
+        {/* Result count */}
+        <div className="mb-6" style={{ fontFamily: 'JetBrains Mono', fontSize: '0.62rem', letterSpacing: '0.15em', color: 'var(--text-dim)' }}>
+          SHOWING {filteredProjects.length} / {projects.length} PROJECTS
+        </div>
+
+        {/* Grid */}
+        <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px"
+          style={{ background: 'var(--ink-border)' }}>
           <AnimatePresence mode="popLayout">
             {filteredProjects.map((project, index) => (
               <ProjectCard
                 key={project.id}
                 project={project}
                 index={index}
-                onProjectClick={handleProjectClick}
+                onProjectClick={onProjectClick}
               />
             ))}
           </AnimatePresence>
         </motion.div>
-        
+
         {filteredProjects.length === 0 && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-center py-16"
-          >
-            <p className="text-slate-500 text-lg">没有找到匹配的项目</p>
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+            className="text-center py-20"
+            style={{ fontFamily: 'JetBrains Mono', fontSize: '0.75rem', letterSpacing: '0.1em', color: 'var(--text-dim)' }}>
+            // NO RESULTS FOUND
           </motion.div>
         )}
       </div>

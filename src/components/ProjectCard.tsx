@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { ExternalLink, Pin, Eye, Calendar, Box, type LucideIcon } from 'lucide-react';
+import { ExternalLink, Pin, Eye, type LucideIcon, Box } from 'lucide-react';
 import type { Project } from '../types';
 import { CATEGORIES } from '../constants';
 import * as Icons from 'lucide-react';
@@ -10,96 +10,142 @@ interface ProjectCardProps {
   onProjectClick: (project: Project) => void;
 }
 
+const CATEGORY_COLORS: Record<string, string> = {
+  tool: '#c9a84c',
+  library: '#7c9e8a',
+  website: '#6b8cc4',
+  api: '#c4845a',
+  game: '#b06ea0',
+  other: '#7a7a8a',
+};
+
 export function ProjectCard({ project, index, onProjectClick }: ProjectCardProps) {
   const category = CATEGORIES.find(c => c.id === project.category);
   const IconComponent = (Icons as unknown as Record<string, LucideIcon>)[project.icon] || Box;
+  const catColor = CATEGORY_COLORS[project.category] || '#7a7a8a';
+  const paddedIndex = String(index + 1).padStart(2, '0');
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 50 }}
+      initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-50px' }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="group relative"
+      viewport={{ once: true, margin: '-40px' }}
+      transition={{ duration: 0.5, delay: index * 0.07 }}
+      className="group relative corner-mark"
+      style={{
+        background: 'var(--ink-surface)',
+        border: '1px solid var(--ink-border)',
+        cursor: 'pointer',
+        transition: 'border-color 0.25s ease, background 0.25s ease',
+      }}
+      onMouseEnter={e => {
+        e.currentTarget.style.borderColor = 'var(--ink-border-bright)';
+        e.currentTarget.style.background = 'var(--ink-raised)';
+      }}
+      onMouseLeave={e => {
+        e.currentTarget.style.borderColor = 'var(--ink-border)';
+        e.currentTarget.style.background = 'var(--ink-surface)';
+      }}
+      onClick={() => onProjectClick(project)}
     >
-      <motion.div
-        className="relative h-full glass rounded-2xl p-6 card-hover cursor-pointer overflow-hidden"
-        onClick={() => onProjectClick(project)}
-        whileHover={{ borderColor: 'rgba(99, 102, 241, 0.5)' }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-        
-        {project.isPinned && (
-          <motion.div
-            className="absolute top-4 right-4"
-            initial={{ rotate: -45 }}
-            whileHover={{ rotate: 0, scale: 1.2 }}
-          >
-            <Pin className="w-4 h-4 text-amber-400 fill-amber-400" />
-          </motion.div>
-        )}
-        
-        <div className="relative z-10">
-          <div className="flex items-start gap-4 mb-4">
-            <motion.div
-              className={`w-14 h-14 rounded-xl bg-gradient-to-br ${category?.color || 'from-slate-500 to-slate-600'} flex items-center justify-center shrink-0`}
-              whileHover={{ rotate: [0, -10, 10, 0], scale: 1.1 }}
-              transition={{ duration: 0.4 }}
-            >
-              <IconComponent className="w-7 h-7 text-white" />
-            </motion.div>
-            
-            <div className="flex-1 min-w-0">
-              <h3 className="text-lg font-semibold text-white mb-1 truncate group-hover:text-gradient transition-all">
-                {project.name}
-              </h3>
-              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs bg-white/10 text-slate-300">
-                {category?.name || '其他'}
-              </span>
-            </div>
-          </div>
-          
-          <p className="text-slate-400 text-sm mb-4 line-clamp-2 leading-relaxed">
-            {project.description}
-          </p>
-          
-          <div className="flex flex-wrap gap-2 mb-4">
-            {project.tags.slice(0, 3).map(tag => (
-              <span
-                key={tag}
-                className="px-2 py-1 rounded-lg text-xs bg-indigo-500/10 text-indigo-300 border border-indigo-500/20"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-          
-          <div className="flex items-center justify-between pt-4 border-t border-white/5">
-            <div className="flex items-center gap-4 text-xs text-slate-500">
-              <span className="flex items-center gap-1">
-                <Eye className="w-3.5 h-3.5" />
-                {project.viewCount}
-              </span>
-              <span className="flex items-center gap-1">
-                <Calendar className="w-3.5 h-3.5" />
-                {new Date(project.createdAt).toLocaleDateString('zh-CN')}
-              </span>
-            </div>
-            
-            <motion.a
-              href={project.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1 text-sm text-indigo-400 hover:text-indigo-300 transition-colors"
-              onClick={e => e.stopPropagation()}
-              whileHover={{ x: 3 }}
-            >
-              访问
-              <ExternalLink className="w-3.5 h-3.5" />
-            </motion.a>
+      <div className="p-6">
+        {/* Top row: index + pin */}
+        <div className="flex items-center justify-between mb-5">
+          <span style={{ fontFamily: 'JetBrains Mono', fontSize: '0.6rem', letterSpacing: '0.2em', color: 'var(--text-dim)' }}>
+            #{paddedIndex}
+          </span>
+          <div className="flex items-center gap-2">
+            {project.isPinned && (
+              <Pin size={10} style={{ color: 'var(--gold)', fill: 'var(--gold)' }} />
+            )}
+            <span className="cat-dot" style={{ background: catColor, opacity: 0.8 }} />
+            <span style={{
+              fontFamily: 'JetBrains Mono',
+              fontSize: '0.58rem',
+              letterSpacing: '0.1em',
+              textTransform: 'uppercase',
+              color: catColor,
+              opacity: 0.8,
+            }}>
+              {category?.name || '其他'}
+            </span>
           </div>
         </div>
-      </motion.div>
+
+        {/* Icon + name */}
+        <div className="flex items-start gap-4 mb-4">
+          <div className="flex-shrink-0 w-11 h-11 flex items-center justify-center"
+            style={{ background: `${catColor}12`, border: `1px solid ${catColor}28` }}>
+            <IconComponent size={18} style={{ color: catColor }} />
+          </div>
+          <div className="flex-1 min-w-0">
+            <h3 style={{
+              fontWeight: 700,
+              fontSize: '1rem',
+              color: 'var(--text-primary)',
+              letterSpacing: '0.01em',
+              lineHeight: 1.3,
+              marginBottom: '2px',
+              transition: 'color 0.2s',
+            }}
+              className="group-hover:text-gold-gradient"
+            >
+              {project.name}
+            </h3>
+          </div>
+        </div>
+
+        {/* Description */}
+        <p style={{
+          fontSize: '0.82rem',
+          color: 'var(--text-secondary)',
+          lineHeight: 1.65,
+          marginBottom: '1.25rem',
+          display: '-webkit-box',
+          WebkitLineClamp: 2,
+          WebkitBoxOrient: 'vertical',
+          overflow: 'hidden',
+        }}>
+          {project.description}
+        </p>
+
+        {/* Tags */}
+        <div className="flex flex-wrap gap-1.5 mb-5">
+          {project.tags.slice(0, 3).map(tag => (
+            <span key={tag} className="tag-chip">{tag}</span>
+          ))}
+        </div>
+
+        {/* Bottom row */}
+        <div style={{ borderTop: '1px solid var(--ink-border)', paddingTop: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div className="flex items-center gap-3">
+            <span style={{ fontFamily: 'JetBrains Mono', fontSize: '0.6rem', color: 'var(--text-dim)', display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <Eye size={10} />
+              {project.viewCount.toLocaleString()}
+            </span>
+          </div>
+          <motion.a
+            href={project.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={e => e.stopPropagation()}
+            className="flex items-center gap-1.5"
+            whileHover={{ x: 3 }}
+            style={{
+              fontFamily: 'JetBrains Mono',
+              fontSize: '0.65rem',
+              letterSpacing: '0.1em',
+              textTransform: 'uppercase',
+              color: 'var(--gold-dim)',
+              transition: 'color 0.2s',
+            }}
+            onMouseEnter={e => (e.currentTarget.style.color = 'var(--gold)')}
+            onMouseLeave={e => (e.currentTarget.style.color = 'var(--gold-dim)')}
+          >
+            VISIT <ExternalLink size={9} />
+          </motion.a>
+        </div>
+      </div>
     </motion.div>
   );
 }
