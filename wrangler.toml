@@ -4,4 +4,4 @@ pages_build_output_dir = "dist"
 
 [[kv_namespaces]]
 binding = "DB"
-id = "your-kv-namespace-id"
+id = "f670a87385324c8a94e2026a9b747b67"
