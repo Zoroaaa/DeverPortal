@@ -1,21 +1,27 @@
 ---
-# 草稿由 scripts/scaffold-projects.mjs 生成。
-# 补全所有 TODO 后把 draft 改为 false，并确认 status / links / limitations。
+# 已发布：文案依据 README / CHANGELOG / 目录结构 / commit 与作者答复，正文每段末尾保留证据行。
 # 自动字段（star / 语言 / license / 版本 / 日期 / 链接）由 src/data/github/it-toolbox.json 提供，
 # 不要写进这里：构建会把手写自动字段视为错误。
-draft: true
+draft: false
 name: "it-toolbox"
-tagline: "TODO：一句话定位（≤80 字，写明为谁解决什么问题）"
-summary: "TODO：一句话摘要（≤160 字，用于列表与 SEO）"
-status: lab
+tagline: "给开发者用的在线工具箱，148 个小工具，多数在浏览器本地算，只有网络查询和 AI 走服务端。"
+summary: "IT Toolbox 是一个按 12 类组织的在线开发者工具箱，代码里现有 148 个工具（4 个尚未发布）。多数计算在浏览器完成，只有 IP、DNS、WHOIS、证书、汇率和 AI 走后端。前端 React 18 + TypeScript，后端 Hono，MIT。"
+status: live
 featured: true
 order: 20
 startedAt: 2026-02-20
-topics: []
-platforms: []
-tech: []
-links: {}
-limitations: []
+topics: [开发者工具, 浏览器端计算, 网络诊断, AI 工具]
+platforms: [web, cloudflare]
+tech: [React 18, TypeScript, TanStack Router, Zustand, Tailwind CSS, Hono, Cloudflare Pages Functions, Vite]
+links:
+  demo: "https://ittool.wort.uk"
+  repo: "https://github.com/Zoroaaa/it-toolbox"
+limitations:
+  - "WHOIS 依赖 rdap.org，部分小众后缀没有 RDAP 记录；SSL 检测依赖 crt.sh，取不到证书详情时只显示连接状态，不再推断证书是否有效。"
+  - "12 个 AI 工具只能走 Cloudflare Workers AI，本地开发要配 `[ai]` binding；模型候选写死在 `functions/api/routes/ai.ts` 的 `AI_MODELS` 里，共 3 个，失败时按顺序回退。"
+  - "没有账号体系。收藏、历史、最近使用和主题都存在浏览器 localStorage，换设备不同步。"
+  - "英文界面只翻译了外壳，工具内部文案仍是中文；`docs/planning/v1.7.0.md` 把这条写成明确边界，不承诺工具级英文。"
+  - "PWA 只预缓存应用外壳：`vite.config.ts` 的 Workbox 配置把 `tools/**` 排除在外，工具页首次打开仍要联网。"
 ---
 
 {/* 自动抓取事实（只读参考，删除也不影响页面）：
@@ -27,25 +33,95 @@ License：MIT
 Star：144
 */}
 
-> **DRAFT / 草稿**：这个页面还没有写完，不会出现在产品列表、RSS 或 sitemap 中。
-> 补全下面四项，把 frontmatter 的 `draft` 改成 `false`，才会发布。
+## 是什么
 
-## 一句话定位
+IT Toolbox 是一个在线开发者工具箱。打开网页选工具，输入内容，当场出结果，不需要注册。
 
-TODO：它是什么、给谁用、解决什么问题。不要复述仓库描述，写你希望访客记住的那一句。
+工具按 12 类组织：格式化、编码解码、加密安全、文本处理、颜色设计、网络 HTTP、时间日期、生成器、图片媒体、开发规范、单位换算、AI 增强。`src/tools/` 下现在是 148 个工具目录（v1.6.0 发布说明写的是 144，差的 4 个属于尚未发布的新版本），绝大多数目录只有两个文件：`meta.ts` 描述名称、分类和关键词，`index.tsx` 是工具界面；少数目录另有辅助文件。
+
+大部分工具没有后端。架构文档写的是约九成的工具为纯前端计算，但拆开的数字是纯 JS 约 60%、Web Crypto 约 15%、Canvas 约 5%，合计八成，原文没解释剩下的 10%。需要出网的查询集中在 `functions/api/routes/`：IP、DNS、汇率、WHOIS、证书、AI，另有 `proxy` 和 `headers` 两个路由。
+
+页面入口是首页的工具网格、分类页、工具页，以及收藏和历史两个列表；`Ctrl/Cmd + K` 打开全局搜索。
+
+> 证据：`README.md`「功能概览 › 工具统计」（总计 148）、「项目结构」；`src/tools/` 148 个目录；`docs/ARCHITECTURE.md` 4.4「平台能力边界」；`src/pages/` 目录。
 
 ## 为什么做
 
-TODO：当时的动机、替代方案哪里不够好、为什么值得自己写一遍。
+最早是把自己的日常小事收拢到一处：格式化、编码、加解密这些动作每天都要来几遍，但分散在好几个站点，还得把内容粘到别人的服务器上。索性自己写一个，能在浏览器算的就本地算，只有必须出网的查询才走后端。
+
+这也是架构文档里那条硬约束的由来——能在浏览器算的就不走服务器，必须出网的才放到 Pages Functions。工具按目录约定被自动收集，新增一个不用手改清单。
+
+> 证据：作者答复（2026-11-10）：「常用工具散在多个站点、不想把内容粘到别人的服务器上」；`README.md`「项目简介」「核心特性」；`docs/ARCHITECTURE.md` 4.4；`src/tools/` 目录结构。
 
 ## 能力边界
 
-TODO：它擅长什么、明确不做什么。写清楚边界比罗列功能更能建立信任。
+**做了的：**
 
-## 已知限制
+- 148 个工具，12 个分类；新增工具只需要建目录、写 `meta.ts` 和 `index.tsx`，不用改注册表。
+- 多数工具在浏览器本地算：格式化、编码、哈希、AES/RSA、JWT、图片压缩和转换、颜色计算这类不经过服务器。
+- 需要出网的查询走 Pages Functions，结果进 KV 缓存：IP 归属地、DNS、HTTP 头、SSL 证书、RDAP/WHOIS、汇率；缓存键按「业务前缀 + 规范化参数」拼，DNS 只缓存 300 秒，其余多为 3600 秒，RDAP 引导表缓存 86400 秒。
+- 收藏、历史、最近使用、亮/暗/跟随系统三种主题；搜索用 Fuse.js 做模糊匹配。
+- 另有批量处理和工具对比两个工具，用来跨工具操作；PWA 可安装，能离线打开外壳。
+- AI 增强 12 个工具，覆盖代码解释、正则/SQL/Shell 生成、翻译、提交信息、Mock 数据等。
 
-TODO：当前明确没做到或做得不够好的地方。status 为 live / beta 时至少写 1 条。
+**明确没做的：**
 
-## 快速开始
+- 没有账号、没有 D1、没有云同步。用户态数据只在 localStorage，`docs/ARCHITECTURE.md` 12.5 写明了这是主动取舍。
+- 没有服务端流式输出；AI 接口是一次性返回。没有 Cron、没有自定义 Durable Objects、没有 Queues、没有 TCP 直连，这些是 Pages Functions 的平台限制。
+- `webhook-test` 已下线，因为它依赖的 `/api/webhook` 路由从未实现，工具长期静默失败。
+- 英文只覆盖界面外壳，工具内部不提供英文。
 
-TODO：最短可用路径（3–5 步，可直接粘贴的命令）。完整手册写到 `docs/` 目录，不在这里展开。
+> 证据：`README.md`「功能概览」「快速开始」；`docs/ARCHITECTURE.md` 4.4、7「KV 缓存策略」、12.5；`docs/changelog/v1.6.0.md`「移除」段的 webhook-test；`docs/planning/v1.7.0.md` A5；`vite.config.ts` 的 Workbox 配置。
+
+## 实现要点
+
+仓库分三块：`src/` 是 React 单页应用，`functions/` 是 Cloudflare Pages Functions，`packages/core` 放纯函数、`packages/types` 放 `ToolMeta` 和 API 类型。前端不靠 workspace 链接，用 `tsconfig.json` 的 `paths` 直接指到 `packages/*`。
+
+工具清单的唯一事实源是各目录的 `meta.ts`。`src/registry.ts` 在构建期用 `import.meta.glob` 聚合，只保留 `DISPLAY_ORDER` 控制展示顺序；`src/lib/tool-loader.ts` 按目录懒加载。v1.7.0 的 A1 把 registry 从 1545 行压到 91 行（commit `7b537ce`），新增工具不用再手改清单。
+
+后端入口是 `functions/app.ts` 的 `createApp()`，测试可以直接调用，不必起 Worker。路由按能力拆成 `ip`、`dns`、`ai`、`exchange`、`proxy`、`whois`、`ssl`、`headers`；外发请求统一过 `functions/lib/ssrf.ts` 做校验。KV 只做缓存，失败时不写缓存、读失败就直接透传上游，不把瞬时错误固化。
+
+构建上按路由拆包，Vite 的 `manualChunks` 单独切出 React、Router、crypto、文本和数据几个 vendor 块。PWA 只缓存外壳，`tools/**` 不进预缓存，避免把一百多个工具页塞进安装包。部署走 Cloudflare Pages 直连 GitHub，push `main` 自动构建；GitHub Actions 只跑 typecheck、lint、test、build 和 Playwright，不产出部署物。`wrangler.toml` 不进仓库，binding 在 Dashboard 配。
+
+> 证据：`README.md`「项目结构」「新增工具」；`src/registry.ts`；`src/lib/tool-loader.ts`；`functions/app.ts`、`functions/lib/ssrf.ts`；`docs/ARCHITECTURE.md` 5.1、6、7、8.1、12.2–12.4；`vite.config.ts`；commit `7b537ce`。
+
+## 怎么用
+
+环境要求是 Node.js >= 18、pnpm >= 8。只跑前端：
+
+```bash
+git clone https://github.com/Zoroaaa/it-toolbox.git
+cd it-toolbox
+pnpm install
+pnpm dev
+# http://localhost:5173
+```
+
+要调试 API，先把前端构建出来，再开两个终端：
+
+```bash
+pnpm build
+pnpm dev          # 终端 1：Vite
+pnpm pages:dev    # 终端 2：Wrangler，http://localhost:8788
+```
+
+本地要用网络查询和 AI，需要复制配置模板并打开对应的 binding：
+
+```bash
+cp wrangler.example.toml wrangler.toml
+# 取消注释 [[kv_namespaces]] 的 CACHE，填 KV 命名空间 id
+# 取消注释 [ai] 的 AI
+```
+
+部署可以走 Pages 直连：push 到 `main` 就自动构建。手动部署是：
+
+```bash
+pnpm build
+pnpm deploy
+```
+
+`pnpm deploy` 会先跑 `pnpm check`（typecheck、lint、test、元数据审计、图标检查）和 `vite build`，再用 `wrangler pages deploy dist --project-name=it-toolbox` 上传，所以本机要先 `wrangler login`。
+
+有两个门槛要提前知道。第一，`README` 的 Fork 须知写的是绑定 KV、R2、AI，但 `docs/ARCHITECTURE.md` 4.4 的能力表里 R2 标的是未用，`wrangler.example.toml` 也只留了 `CACHE` 和 `AI` 两项；按模板配这两项即可。第二，不配 binding 时纯前端工具照常；AI 工具需要 `AI`，网络查询的缓存需要 `CACHE`。
+
+> 证据：`README.md`「快速开始 › 环境要求 / 安装与运行 / 常用命令」「部署 › Fork 用户部署须知」；`package.json` 的 `dev`、`pages:dev`、`deploy` 脚本；`wrangler.example.toml`（KV 与 AI 均被注释）；`docs/ARCHITECTURE.md` 4.4、12.4。

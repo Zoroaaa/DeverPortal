@@ -1,21 +1,23 @@
 ---
-# 草稿由 scripts/scaffold-projects.mjs 生成。
-# 补全所有 TODO 后把 draft 改为 false，并确认 status / links / limitations。
-# 自动字段（star / 语言 / license / 版本 / 日期 / 链接）由 src/data/github/cf-bestip.json 提供，
-# 不要写进这里：构建会把手写自动字段视为错误。
-draft: true
+# 已发布：文案依据 README / 配置文件 / 输出格式，正文每段末尾保留证据行。
+draft: false
 name: "cf-bestip"
-tagline: "TODO：一句话定位（≤80 字，写明为谁解决什么问题）"
-summary: "TODO：一句话摘要（≤160 字，用于列表与 SEO）"
-status: lab
+tagline: "每天扫一遍 Cloudflare 的 IP 段和公开代理池，按 12 个地区输出能用的节点。"
+summary: "cf-bestip 用 Python 扫 Cloudflare 优选 IP 与公开代理：四个数据源、并发测延迟与 HTTPS 可用性、按 12 个地区输出 TXT / JSON / HTML，GitHub Actions 每天自动跑一次并发布到 Pages。"
+status: live
 featured: false
 order: 60
 startedAt: 2026-01-17
-topics: []
-platforms: []
-tech: []
-links: {}
-limitations: []
+topics: [Cloudflare, 优选 IP, 代理池, 测速]
+platforms: ["cli", web]
+tech: [Python 3.11, BeautifulSoup, ThreadPoolExecutor, GitHub Actions]
+links:
+  demo: "https://zoroaaa.github.io/cf-bestip/"
+  repo: "https://github.com/Zoroaaa/cf-bestip"
+limitations:
+  - "`config.py` 里 `PROXY_CHECK_API_URL` 和 `PROXY_CHECK_API_TOKEN` 是占位值（`xxx/check`、`your_token_here`）；要跑通代理验证，得自己提供检测 API 和 token。"
+  - "产出完全依赖四个第三方免费代理源（Proxifly、ProxyDaily、Tomcat1235、Monosans），源站改结构或限流会直接反映到结果里。"
+  - "默认每地区最多输出 6 个 IP / 6 个代理，总采样 720 个、延迟上限 1300ms；覆盖面和精度都被这几组参数固定，要更多得改配置。"
 ---
 
 {/* 自动抓取事实（只读参考，删除也不影响页面）：
@@ -27,25 +29,65 @@ License：MIT
 Star：21
 */}
 
-> **DRAFT / 草稿**：这个页面还没有写完，不会出现在产品列表、RSS 或 sitemap 中。
-> 补全下面四项，把 frontmatter 的 `draft` 改成 `false`，才会发布。
+## 是什么
 
-## 一句话定位
+cf-bestip 是一个 Python 扫描脚本，产出两类东西：Cloudflare 优选 IP，和能用的公开代理。
 
-TODO：它是什么、给谁用、解决什么问题。不要复述仓库描述，写你希望访客记住的那一句。
+一次运行的顺序是：先跑内部自检（CF IP 段、数据源、检测 API、代理抽样），再从四个源收集代理，逐个用检测 API 验延迟、HTTPS 支持和地理位置，然后随机采样 Cloudflare IP 段做并发测速，最后按地区排序输出。
+
+结果落在 `public/`：`ip_all.txt`、`ip_<地区>.txt`、`proxy_all.txt`、`proxy_<地区>.txt`、`ip_candidates.json`，外加一个 `index.html` 可视化页面。README 的 GitHub Actions 每天自动跑一轮，把这些文件发布到 GitHub Pages，现成结果在 https://zoroaaa.github.io/cf-bestip/ 。
+
+> 证据：`README.md`「项目简介」「核心特性」「系统架构」流程图「快速开始 › 输出位置」「📄 输出文件」；快照 `src/data/github/cf-bestip.json`（homepage、license）。
 
 ## 为什么做
 
-TODO：当时的动机、替代方案哪里不够好、为什么值得自己写一遍。
+它要解决的问题写在适用场景里：CDN 加速、代理部署、节点选择、网络质量监控，这四类事都依赖一批能用的 Cloudflare IP 和公开代理，而这类名单需要定期重测才有意义。
+
+> 证据：`README.md`「项目简介」「应用场景」；`config.py` 的采样与延迟参数。
 
 ## 能力边界
 
-TODO：它擅长什么、明确不做什么。写清楚边界比罗列功能更能建立信任。
+**做了的：**
 
-## 已知限制
+- 四个代理源：Proxifly（JSON / TXT）、ProxyDaily（DataTables API）、Tomcat1235（HTML 表格）、Monosans（GitHub 上的 SOCKS5 列表）。
+- 代理验证：延迟测量、HTTPS 可用性、地理位置识别，支持带用户名密码的认证代理。
+- 12 个地区（US、CA、GB、DE、FR、NL、IT、RU、JP、SG、HK、IN），机场代码映射覆盖 50+ 个三字码。
+- 协议：HTTPS 与 SOCKS5，另有直连测试作对照。
+- 输出格式：TXT 按 `IP:端口#地区-分数` 排序，JSON 保留候选明细，HTML 用人看的表格。
+- 自动化：GitHub Actions 每日触发，产物直接部署 Pages。
 
-TODO：当前明确没做到或做得不够好的地方。status 为 live / beta 时至少写 1 条。
+README 没有写「不适合什么」；能确认的硬约束是默认参数和外部依赖，已写进 limitations。
 
-## 快速开始
+> 证据：`README.md`「核心特性 1–5」「地区映射」「数据源 1–4」「输出文件 1–4」；`config.py` 参数表。
 
-TODO：最短可用路径（3–5 步，可直接粘贴的命令）。完整手册写到 `docs/` 目录，不在这里展开。
+## 实现要点
+
+- 纯 Python，运行时只依赖 `requirements.txt` 里的包和 `curl`；`ip.py` 是主流程，`proxy_sources.py` 负责抓源，`tests` 里放内部测试和代理验证，`config.py` 集中所有参数。
+- 并发用 `ThreadPoolExecutor`，默认 24 线程；每个环节都有独立超时（扫描 15s、代理测试 10s），多层超时防止挂起。
+- 四个源的格式各不相同（JSON、DataTables API、TXT、HTML 表格），所以解析按源分开写，HTML 那条用 BeautifulSoup。
+- 结果不是「有就输出」：每个节点有分数，按地区取前 6，低于延迟上限才进入列表。
+- 部署侧不依赖服务器：Actions 定时跑完直接提交到 Pages，相当于把「定时任务 + 静态托管」都交给了 GitHub。
+
+> 证据：`README.md`「系统架构」「配置说明 › 核心配置 / 地区映射」「数据源」「性能优化/线程池」段；`config.py` 的 `MAX_WORKERS`、`TIMEOUT`、`PROXY_TEST_TIMEOUT`、`MAX_OUTPUT_PER_REGION`；`README.md`「自动化部署」。
+
+## 怎么用
+
+前置：Python 3.11+、curl、Git。
+
+```bash
+git clone https://github.com/Zoroaaa/cf-bestip.git
+cd cf-bestip
+pip install -r requirements.txt
+
+# 先自检：IP 段、数据源、检测 API 能不能通
+python -c "from tests import run_internal_tests; run_internal_tests()"
+
+# 开始扫描
+python ip.py
+```
+
+结果看 `public/`。要调参数就改 `config.py`：采样量（`SAMPLE_SIZE_PER_REGION` / `TOTAL_SAMPLE`）、并发（`MAX_WORKERS`）、延迟上限（`LATENCY_LIMIT`）、每地区输出数（`MAX_OUTPUT_PER_REGION`），以及必须换掉的 `PROXY_CHECK_API_URL` / `PROXY_CHECK_API_TOKEN`。
+
+README 的克隆命令里是 `yourusername` 占位，换成上面的仓库地址。只想拿现成结果的话，直接开 Pages 页面，不用本地跑。
+
+> 证据：`README.md`「快速开始 › 前置要求 / 本地运行 / 输出位置」「配置说明 › 核心配置」「代理检测 API」；`config.py` 与 `requirements.txt`。

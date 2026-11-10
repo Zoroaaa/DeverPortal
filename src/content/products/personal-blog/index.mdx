@@ -1,21 +1,24 @@
 ---
-# 草稿由 scripts/scaffold-projects.mjs 生成。
-# 补全所有 TODO 后把 draft 改为 false，并确认 status / links / limitations。
-# 自动字段（star / 语言 / license / 版本 / 日期 / 链接）由 src/data/github/personal-blog.json 提供，
-# 不要写进这里：构建会把手写自动字段视为错误。
-draft: true
+# 已发布：文案依据 README / docs / 目录 / commit 起草，正文每段末尾保留证据行。
+draft: false
 name: "personal-blog"
-tagline: "TODO：一句话定位（≤80 字，写明为谁解决什么问题）"
-summary: "TODO：一句话摘要（≤160 字，用于列表与 SEO）"
-status: lab
+tagline: "跑在 Cloudflare 上的个人博客：文章、专栏、评论、通知和私信都在同一套后台里。"
+summary: "面向技术博主和内容创作者的自托管博客系统。React 18 + Hono 4，文章支持 Markdown 与 FTS5 搜索，另有专栏、嵌套评论、通知与邮件汇总、私信、阅读历史和后台管理，数据落在 Cloudflare D1 / KV / R2。"
+status: live
 featured: true
 order: 40
 startedAt: 2026-02-02
-topics: []
-platforms: []
-tech: []
-links: {}
-limitations: []
+topics: [博客系统, 内容管理, 评论, 私信]
+platforms: [web, cloudflare, self-host]
+tech: [React 18, TypeScript, Vite, Tailwind CSS, Hono, Cloudflare Workers, D1, KV, R2]
+links:
+  demo: "https://blog.wort.uk/"
+  repo: "https://github.com/Zoroaaa/personal-blog"
+limitations:
+  - "全文搜索依赖 D1 的 FTS5 虚表 `posts_fts`；`searchPosts` 在 `useFts` 为假时退回普通查询，这时检索只按字段匹配。"
+  - "database/ 只有 3 个 schema 文件，但 docs/ARCHITECTURE.md 和 v1.4.0 更新日志让人执行 migration-v1.4-message-recall.sql、migration-v1.9-post-pinning.sql，这两个文件在仓库里不存在；对应字段其实已并入前两个 schema。"
+  - "没有项目自己的自动化测试：前端 package.json 写了 test: jest，但没装 jest，仓库里也没有测试文件；CI 只做 typecheck、数据库迁移和部署。"
+  - "验证码、每日 / 每周邮件汇总依赖 Resend 和已验证的发件域名，不配这部分就不可用。"
 ---
 
 {/* 自动抓取事实（只读参考，删除也不影响页面）：
@@ -27,25 +30,77 @@ License：MIT
 Star：54
 */}
 
-> **DRAFT / 草稿**：这个页面还没有写完，不会出现在产品列表、RSS 或 sitemap 中。
-> 补全下面四项，把 frontmatter 的 `draft` 改成 `false`，才会发布。
+## 是什么
 
-## 一句话定位
+一个个人博客系统。前端 React 18，后端 Hono 4，前端放 Cloudflare Pages，后端跑 Workers，数据分在 D1、KV、R2 三处。
 
-TODO：它是什么、给谁用、解决什么问题。不要复述仓库描述，写你希望访客记住的那一句。
+写作走 Markdown，文章按专栏、分类、标签三个维度组织，另有置顶、上下篇、相关推荐、浏览量、SEO 字段和密码访问。读者侧有评论（嵌套最多 5 层）、点赞、收藏、阅读历史、站内通知和私信；作者侧有一个后台，管文章、专栏、评论审核、用户、分类标签、站点配置和统计。通知可以按类型单独开关、设免打扰时段，再汇总成每日或每周邮件。
 
-## 为什么做
-
-TODO：当时的动机、替代方案哪里不够好、为什么值得自己写一遍。
+> 证据：README「核心特性」「功能模块」；`backend/src/routes/` 目录；`database/schema-v1.1-base.sql` 里的 posts_fts。
 
 ## 能力边界
 
-TODO：它擅长什么、明确不做什么。写清楚边界比罗列功能更能建立信任。
+**做了的：**
 
-## 已知限制
+- 文章：Markdown、代码高亮、专栏 / 分类 / 标签、置顶、上下篇、相关推荐、浏览量、SEO 字段、密码访问、软删除。
+- 搜索：D1 里有 FTS5 虚表 `posts_fts`，`searchPosts` 按 `useFts` 在全文检索和普通查询之间切换。
+- 互动：最多 5 层嵌套评论、@提及、点赞、收藏、阅读历史。
+- 账号：邮箱注册、GitHub OAuth、邮箱验证码、密码重置，前端接 refresh token 静默刷新。
+- 通知与私信：站内通知、类型开关、免打扰、每日 / 每周邮件汇总、私信会话与撤回。
+- 后台与主题：文章 / 专栏 / 评论 / 用户 / 分类标签 / 配置 / 统计 / 系统通知；亮暗色、跟随系统、自定义主色、三档字号。
 
-TODO：当前明确没做到或做得不够好的地方。status 为 live / beta 时至少写 1 条。
+**明确没做的：**
 
-## 快速开始
+- 多语言、插件系统、开放 API、AI 辅助写作都只在 README 的「未来扩展方向」里，代码里没有对应目录。
+- 只有 Web 端，没有移动端或桌面端。
+- 没有自带测试套件。
 
-TODO：最短可用路径（3–5 步，可直接粘贴的命令）。完整手册写到 `docs/` 目录，不在这里展开。
+> 证据：README「功能模块」「扩展性设计 › 未来扩展方向」；`backend/src/services/postService.ts` 的 `searchPosts`；`database/schema-v1.1-base.sql` 第 216 行；`backend/src/`、`frontend/src/` 目录。
+
+## 实现要点
+
+单仓 npm workspaces：`frontend/`（React + Vite + Zustand + React Router + Tailwind）、`backend/`（Hono on Workers）、`database/` 三个按版本排序的 schema。后端分 `routes / services / repositories / middleware / durableObjects`，文章查询单独抽了数据访问层（commit `a922f80`）。
+
+几个改动能看出取舍：
+
+- 限流从 KV 计数换成 Durable Object 原子计数（commit `794fded`），KV 最终一致会漏计。
+- 点赞和文章标签写入改成 `db.batch`（commit `43f8449`）。
+- 评论渲染接 DOMPurify 白名单（commit `9366e39`）。
+- 每日 / 每周邮件汇总合并成一个 `*/15` 的 cron（commit `c0d5af9`），后来修了 scheduled 没挂到 default export、触发器不生效的问题（commit `06d13b1`）。
+- 前端按路由懒加载（commit `e27361d`），页面拆成编排层、hooks 和展示组件（commit `52112f8`、`9b67a16`）。
+
+部署链路写在 workflow 里：main 分支推送 → 根目录 `npm ci` → typecheck → `scripts/migrate.sh blog-db --remote` → wrangler deploy。
+
+> 证据：根 `package.json` 的 workspaces；`backend/src/` 目录分层；上述 commit；`.github/workflows/deploy-backend.yml`；`backend/wrangler.toml` 的 Durable Object 绑定和 `crons = ["*/15 * * * *"]`。
+
+## 怎么用
+
+自己部署前有几项绕不开：
+
+- Node 20+（前后端 `package.json` 的 engines 都是 `>=20`）。Cloudflare 账号和 wrangler 4。
+- 建自己的 D1、KV、R2，把 `backend/wrangler.toml` 里的 `database_id`、KV `id`、bucket 名换掉，`FRONTEND_URL` 和 `STORAGE_PUBLIC_URL` 也要改。
+- `JWT_SECRET` 必填。GitHub OAuth 和 Resend 是可选项，不配就少了第三方登录和邮件。
+- 3 个 schema 要按顺序跑；`scripts/migrate.sh` 已经固定了这个顺序，语句是幂等的，可以重复执行。
+
+```bash
+git clone https://github.com/Zoroaaa/personal-blog.git
+cd personal-blog
+npm ci                                  # 根 lockfile，workspaces 一起装前后端
+
+npx wrangler d1 create blog-db          # 返回的 id 填进 backend/wrangler.toml
+npx wrangler kv namespace create CACHE  # 同上
+npx wrangler r2 bucket create blog-storage
+
+bash scripts/migrate.sh blog-db         # 本地库；打生产加 --remote
+
+cd backend
+npx wrangler secret put JWT_SECRET
+cd ..
+
+npm run dev:backend                     # :8787
+npm run dev                             # :5173，读 frontend/.env 的 VITE_API_URL
+```
+
+只想看效果的话，https://blog.wort.uk/ 是线上实例，不用部署。
+
+> 证据：README「快速开始」；`docs/QUICKSTART.md`「环境要求」「数据库初始化」；`backend/package.json`、`frontend/package.json` 的 engines；`backend/wrangler.toml`；`scripts/migrate.sh`；`frontend/.env.example`。

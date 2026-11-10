@@ -1,51 +1,107 @@
 ---
-# 草稿由 scripts/scaffold-projects.mjs 生成。
-# 补全所有 TODO 后把 draft 改为 false，并确认 status / links / limitations。
-# 自动字段（star / 语言 / license / 版本 / 日期 / 链接）由 src/data/github/atlas.json 提供，
-# 不要写进这里：构建会把手写自动字段视为错误。
-draft: true
+# 已发布：文案依据 README / CHANGELOG / 目录结构 / commit 与作者答复，正文每段末尾保留证据行。
+draft: false
 name: "Atlas"
-tagline: "TODO：一句话定位（≤80 字，写明为谁解决什么问题）"
-summary: "TODO：一句话摘要（≤160 字，用于列表与 SEO）"
-status: lab
+tagline: "把 JAV、动漫、影视、漫画、小说五个类别的多个来源，收进同一个搜索框。"
+summary: "Atlas 是一个开源的聚合搜索引擎：五类内容各接多个数据源，同一作品的多源结果合并展示，另有账号、社区和通知系统。前端 React 19，后端 Hono，跑在 Cloudflare Pages / Workers / D1 上，MIT 协议。"
+status: live
 featured: true
 order: 10
 startedAt: 2025-08-11
-topics: []
-platforms: []
-tech: []
-links: {}
-limitations: []
+topics: [聚合搜索, 多源合并, 磁力, 社区]
+platforms: [web, cloudflare]
+tech: [React 19, TypeScript, Hono, Cloudflare Workers, D1, Vite]
+links:
+  demo: "https://atlas.wort.uk/"
+  repo: "https://github.com/Zoroaaa/Atlas"
+limitations:
+  - "动漫的 nyaa 源因部署环境限制已停用；女优资料源 minnano-av 出现反爬后，改用 JavBus 的搜索接口。"
+  - "全新部署必须按 01 → 19 顺序执行 19 个 D1 迁移脚本，跳序或漏跑会让后续脚本失败。"
+  - "邮件通知有硬配额：每人每天最多 3 封、全站每天最多 90 封，并且和关注检测共用同一个 */30 的定时触发器。"
 ---
 
-{/* 自动抓取事实（只读参考，删除也不影响页面）：
-仓库：Zoroaaa/Atlas
-创建：2025-08-11
-最近提交：2026-11-10
-语言：TypeScript
-License：MIT
-Star：90
-*/}
+## 是什么
 
-> **DRAFT / 草稿**：这个页面还没有写完，不会出现在产品列表、RSS 或 sitemap 中。
-> 补全下面四项，把 frontmatter 的 `draft` 改成 `false`，才会发布。
+Atlas 是一个按类别聚合的搜索引擎。目前有五个类别：JAV、动漫、影视、漫画、小说。每个类别下再分「分类 → 来源」两层，同一类内容可以同时接多个站点，结果汇总后按作品合并展示。
 
-## 一句话定位
+搜索之外还有一套围绕「反复用同一批资源」做的功能：账号（GitHub / Google 登录、JWT 会话）、收藏与搜索历史（服务端分页、可跨设备同步）、社区分享（发帖、点赞、评论、举报，需审核后展示）、反馈、统一通知收件箱（站内 + 邮件）、以及一个覆盖全部模块的 `/help` 帮助中心。
 
-TODO：它是什么、给谁用、解决什么问题。不要复述仓库描述，写你希望访客记住的那一句。
+线上实例是 https://atlas.wort.uk/ ，代码 MIT 协议。
+
+> 证据：`README.md`「Project Features」「Core Features」；`docs/CHANGELOG.md` v1.6.0 段；快照 `src/data/github/atlas.json`（homepage、license、topics）。
 
 ## 为什么做
 
-TODO：当时的动机、替代方案哪里不够好、为什么值得自己写一遍。
+最早是自己要用。现成的聚合站和搜索引擎用着都不够，就自己写了一个：五类内容放在同一个入口，来源接在配置里，哪个接口失效就换那一个，不用整站重做。
+
+做的顺序就是我的使用频率：先 JAV，再动漫和影视，然后漫画，最后小说。每加一类都在复用同一套「类别 → 分类 → 来源」结构；v1.3.0 的聚合视图是后来在这个结构上补的——同一部作品的多条来源合并成一条，而不是摊一堆重复卡片。
+
+定位是自用为主，但代码、文档和迁移脚本都按「别人也能部署」来写：配置项在 `docs/config.md`，部署步骤在 `docs/deploy.md`，MIT 协议。
+
+> 证据：作者答复（2026-11-10）：动机＝现有聚合站/搜索引擎不够用；版本顺序＝按自己使用频率；没有放弃过的具体替代品（故不点名任何工具）；定位＝自用为主但希望别人能部署；会持续更新。事实补充：`README.md`「Core Advantages」、`docs/config.md`、`docs/deploy.md`、`docs/CHANGELOG.md` v1.1.0–v1.3.0。
 
 ## 能力边界
 
-TODO：它擅长什么、明确不做什么。写清楚边界比罗列功能更能建立信任。
+**做了的：**
 
-## 已知限制
+- 五个类别各自独立接入来源：JAV（DMM/FANZA + JavBus + JavDB）、动漫（Bangumi / Mikan / ShowRSS）、影视（TMDB / YTS / EZTV / TPB）、漫画（MangaDex + 13 个搜索源）、小说（Anna's Archive / 奇书网 / 知轩藏书）。
+- JAV 有三个子模式：番号、女优、标题。女优模式会解析资料页，并把中文昵称转成日文再搜。
+- 来源本身可在后台管理：启用/停用、调优先级、看可用性；用户也可以固定常用来源，缓存键会把被停用的来源算进去。
+- 社区内容分六类（含女优），必须先过审核才展示。
+- PWA：可安装、有离线兜底、更新要用户确认后才生效。
+- JAV 详情页有「在线播放平台选择」入口（独立一行，不占详情头部；commit `bfbb715`）。
 
-TODO：当前明确没做到或做得不够好的地方。status 为 live / beta 时至少写 1 条。
+**明确没做的：**
 
-## 快速开始
+- 结果给的是磁力、种子、直链和元数据，指向第三方站点。
+- 动漫的 nyaa 源已停用；女优资料源 minnano-av 反爬后不再使用。
+- 女优「收藏」被「关注」取代，后端会拒绝新的 `actress:` 收藏并返回 `USE_FOLLOW`，旧的存量数据由迁移脚本转成关注。
 
-TODO：最短可用路径（3–5 步，可直接粘贴的命令）。完整手册写到 `docs/` 目录，不在这里展开。
+> 证据：`README.md`「Five Search Categories」「JAV Submodes」「Search Source Management」；`docs/CHANGELOG.md` v1.6.0「修改」段；`backend/src/providers/` 目录；commit `50a24e6`（缓存键纳入用户禁用源）、`bfbb715`（在线播放平台选择）。
+
+## 实现要点
+
+仓库是 npm workspaces 的单仓三分：`frontend/`（React 19 + Vite + Zustand + React Router + Tailwind）、`backend/`（Hono 4 on Cloudflare Workers）、`packages/shared/`（类型、工具、校验规则）。前端不靠 `node_modules` 软链，用 `tsconfig` 的 `paths` 加 Vite `alias` 直接指向 `packages/shared/src`；后端走 workspaces 链接和包的 `exports`。
+
+后端的搜索是注册式的：`backend/src/index.ts` 里注册 Provider，新增一个类别只需要写一个 Provider 类再注册一行；类别、分类、来源三层各自独立路由和结果面板。数据落在 D1（SQLite 兼容），目录里是按序号排列的迁移脚本，v1.6.0 时到 19。
+
+几个工程决定和上面的限制直接相关：限流状态存在 D1 里做多级限流；搜索请求会异步落库去重（commit `50a24e6`）；关注检测和新作通知合成一个 `*/30` 的 cron，按子请求上限反推每轮能查多少女优；通知表用 `(user_id, dedup_key)` 唯一键做幂等。
+
+> 证据：`README.md`「Technology Stack Overview」「Quick Start」「三 层搜索架构」图；`backend/src/` 的目录分层（routes / services / providers / repositories / middleware）；`database/` 19 个迁移脚本；`docs/CHANGELOG.md` v1.6.0「新增」「修改」段；commit `de8fc5f`（cron 批量写入 + 租约锁）、`50a24e6`、`17029b7`。
+
+## 怎么用
+
+自己部署前，有几项绕不开的前提：
+
+- Cloudflare 账号 + wrangler ≥ 3，Node ≥ 18、npm ≥ 9。免费额度能跑，但免费版的单次子请求上限（50）会直接约束定时任务的设计。
+- 必须先建 D1 库，并把 **19 个迁移脚本按 01 → 19 顺序全跑一遍**。跳序或漏跑，后面的脚本会失败；脚本本身是幂等的，失败了可以重跑。
+- 至少配 `JWT_SECRET`（必填）。要发验证码和通知邮件，还得配 `RESEND_API_KEY`，并在 Resend 配好发件域名；`TMDB_API_KEY` 可选，不配时影视元数据回退到搜索源聚合结果。要用 GitHub / Google 登录，还需自建 OAuth 应用并填对应密钥。
+- 两个已知缺口：动漫的 nyaa 源已停用；女优资料源 minnano-av 反爬后改用 JavBus。
+
+命令（README Quick Start 原文流程）：
+
+```bash
+git clone https://github.com/Zoroaaa/Atlas.git
+cd Atlas
+npm install                 # npm workspaces，lockfile 在根目录
+
+npx wrangler d1 create codeseek   # 把返回的 database_id 填进 backend/wrangler.toml
+
+# 从 01 到 19 逐个执行；文件名清单见 README「Quick Deployment」
+npx wrangler d1 execute codeseek --remote --file=database/01_schema_core.sql
+# …中间 17 个…
+npx wrangler d1 execute codeseek --remote --file=database/19_schema_community_post_views.sql
+
+npx wrangler secret put JWT_SECRET
+npx wrangler secret put RESEND_API_KEY   # 只在需要邮件功能时
+
+npm run dev --workspace=backend    # :8787
+npm run dev --workspace=frontend   # :3000，/api 代理到 :8787
+
+npm run build --workspace=frontend # 生产
+npm run deploy --workspace=backend
+```
+
+只想用的话，直接开 https://atlas.wort.uk/ 就行，不需要部署。
+
+> 证据：`README.md`「Quick Start › Environment Requirements / Quick Deployment」；`docs/config.md`「敏感凭据（Secrets）」表（JWT_SECRET 必填、RESEND_API_KEY 邮件必填、TMDB_API_KEY 可选）与「OAuth 配置」两节；`docs/deploy.md`；`backend/wrangler.toml`（D1 绑定、`crons = ["5 * * * *", "*/30 * * * *"]`）；`docs/CHANGELOG.md` v1.6.0（迁移顺序、50 次子请求上限）；`README.zh-CN.md`（nyaa 停用、minnano-av 反爬）。

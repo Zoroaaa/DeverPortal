@@ -1,5 +1,5 @@
 // 站点身份常量，来源为旧站 DEFAULT_SITE_CONFIG。
-// TODO: 邮箱与 GitHub 账号尚无真实值，下列字段为中性占位，上线前必须替换。
+// GitHub 账号取自仓库 owner；邮箱取仓库提交作者邮箱（已在公开提交记录中）。
 export const site = {
   ownerName: 'Zoro',
   role: '全栈开发者 / 开源爱好者',
@@ -9,10 +9,10 @@ export const site = {
   url: 'https://neutronx.uk',
   location: 'Tokyo, JP',
   bio: '你好，我是 Zoro！一名热爱技术的全栈开发者。我喜欢创造各种实用的小工具，希望能通过这些工具帮助更多人提高效率、解决问题。',
-  email: 'hello@example.com',
-  emailHref: 'mailto:hello@example.com',
-  githubUsername: 'your-github-handle',
-  githubUrl: 'https://github.com/your-github-handle',
+  email: '1121896694@qq.com',
+  emailHref: 'mailto:1121896694@qq.com',
+  githubUsername: 'Zoroaaa',
+  githubUrl: 'https://github.com/Zoroaaa',
   rssHref: '/rss.xml',
 } as const;
 
@@ -38,6 +38,6 @@ export const footerNav: NavItem[] = [
 ];
 
 export const socials: NavItem[] = [
-  { label: 'GitHub', href: 'https://github.com/your-github-handle', external: true },
-  { label: 'Email', href: 'mailto:hello@example.com', external: true },
+  { label: 'GitHub', href: 'https://github.com/Zoroaaa', external: true },
+  { label: 'Email', href: 'mailto:1121896694@qq.com', external: true },
 ];

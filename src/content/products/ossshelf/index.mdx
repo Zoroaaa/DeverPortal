@@ -1,21 +1,28 @@
 ---
-# 草稿由 scripts/scaffold-projects.mjs 生成。
-# 补全所有 TODO 后把 draft 改为 false，并确认 status / links / limitations。
+# 已发布：文案依据 README / CHANGELOG / 目录结构 / commit 与作者答复，正文每段末尾保留证据行。
 # 自动字段（star / 语言 / license / 版本 / 日期 / 链接）由 src/data/github/ossshelf.json 提供，
 # 不要写进这里：构建会把手写自动字段视为错误。
-draft: true
+draft: false
 name: "OSSshelf"
-tagline: "TODO：一句话定位（≤80 字，写明为谁解决什么问题）"
-summary: "TODO：一句话摘要（≤160 字，用于列表与 SEO）"
-status: lab
+tagline: "把 R2、S3、Telegram 这些分散的存储桶，收进一个能分享、能挂 WebDAV 的文件面板。"
+summary: "OSSshelf 是一个跑在 Cloudflare 上的文件管理器，能接 R2、S3、阿里云 OSS、腾讯云 COS、华为云 OBS、B2、MinIO 和 Telegram。带分享、直链、上传链接、WebDAV、多用户权限、审计和 AI 检索；后端 Hono + Workers + D1，前端 React，MIT。"
+status: live
 featured: false
 order: 50
 startedAt: 2026-03-15
-topics: []
-platforms: []
-tech: []
-links: {}
-limitations: []
+topics: [对象存储, 文件管理, WebDAV, 自托管]
+platforms: [web, self-host, cloudflare]
+tech: [React, TypeScript, Vite, Tailwind CSS, Zustand, React Query, Hono 4, Cloudflare Workers, D1, Drizzle ORM, Vectorize, Workers AI]
+links:
+  demo: "https://oss.wort.uk/"
+  repo: "https://github.com/Zoroaaa/OSSshelf"
+limitations:
+  - "线上实例 oss.wort.uk 是作者自用环境，不开放注册；想用得自己部署一套。"
+  - "Telegram 存储单文件上限 2GB，删除只能删消息引用，文件本身还留在 Telegram；README 的常见问题还要求网络稳定。"
+  - "S3 兼容存储单文件上限 5GB，100MB 起走分片，分片 10MB、最多 3 个并发；默认每个用户配额 10GB，配额要靠管理员调。"
+  - "PWA 系统分享只覆盖 Android / Chromium，iOS 和桌面端不会出现在分享面板；Service Worker 未接管时，分享请求直连 `/api/share-target` 会返回 405。"
+  - "邮件功能要管理员自己配 Resend API Key 和发件人；没配时，管理员忘记密码只能去数据库改密码哈希。"
+  - "AI 功能不是装完就有：要配 Workers AI 或 OpenAI 兼容提供商，语义检索还要 Vectorize 索引；图片识别要选支持视觉的模型。"
 ---
 
 {/* 自动抓取事实（只读参考，删除也不影响页面）：
@@ -27,25 +34,102 @@ License：MIT
 Star：8
 */}
 
-> **DRAFT / 草稿**：这个页面还没有写完，不会出现在产品列表、RSS 或 sitemap 中。
-> 补全下面四项，把 frontmatter 的 `draft` 改成 `false`，才会发布。
+## 是什么
 
-## 一句话定位
+OSSshelf 是一个自托管的多存储文件管理器。它自己不囤文件，文件放在你配的桶里：Cloudflare R2、AWS S3、阿里云 OSS、腾讯云 COS、华为云 OBS、Backblaze B2、MinIO，或者 Telegram。
 
-TODO：它是什么、给谁用、解决什么问题。不要复述仓库描述，写你希望访客记住的那一句。
+它把几件事放在同一个界面里：文件上传、下载、预览、移动、重命名、删除，文本文件的版本历史和回滚，标签、笔记、回收站，分享链接、直链、公开上传链接，以及账号、用户组、团队空间和权限审批。
+
+入口分三块。`apps/api/` 是 Hono 跑在 Cloudflare Workers 上的后端，同时提供 `/dav` 的 WebDAV 和 `/api/v1` 的 REST API；`apps/web/` 是 React 前端；`packages/shared/` 放常量和共享类型。
+
+文件之外还有一层 AI：摘要、图片识别、语义搜索，以及 v3.2 之后基于 Cloudflare Agents SDK 的对话 Agent。
+
+> 证据：`README.md`「功能特性」「支持的存储提供商」「项目结构」「API 路由概览」；`package.json` 的 `description` 与 `keywords`；`apps/api/src/routes/`、`apps/api/src/lib/` 目录。
 
 ## 为什么做
 
-TODO：当时的动机、替代方案哪里不够好、为什么值得自己写一遍。
+手上的文件分散在几个对象存储和 Telegram 渠道里，每边各有一套后台，缺一个顺手的多端工具：手机和电脑打开同一个地址，就能上传、分享、挂载。
+
+所以它不只是文件浏览。分享链接、直链、WebDAV、REST API 都是为了同一个库能在别的设备和其他软件里直接用上；多用户和权限是多个存储合在一起之后必然要解决的事。
+
+> 证据：作者答复（2026-11-10）：「缺一个便利的多端工具」；`README.md`「功能特性」「支持的存储提供商」「API 路由概览」；`apps/api/src/routes/`。
 
 ## 能力边界
 
-TODO：它擅长什么、明确不做什么。写清楚边界比罗列功能更能建立信任。
+**做了的：**
 
-## 已知限制
+- 多存储：R2、AWS S3、阿里云 OSS、腾讯云 COS、华为云 OBS、Backblaze B2、MinIO 走 S3 兼容协议；Telegram 走 Bot API，大文件分片后单文件最大 2GB。
+- 文件操作：拖拽上传、文件夹上传、100MB 以上分片、断点续传、秒传；图片、视频、音频、PDF、Office、代码、Markdown、EPUB、字体、ZIP、CSV 预览；文本文件有版本历史和回滚。
+- 分享与接入：公开分享可设密码、过期时间和下载次数；另有直链、公开上传链接、预签名 URL、WebDAV、RESTful v1 API、OpenAPI 文档和 API Keys。
+- 多用户：第一个注册用户自动成为管理员；支持邀请码、注册开关、JWT + bcrypt、刷新令牌、邮箱验证和密码重置；用户组、团队空间（owner/admin/member/guest 四级角色）、权限继承、时效权限、申请审批、审计日志和通知。
+- 搜索与 AI：FTS5 全文搜索，D1 不支持时回退 LIKE；语义检索走 Vectorize；AI 摘要、图片识别、批量索引/摘要/标签；v3.2 的 Agent 支持断线续传和多端同步。
+- PWA：可安装；Android / Chromium 上支持系统分享面板和 `web+osshelf://` 协议链接。
 
-TODO：当前明确没做到或做得不够好的地方。status 为 live / beta 时至少写 1 条。
+**明确没做的：**
 
-## 快速开始
+- Telegram 不能真正删除文件，只能删消息引用；单文件也停在 2GB。
+- 版本控制只覆盖代码、配置、Markdown 这类文本文件，二进制文件没有版本历史。
+- PWA 系统分享不支持 iOS 和桌面端；Service Worker 没接管时分享入口会 405。
+- 没有内置邮件服务。要用注册验证、密码重置和通知邮件，必须自己配 Resend。
+- AI 不在本地推理，必须接 Workers AI 或 OpenAI 兼容提供商；语义检索依赖 Vectorize。
 
-TODO：最短可用路径（3–5 步，可直接粘贴的命令）。完整手册写到 `docs/` 目录，不在这里展开。
+> 证据：`README.md`「功能特性」「系统限制」「快速开始」「首次使用」「系统分享与协议链接（PWA）」「常见问题」；`packages/shared/src/constants/index.ts`；`apps/api/migrations/070_system.sql` 与 `110_ai_agents.sql` 的 FTS5 定义；`apps/api/src/routes/search.ts` 的 LIKE 回退；`CHANGELOG.md` v3.2.0。
+
+## 实现要点
+
+仓库是 pnpm workspace 的单仓三分：`apps/api` 是 Hono + Workers，`apps/web` 是 React + Vite，`packages/shared` 放常量和类型。数据库是 D1 + Drizzle ORM。迁移脚本按模块编号：`010_core`、`020_auth`、`030_files_extended` 一路到 `119_file_name_unique`，共 27 个。
+
+存储层没有绑死 R2。`bucketResolver` 负责选桶，`s3client` 自己实现 SigV4，`telegramClient` 和 `telegramChunked` 处理 Bot API 的分片。`wrangler.toml.example` 里原来的 R2 binding 已经标成 OPTIONAL / LEGACY，新上传走应用内「存储桶管理」里配置的 provider。路径在 `117_path_model_unify.sql` 统一；删除走 `118_storage_deletion_queue.sql` 的队列，再由 `storageGC`、`storageAuditService`、`storageReconciliation` 收尾。commit `5d11794` 一次落了路径统一、流式传输、删除补偿和存储对账。
+
+AI 在 v3.2 换了运行时：对话由 Cloudflare Agents SDK 的 `AIChatAgent` 承载，每个会话一个 `OSSShelfAgent` Durable Object；HTTP 层只负责会话和记忆管理、模型配置、索引任务与用量查询。批量索引、摘要、标签走 `ossshelf-ai-tasks` 队列，`max_batch_size = 1`，Vectorize 写入失败最多重试 6 次，避开限流窗口。检索是两路：FTS5 关键词，加 Vectorize 语义；FTS5 不可用时自动回退 LIKE。
+
+权限不是简单的 owner/其他两档。`permissionResolver` 的顺序是 owner → 用户/组显式权限 → 团队显式权限 → 继承权限 → 团队角色；团队角色会给权限封顶，viewer 只读、member 读写、admin/owner 管理。
+
+> 证据：`pnpm-workspace.yaml`；`apps/api/package.json`；`apps/api/migrations/` 27 个脚本；`apps/api/src/lib/bucketResolver.ts`、`s3client.ts`、`telegramClient.ts`、`telegramChunked.ts`、`storageGC.ts`、`storageAuditService.ts`、`storageReconciliation.ts`；`apps/api/wrangler.toml.example`；commit `5d11794`；`CHANGELOG.md` v3.2.0；`docs/architecture.md`「AI 模块架构」；`apps/api/src/lib/permissionResolver.ts`。
+
+## 怎么用
+
+先准备环境：Node.js >= 22、pnpm >= 8、一个 Cloudflare 账号、至少一个存储服务的凭证。README 徽章写的是 Node >= 20，但 `package.json` 的 `engines` 要求和 CI 都写 22，按 22 准备。
+
+最短路径（README 的本地开发流程）：
+
+```bash
+git clone https://github.com/Zoroaaa/OSSshelf.git
+cd OSSshelf
+pnpm install
+
+wrangler login
+wrangler d1 create ossshelf-db
+wrangler kv:namespace create KV
+
+cp apps/api/wrangler.toml.example apps/api/wrangler.toml
+# 填 D1 database_id、KV id，把 CORS_ORIGINS 改成你的前端地址
+pnpm db:migrate          # 对远端 D1 执行迁移；本地库用 pnpm db:migrate:local
+pnpm dev:api             # http://localhost:8787
+pnpm dev:web             # http://localhost:5173
+```
+
+部署前必须配 `JWT_SECRET` 和 `CORS_ORIGINS`。`JWT_SECRET` 用 32 位以上随机串，同时用来派生存储桶凭证的 AES-GCM 密钥：
+
+```bash
+wrangler secret put JWT_SECRET
+```
+
+`CORS_ORIGINS` 写在 `wrangler.toml` 的 `[vars]` 里。`CF_API_TOKEN` 可选，只在要实时拉 Workers AI 模型目录时配。
+
+部署命令：
+
+```bash
+pnpm deploy:api
+pnpm build:web
+wrangler pages deploy apps/web/dist --project-name=ossshelf-web
+```
+
+有几个门槛，README 没全部写出来：
+
+- `wrangler.toml.example` 里还声明了 `[ai]`、`[[vectorize]]` 的 `ossshelf-files` 索引、`OSSShelfAgent` 这个 Durable Object，以及 `ossshelf-ai-tasks` 队列；README 的创建步骤只写了 D1 和 KV。这几个资源要按 example 里的名字自己建好，否则对应能力或部署不完整。
+- v3.2 移除了自动 D1 迁移，迁移要自己执行；仓库另有 `apps/api/scripts/preflight-migrations.mjs`，用于比对 `d1_migrations` 和真实 schema。
+- 回收站清理靠 `[triggers]` 里 `0 3 * * *` 的 cron，不配就不会自动清。
+- 第一个注册的用户自动成为管理员；登录后先去「设置 → 存储桶」加一个桶，否则没地方上传。
+
+> 证据：`README.md`「快速开始」「部署指南」「环境变量说明」「首次使用」「常见问题」；`package.json` 的 `engines`；`apps/api/package.json` 的 `db:migrate`、`db:migrate:local`；`apps/api/wrangler.toml.example`（AI、Vectorize、DO、Queue、cron、vars）；`apps/api/scripts/preflight-migrations.mjs`；`CHANGELOG.md` v3.2.0；`.github/workflows/deploy-api.yml`（Node 22、preflight、apply migrations）。
