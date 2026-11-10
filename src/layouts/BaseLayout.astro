@@ -14,7 +14,7 @@ const {
   title,
   description = site.description,
   canonical = Astro.url.pathname,
-  ogImage,
+  ogImage = '/og.png',
   type = 'website',
 } = Astro.props;
 
@@ -26,6 +26,24 @@ const pathname = Astro.url.pathname;
 const isActive = (href: string) => (href === '/' ? pathname === '/' : pathname.startsWith(href));
 
 const year = new Date().getFullYear();
+
+// 仅首页输出站点/个人结构化数据，帮助搜索引擎识别站点主体。
+const jsonLd =
+  pathname === '/'
+    ? JSON.stringify({
+        '@context': 'https://schema.org',
+        '@graph': [
+          { '@type': 'WebSite', name: `${site.ownerName} · ${site.title}`, url: siteUrl.href, inLanguage: 'zh-CN' },
+          {
+            '@type': 'Person',
+            name: site.ownerName,
+            jobTitle: site.role,
+            url: siteUrl.href,
+            sameAs: [site.githubUrl],
+          },
+        ],
+      })
+    : null;
 ---
 
 <!doctype html>
@@ -45,10 +63,14 @@ const year = new Date().getFullYear();
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl.href} />
-    {ogImage && <meta property="og:image" content={new URL(ogImage, siteUrl).href} />}
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:image" content={new URL(ogImage, siteUrl).href} />
+    <meta property="og:locale" content="zh_CN" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={new URL(ogImage, siteUrl).href} />
+    {jsonLd && <script type="application/ld+json" set:html={jsonLd} />}
   </head>
   <body>
     <a class="skip-link" href="#main">跳到正文</a>

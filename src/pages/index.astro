@@ -6,7 +6,7 @@ import ReleaseItem from '../components/release/ReleaseItem.astro';
 import EmptyState from '../components/ui/EmptyState.astro';
 import { site } from '../data/site';
 import { loadContentGraph } from '../lib/content-graph';
-import { formatDate } from '../lib/format';
+import { displayDate, formatDate } from '../lib/format';
 
 const { products, releaseViews, posts } = await loadContentGraph();
 const nameBySlug = new Map(products.map((product) => [product.slug, product.entry.data.name]));
@@ -79,7 +79,7 @@ const hasStop = rest.endsWith('。');
               <h3><a href={`/writing/${post.id}`}>{post.data.title}</a></h3>
               <p class="summary">{post.data.summary}</p>
               <time class="meta-text" datetime={formatDate(post.data.date)}>
-                {formatDate(post.data.date).replaceAll('-', '.')}
+                {displayDate(post.data.date)}
               </time>
             </li>
           ))}

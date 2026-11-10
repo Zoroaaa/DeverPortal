@@ -2,7 +2,7 @@
 
 > 个人作品站：用 Markdown 维护产品说明、版本记录与使用手册，用 GitHub 快照自动维护 star / 语言 / license / 版本等客观事实。
 
-线上：<https://neutronx.uk/>
+线上：<https://wort.uk/>
 
 ## 技术栈
 
@@ -10,7 +10,7 @@
 |---|---|
 | Astro 5（纯静态输出） | 页面与内容集合；零客户端框架、零运行时接口 |
 | MDX + Content Collections | 手写内容唯一事实源，构建期 Zod 校验 |
-| 原生 CSS + 语义 token | 视觉方向 B「工程蓝图」，组件不直接写色值 |
+| 原生 CSS + 语义 token | 极简明亮：白底 + 单一暖橙强调色；组件只引用 `src/styles/tokens.css` 的语义 token |
 | Cloudflare Pages | 托管 `dist/`，无 Functions、无 KV |
 | GitHub Actions | 每日同步 GitHub 公开数据，变更开 PR |
 
@@ -19,7 +19,7 @@
 ```bash
 npm install
 npm run dev          # 开发服务器
-npm run build        # 内容检查 + astro check + 静态构建
+npm run build        # astro check（类型）+ 静态构建（构建期执行内容关系断言）
 npm run preview      # 预览 dist/
 ```
 
@@ -72,17 +72,15 @@ src/
 │   ├── content-graph.ts     # 关系断言 + 草稿过滤 + 发布视图
 │   └── projects.ts          # 手写与快照合并、字段所有权校验
 ├── components/              # site / product / release / docs / ui
-├── layouts/                 # Base / Marketing / Docs
+├── layouts/                 # Base / Docs
 └── pages/                   # 路由与 rss / robots / sitemap
 scripts/
 ├── sync-github.mjs          # GitHub 公开 API → 快照（只写 data/github）
-├── scaffold-projects.mjs    # 生成草稿 MDX 骨架（只写 content）
-└── check-content.mjs        # 构建前校验
+└── scaffold-projects.mjs    # 生成草稿 MDX 骨架（只写 content）
 docs/
 ├── personal-site-refactor-plan.md
 ├── github-projects-sync-plan.md
 ├── content-guide/           # 录入说明与模板
-└── visual-drafts/           # 视觉方向样张（只留档）
 ```
 
 ## 部署

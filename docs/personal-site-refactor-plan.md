@@ -1,7 +1,7 @@
 # DeverPortal 个人网站重构方案
 
 > 状态：**已执行（2026-11-10）**——本文保留为总体方案与改造前审计记录。  
-> 适用范围：`d:\user\DeverPortal`（线上 https://neutronx.uk/）  
+> 适用范围：`d:\user\DeverPortal`（线上 https://wort.uk/）  
 > 站点定位：**作品展示型个人网站**——给"想了解我个人开发作品的人"看  
 > 目标形态：作品集（Portfolio）+ 产品中心（Products / Docs / Releases / Writing）  
 > 配套文档：[github-projects-sync-plan.md](./github-projects-sync-plan.md)（GitHub 仓库数据怎么进站，已实现）  

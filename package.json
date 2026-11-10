@@ -6,8 +6,7 @@
   "scripts": {
     "dev": "astro dev",
     "check": "astro check",
-    "check:content": "node scripts/check-content.mjs",
-    "build": "npm run check:content && astro check && astro build",
+    "build": "astro check && astro build",
     "preview": "astro preview",
     "sync:github": "node scripts/sync-github.mjs",
     "new:drafts": "node scripts/scaffold-projects.mjs"
@@ -20,7 +19,9 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.12",
-    "gray-matter": "^4.0.3",
     "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=22"
   }
 }

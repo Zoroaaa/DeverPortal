@@ -155,7 +155,7 @@ links:
 
 ## 6. 常见失败
 
-`npm run build` 分三步：先 `check:content` 查关系，再 `astro check` 查字段类型 / 长度 / 枚举，最后生成页面。任何一步失败都会中止。
+`npm run build` 分两步：先 `astro check` 查字段类型 / 长度 / 枚举，再生成页面；生成时执行内容关系断言（白名单↔内容↔快照、自动/手写字段越权、版本重复等，规则在 `src/lib/content-graph.ts` 与 `src/lib/projects.ts`）。任何一步失败都会中止。
 
 关系检查的输出格式固定为：
 

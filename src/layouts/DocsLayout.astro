@@ -4,6 +4,7 @@ import Breadcrumb from '../components/docs/Breadcrumb.astro';
 import TOC from '../components/docs/TOC.astro';
 import type { DocEntry, ProductView } from '../lib/content-graph';
 import { docPathOf } from '../lib/content-graph';
+import { displayDate, formatDate } from '../lib/format';
 
 interface Heading {
   depth: number;
@@ -22,6 +23,11 @@ interface Props {
 }
 
 const { title, description, product, docs, current, headings, breadcrumb } = Astro.props;
+
+const index = current ? docs.findIndex((doc) => doc.id === current.id) : -1;
+const prev = index > 0 ? docs[index - 1] : undefined;
+const next = index >= 0 ? docs[index + 1] : undefined;
+const docHref = (doc: DocEntry) => `/docs/${product.slug}/${docPathOf(doc)}`;
 ---
 
 <BaseLayout
@@ -62,8 +68,36 @@ const { title, description, product, docs, current, headings, breadcrumb } = Ast
           <p class="kicker">{product.entry.data.name}</p>
           <h1>{title}</h1>
           {description && <p class="docs-desc">{description}</p>}
+          {
+            current && (
+              <p class="docs-meta meta-text">
+                <time datetime={formatDate(current.data.updatedAt)}>更新于 {displayDate(current.data.updatedAt)}</time>
+                {current.data.appliesTo && <span>适用版本 {current.data.appliesTo}</span>}
+              </p>
+            )
+          }
         </header>
         <slot />
+        {
+          (prev || next) && (
+            <nav class="docs-pager" aria-label="上一篇与下一篇">
+              {prev ? (
+                <a class="pager-link" href={docHref(prev)} rel="prev">
+                  <span class="pager-label">上一篇</span>
+                  <span class="pager-title">{prev.data.title}</span>
+                </a>
+              ) : (
+                <span />
+              )}
+              {next && (
+                <a class="pager-link pager-link--next" href={docHref(next)} rel="next">
+                  <span class="pager-label">下一篇</span>
+                  <span class="pager-title">{next.data.title}</span>
+                </a>
+              )}
+            </nav>
+          )
+        }
       </article>
 
       <aside class="docs-toc" aria-label="页内目录">
@@ -171,6 +205,52 @@ const { title, description, product, docs, current, headings, breadcrumb } = Ast
     margin-top: 12px;
     color: var(--ink-muted);
     font-size: 17px;
+  }
+
+  .docs-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-4);
+    margin-top: var(--space-4);
+  }
+
+  .docs-pager {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+    max-width: var(--w-prose);
+    margin-top: var(--space-16);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--line);
+  }
+
+  .pager-link {
+    display: grid;
+    gap: 2px;
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius);
+    background: var(--bg-soft);
+    text-decoration: none;
+    transition: background-color var(--dur-fast) var(--ease-out);
+  }
+
+  .pager-link:hover {
+    background: var(--accent-soft);
+    color: inherit;
+  }
+
+  .pager-link--next {
+    grid-column: 2;
+    text-align: right;
+  }
+
+  .pager-label {
+    color: var(--ink-faint);
+    font-size: 13px;
+  }
+
+  .pager-title {
+    font-weight: 600;
   }
 
   .docs-toc {

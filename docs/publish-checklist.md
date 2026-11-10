@@ -2,7 +2,7 @@
 
 > 现状：7 个产品全部是 `draft: true`，所以站点看起来是空的——不是没拉到 GitHub 数据。
 > 数据在 `src/data/github/` 里已经是真实值，只差把内容写完并翻 `draft`。
-> 以 `src/content.config.ts`（schema）和 `scripts/check-content.mjs`（校验）为准，本文不引入新字段。
+> 以 `src/content.config.ts`（schema）和 `src/lib/content-graph.ts`（构建期校验）为准，本文不引入新字段。
 
 ---
 
@@ -50,7 +50,7 @@ src/content/products/<slug>/index.mdx      ← 只改这个
 
 `{/* 自动抓取事实… */}` 那段注释可以留着，不会输出到页面。
 
-⚠️ **脚本不会因为正文里还有 `TODO：` 而失败**（`check:content` 只查关系与越权字段）。这是唯一的“静默泄漏”口子，发布前必须自己搜一遍（见 §3 第 3 条）。
+⚠️ **脚本不会因为正文里还有 `TODO：` 而失败**（构建只查关系与越权字段）。这是唯一的“静默泄漏”口子，发布前必须自己搜一遍（见 §3 第 3 条）。
 
 ---
 
@@ -60,13 +60,10 @@ src/content/products/<slug>/index.mdx      ← 只改这个
 # 1) 编辑内容（手工）
 #    src/content/products/atlas/index.mdx
 
-# 2) 关系校验：白名单 ↔ 内容 ↔ 快照
-npm run check:content
-
-# 3) 完整构建：schema 校验 + 静态生成
+# 2) 构建：schema 校验 + 关系断言（白名单 ↔ 内容 ↔ 快照）+ 静态生成
 npm run build
 
-# 4) 本地看效果
+# 3) 本地看效果
 npm run preview      # 打开 http://localhost:4321/products/atlas
 ```
 
@@ -80,7 +77,7 @@ npm run sync:github   # 重新抓 src/data/github/*.json
 
 ## 3. 怎么判断成功
 
-1. `npm run check:content` 最后一行从 `0 个已发布产品` 变成 `1 个已发布产品 / 6 个草稿`。
+1. `npm run build` 通过，且该产品出现在 `/products`。
 2. `npm run build` 出现新路由：`▶ src/pages/products/[slug]/index.astro` → `└─ /products/atlas/index.html`，且 `astro check` 是 `0 errors`。
 3. 扫一遍产物，确认没有 TODO 与草稿提示泄漏：
 
@@ -119,7 +116,7 @@ Get-ChildItem dist -Recurse -File | Select-String -Pattern "TODO：|DRAFT / 草�
 | `白名单条目 atlas 缺少 src/content/products/atlas/index.mdx` | 目录被删或改名 | `npm run new:drafts` 重新生成草稿骨架，或把目录名改回 slug |
 | `白名单条目 X（x）没有快照` / `快照 … 没有仓库数据` | `src/data/github/x.json` 缺失或抓取失败 | `npm run sync:github`（配额超限时等 UTC 整点后重试） |
 
-注意两种检查的分工：`npm run check:content` 管**关系与字段越权**（白名单↔内容↔快照、自动/手写字段），`astro check` 管 **schema 与长度**。只跑前者看不到长度错误。
+`npm run build` 已包含全部检查：`astro check` 管 schema 与长度，构建期断言管关系与字段越权（白名单↔内容↔快照、自动/手写字段）。
 
 ---
 

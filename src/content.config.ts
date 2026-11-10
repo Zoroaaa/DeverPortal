@@ -29,7 +29,7 @@ export const products = defineCollection({
       description: z.string().optional(),
       ogImage: z.string().optional(),
     }).optional(),
-  }),
+  }).strict(),
 });
 
 export const releases = defineCollection({
@@ -42,7 +42,7 @@ export const releases = defineCollection({
     summary: z.string().max(200),
     highlights: z.array(z.string()).default([]),
     breaking: z.boolean().default(false),
-  }),
+  }).strict(),
 });
 
 export const docs = defineCollection({
@@ -55,7 +55,7 @@ export const docs = defineCollection({
     updatedAt: z.coerce.date(),
     appliesTo: z.string().optional(),     // 如 ">=1.2 <2.0"
     draft: z.boolean().default(false),
-  }),
+  }).strict(),
 });
 
 export const posts = defineCollection({
@@ -70,7 +70,7 @@ export const posts = defineCollection({
     product: z.string().optional(),       // 关联产品 slug
     draft: z.boolean().default(false),
     cover: z.string().optional(),
-  }),
+  }).strict(),
 });
 
 // Astro 5 通过 collections 汇总导出注册集合，缺这一项会回退到目录自动推断。

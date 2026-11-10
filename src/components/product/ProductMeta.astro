@@ -1,28 +1,21 @@
 ---
 import StatusPill from './StatusPill.astro';
 import type { ProductEntry, ReleaseView, GithubSnapshot } from '../../lib/content-graph';
-import { formatDate } from '../../lib/format';
+import { formatDate, platformText as toPlatformText } from '../../lib/format';
 
 interface Props {
   status: ProductEntry['data']['status'];
   platforms: ProductEntry['data']['platforms'];
   latestRelease?: ReleaseView;
   snapshot: GithubSnapshot | null;
+  startedAt?: Date;
 }
 
-const { status, platforms, latestRelease, snapshot } = Astro.props;
+const { status, platforms, latestRelease, snapshot, startedAt } = Astro.props;
 const repo = snapshot?.data ?? null;
 const stale = snapshot?.stale || snapshot?.missing || snapshot?.releasesStale;
 
-const platformLabels: Record<string, string> = {
-  web: 'Web',
-  desktop: 'Desktop',
-  cli: 'CLI',
-  'self-host': 'Self-host',
-  cloudflare: 'Cloudflare',
-};
-
-const platformText = platforms.map((platform) => platformLabels[platform] ?? platform).join(' / ');
+const platformText = toPlatformText(platforms);
 const updated = latestRelease?.date ?? (repo?.pushedAt ? new Date(repo.pushedAt) : null);
 const snapshotDate = snapshot?.fetchedAt ? snapshot.fetchedAt.slice(0, 10) : null;
 ---
@@ -52,6 +45,14 @@ const snapshotDate = snapshot?.fetchedAt ? snapshot.fetchedAt.slice(0, 10) : nul
     <dt>许可证</dt>
     <dd>{repo?.license ?? '未声明'}</dd>
   </div>
+  {
+    startedAt && (
+      <div class="row">
+        <dt>始于</dt>
+        <dd><time datetime={formatDate(startedAt)}>{formatDate(startedAt).slice(0, 7)}</time></dd>
+      </div>
+    )
+  }
   <div class="row">
     <dt>更新</dt>
     <dd>{updated ? <time datetime={formatDate(updated)}>{formatDate(updated)}</time> : '—'}</dd>

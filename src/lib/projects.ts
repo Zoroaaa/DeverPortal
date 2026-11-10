@@ -1,6 +1,7 @@
 // 构建期把「自动字段」（GitHub 快照）与「手写字段」（MDX）投影成只读视图。
 // 数据所有权是物理隔离的：本文件只读 src/data/github/*.json 与 curated.json，不写任何文件。
 import curatedFile from '../data/curated.json';
+import { compareVersions } from './versions';
 
 export interface CuratedItem {
   repo: string;
@@ -226,7 +227,15 @@ export function assertSnapshotCoverage(): void {
   const snapshots = getSnapshots();
   const errors: string[] = [];
 
+  const seenSlugs = new Set<string>();
   for (const item of curated.items) {
+    if (!item.repo || !item.slug) {
+      errors.push(`curated.json 条目缺少 repo 或 slug：${JSON.stringify(item)}`);
+      continue;
+    }
+    if (seenSlugs.has(item.slug)) errors.push(`curated.json: slug "${item.slug}" 重复`);
+    seenSlugs.add(item.slug);
+
     const snapshot = snapshots.get(item.slug);
     if (!snapshot) {
       errors.push(
@@ -239,6 +248,11 @@ export function assertSnapshotCoverage(): void {
         `快照 src/data/github/${item.slug}.json 没有仓库数据（${snapshot.error ?? '未知原因'}）：请重新运行 npm run sync:github`,
       );
       continue;
+    }
+    for (const release of snapshot.releases) {
+      if (release.date !== null && Number.isNaN(new Date(release.date).getTime())) {
+        errors.push(`快照 ${item.slug}.releases.json: 版本 ${release.version} 的日期无法解析`);
+      }
     }
     const expected = `${curated.owner}/${item.repo}`.toLowerCase();
     if (snapshot.data.fullName && snapshot.data.fullName.toLowerCase() !== expected) {
@@ -253,14 +267,14 @@ export function assertSnapshotCoverage(): void {
   }
 }
 
-function compareVersions(a: string, b: string): number {
-  const pa = a.split('.').map(Number);
-  const pb = b.split('.').map(Number);
-  for (let i = 0; i < 3; i += 1) {
-    const diff = (pa[i] ?? 0) - (pb[i] ?? 0);
-    if (diff !== 0) return diff;
-  }
-  return 0;
+/** 按日期从新到旧；同日按版本号。无日期（tag）排最后。 */
+export function sortReleaseViews(list: ReleaseView[]): ReleaseView[] {
+  return [...list].sort((a, b) => {
+    const at = a.date?.getTime() ?? 0;
+    const bt = b.date?.getTime() ?? 0;
+    if (bt !== at) return bt - at;
+    return compareVersions(b.version, a.version);
+  });
 }
 
 function releaseHref(slug: string, version: string): string {
@@ -312,10 +326,5 @@ export function mergeReleases(
     });
   }
 
-  return [...manualViews, ...autoViews].sort((a, b) => {
-    const at = a.date?.getTime() ?? 0;
-    const bt = b.date?.getTime() ?? 0;
-    if (bt !== at) return bt - at;
-    return compareVersions(b.version, a.version);
-  });
+  return sortReleaseViews([...manualViews, ...autoViews]);
 }

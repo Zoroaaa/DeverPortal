@@ -23,7 +23,7 @@ export async function GET(context: APIContext) {
         title: `${nameBySlug.get(release.productSlug) ?? release.productSlug} v${release.version} · ${release.title}`,
         pubDate: release.date as Date,
         description: release.summary ?? '来自 GitHub Release 的版本记录',
-        link: `/products/${release.productSlug}/releases#${release.productSlug}-${release.version}`,
+        link: release.href,
       })),
   ].sort((a, b) => b.pubDate.getTime() - a.pubDate.getTime());
 

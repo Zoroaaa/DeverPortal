@@ -2,12 +2,15 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
 import {
   assertSnapshotCoverage,
+  curated,
   getCuratedItem,
   getSnapshots,
   mergeReleases,
+  sortReleaseViews,
   type GithubSnapshot,
   type ReleaseView,
 } from './projects';
+import { compareVersions, versionInRange } from './versions';
 
 export type { GithubSnapshot, ReleaseView } from './projects';
 
@@ -59,73 +62,11 @@ export function postSlugOf(entry: PostEntry): string {
   return entry.id.replace(/\.mdx?$/, '');
 }
 
-export function compareVersions(a: string, b: string): number {
-  const pa = a.split('.').map(Number);
-  const pb = b.split('.').map(Number);
-  for (let i = 0; i < 3; i += 1) {
-    const diff = (pa[i] ?? 0) - (pb[i] ?? 0);
-    if (diff !== 0) return diff;
-  }
-  return 0;
-}
-
 export function sortReleases(list: ReleaseEntry[]): ReleaseEntry[] {
   return [...list].sort((a, b) => {
     const byDate = b.data.date.getTime() - a.data.date.getTime();
     return byDate !== 0 ? byDate : compareVersions(b.data.version, a.data.version);
   });
-}
-
-function sortReleaseViews(list: ReleaseView[]): ReleaseView[] {
-  return [...list].sort((a, b) => {
-    const at = a.date?.getTime() ?? 0;
-    const bt = b.date?.getTime() ?? 0;
-    if (bt !== at) return bt - at;
-    return compareVersions(b.version, a.version);
-  });
-}
-
-interface VersionRange {
-  lower?: { value: string; inclusive: boolean };
-  upper?: { value: string; inclusive: boolean };
-}
-
-function parseVersionRange(raw: string): VersionRange {
-  const range: VersionRange = {};
-  const tokens = raw.trim().split(/\s+/).filter(Boolean);
-  if (tokens.length === 0) throw new Error('appliesTo 为空');
-  for (const token of tokens) {
-    const match = /^(>=|<=|>|<|=)?v?(\d+\.\d+(?:\.\d+)?)$/.exec(token);
-    if (!match) throw new Error(`无法解析的版本约束 "${token}"`);
-    const op = match[1] ?? '=';
-    const value = (match[2] ?? '').split('.').length === 2 ? `${match[2]}.0` : (match[2] ?? '');
-    if (op === '>=' || op === '>') {
-      if (!range.lower || compareVersions(value, range.lower.value) > 0) {
-        range.lower = { value, inclusive: op === '>=' };
-      }
-    } else if (op === '<=' || op === '<') {
-      if (!range.upper || compareVersions(value, range.upper.value) < 0) {
-        range.upper = { value, inclusive: op === '<=' };
-      }
-    } else {
-      range.lower = { value, inclusive: true };
-      range.upper = { value, inclusive: true };
-    }
-  }
-  return range;
-}
-
-export function versionInRange(version: string, rawRange: string): boolean {
-  const range = parseVersionRange(rawRange);
-  if (range.lower) {
-    const diff = compareVersions(version, range.lower.value);
-    if (diff < 0 || (diff === 0 && !range.lower.inclusive)) return false;
-  }
-  if (range.upper) {
-    const diff = compareVersions(version, range.upper.value);
-    if (diff > 0 || (diff === 0 && !range.upper.inclusive)) return false;
-  }
-  return true;
 }
 
 export function assertContentGraph(graph: {
@@ -217,7 +158,16 @@ export function assertContentGraph(graph: {
   }
 }
 
-export async function loadContentGraph(): Promise<ContentGraph> {
+let graphCache: Promise<ContentGraph> | null = null;
+
+/** 生产构建里每个页面都会调用；内容在一次构建内不变，只算一次。开发模式不缓存，保证热更新。 */
+export function loadContentGraph(): Promise<ContentGraph> {
+  if (!import.meta.env.PROD) return buildContentGraph();
+  graphCache ??= buildContentGraph();
+  return graphCache;
+}
+
+async function buildContentGraph(): Promise<ContentGraph> {
   const [allProducts, allReleases, allDocs, posts] = await Promise.all([
     hasProductContent ? getCollection('products') : Promise.resolve([] as ProductEntry[]),
     hasReleaseContent ? getCollection('releases') : Promise.resolve([] as ReleaseEntry[]),
@@ -245,6 +195,14 @@ export async function loadContentGraph(): Promise<ContentGraph> {
   const sortedReleases = sortReleases(releases);
 
   const unpublishedWhitelist: string[] = [];
+  const knownSlugs = new Set(allProducts.map(productSlugOf));
+  for (const item of curated.items) {
+    if (!knownSlugs.has(item.slug)) {
+      unpublishedWhitelist.push(
+        `${item.slug}（白名单条目没有 src/content/products/${item.slug}/index.mdx，可运行 npm run new:drafts 生成草稿）`,
+      );
+    }
+  }
   const productViews: ProductView[] = products
     .map((entry) => {
       const slug = productSlugOf(entry);
@@ -285,9 +243,15 @@ export async function loadContentGraph(): Promise<ContentGraph> {
         a.entry.data.name.localeCompare(b.entry.data.name),
     );
 
+  for (const snapshot of snapshots.values()) {
+    if (snapshot.stale || snapshot.missing) {
+      console.warn(`! ${snapshot.slug} 使用 stale 快照${snapshot.error ? `：${snapshot.error}` : ''}`);
+    }
+  }
+
   if (unpublishedWhitelist.length > 0) {
     throw new Error(
-      `已发布产品缺少策展或快照：\n- ${unpublishedWhitelist.join('\n- ')}\n请把它们加入 src/data/curated.json 并运行 npm run sync:github，或设置 draft: true。`,
+      `内容与白名单不一致：\n- ${unpublishedWhitelist.join('\n- ')}\n请把它们加入 src/data/curated.json 并运行 npm run sync:github，或设置 draft: true。`,
     );
   }
 

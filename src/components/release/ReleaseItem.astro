@@ -1,6 +1,6 @@
 ---
 import type { ReleaseView } from '../../lib/content-graph';
-import { formatDate } from '../../lib/format';
+import { displayDate, formatDate } from '../../lib/format';
 
 interface Props {
   release: ReleaseView;
@@ -10,7 +10,7 @@ interface Props {
 const { release, productName } = Astro.props;
 const { version, date, title, summary, highlights, breaking, channel, source, url, href, productSlug } = release;
 
-const dateText = date ? formatDate(date).replaceAll('-', '.') : '日期未知';
+const dateText = date ? displayDate(date) : '日期未知';
 ---
 
 <article class="release" id={`${productSlug}-${version}`}>

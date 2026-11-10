@@ -1,7 +1,7 @@
 ---
 import StatusPill from './StatusPill.astro';
 import type { ProductView } from '../../lib/content-graph';
-import { formatDate } from '../../lib/format';
+import { displayDate, platformText } from '../../lib/format';
 
 interface Props {
   product: ProductView;
@@ -11,17 +11,9 @@ const { product } = Astro.props;
 const { entry, latestRelease, snapshot } = product;
 const repo = snapshot?.data ?? null;
 
-const platformLabels: Record<string, string> = {
-  web: 'Web',
-  desktop: 'Desktop',
-  cli: 'CLI',
-  'self-host': 'Self-host',
-  cloudflare: 'Cloudflare',
-};
-
-const platforms = entry.data.platforms.map((platform) => platformLabels[platform] ?? platform).join(' / ');
+const platforms = platformText(entry.data.platforms);
 const updatedSource = latestRelease?.date ?? (repo?.pushedAt ? new Date(repo.pushedAt) : null);
-const updated = updatedSource ? formatDate(updatedSource).replaceAll('-', '.') : null;
+const updated = updatedSource ? displayDate(updatedSource) : null;
 const stale = snapshot?.stale || snapshot?.missing || snapshot?.releasesStale;
 
 const facts = [

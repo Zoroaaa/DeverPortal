@@ -4,7 +4,7 @@ import SectionHeader from '../../components/ui/SectionHeader.astro';
 import EmptyState from '../../components/ui/EmptyState.astro';
 import Tag from '../../components/ui/Tag.astro';
 import { loadContentGraph, postSlugOf } from '../../lib/content-graph';
-import { formatDate } from '../../lib/format';
+import { displayDate, formatDate } from '../../lib/format';
 
 const { posts } = await loadContentGraph();
 const visible = posts.filter((post) => !post.data.draft);
@@ -22,7 +22,7 @@ const visible = posts.filter((post) => !post.data.draft);
               <p class="summary">{post.data.summary}</p>
               <div class="foot">
                 <time class="meta-text" datetime={formatDate(post.data.date)}>
-                  {formatDate(post.data.date).replaceAll('-', '.')}
+                  {displayDate(post.data.date)}
                 </time>
                 {post.data.tags.map((tag) => <Tag label={tag} />)}
               </div>
