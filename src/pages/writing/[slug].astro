@@ -28,13 +28,12 @@ const { Content } = await render(post);
 <BaseLayout title={post.data.title} description={post.data.summary} type="article">
   <article class="container page">
     <header class="head">
-      <p class="type">WRITING / {post.data.type}</p>
       <h1>{post.data.title}</h1>
-      <p class="meta">
+      <p class="meta meta-text">
         <time datetime={formatDate(post.data.date)}>{formatDate(post.data.date).replaceAll('-', '.')}</time>
         {post.data.product && (
           <>
-            <span aria-hidden="true">/</span>
+            <span aria-hidden="true">·</span>
             <a href={`/products/${post.data.product}`}>关联产品</a>
           </>
         )}
@@ -55,35 +54,24 @@ const { Content } = await render(post);
       </Prose>
     </div>
 
-    <p class="back"><a href="/writing">← 返回写作列表</a></p>
+    <p class="back"><a href="/writing">← 全部文章</a></p>
   </article>
 </BaseLayout>
 
 <style>
   .page {
-    max-width: min(var(--w-content), 900px);
-    padding-top: clamp(24px, 4vw, 48px);
+    max-width: min(var(--w-content), 820px);
+    padding-top: clamp(40px, 7vw, 88px);
   }
 
   .head {
-    padding-top: 14px;
-    margin-bottom: var(--space-6);
-    border-top: 2px solid var(--ink);
-  }
-
-  .type {
-    color: var(--accent);
-    font-family: var(--font-mono);
-    font-size: 9.5px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
+    margin-bottom: var(--space-12);
   }
 
   h1 {
-    max-width: 20ch;
-    margin-top: 10px;
-    font-size: clamp(30px, 4.2vw, 48px);
-    letter-spacing: -0.03em;
+    font-size: clamp(34px, 5vw, 52px);
+    line-height: 1.15;
+    letter-spacing: -0.04em;
   }
 
   .meta {
@@ -91,28 +79,18 @@ const { Content } = await render(post);
     flex-wrap: wrap;
     gap: var(--space-2);
     margin-top: var(--space-4);
-    color: var(--ink-faint);
-    font-family: var(--font-mono);
-    font-size: 9.5px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
   }
 
   .meta a {
-    color: var(--accent);
-    text-decoration: none;
-  }
-
-  .meta a:hover {
-    text-decoration: underline;
+    color: var(--ink-muted);
   }
 
   .summary {
-    max-width: 62ch;
-    margin-top: var(--space-3);
+    max-width: 58ch;
+    margin-top: var(--space-4);
     color: var(--ink-muted);
-    font-size: 15px;
-    line-height: 1.75;
+    font-size: 19px;
+    line-height: 1.7;
   }
 
   .tags {
@@ -122,28 +100,19 @@ const { Content } = await render(post);
     margin-top: var(--space-4);
   }
 
-  .body {
-    padding-block: var(--space-4) var(--space-6);
-  }
-
   .back {
-    margin-top: var(--space-8);
-    padding-top: var(--space-3);
+    margin-top: var(--space-12);
+    padding-top: var(--space-4);
     border-top: 1px solid var(--line);
-    font-family: var(--font-mono);
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+    font-size: 15px;
   }
 
   .back a {
-    color: var(--ink);
+    color: var(--ink-muted);
     text-decoration: none;
-    border-bottom: 1px solid var(--accent);
-    padding-bottom: 2px;
   }
 
   .back a:hover {
-    color: var(--accent);
+    color: var(--accent-ink);
   }
 </style>

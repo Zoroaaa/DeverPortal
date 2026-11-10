@@ -30,7 +30,7 @@ const { product } = Astro.props;
     <Breadcrumb
       items={[
         { label: '首页', href: '/' },
-        { label: '产品', href: '/products' },
+        { label: '作品', href: '/products' },
         { label: product.entry.data.name, href: `/products/${product.slug}` },
         { label: '版本记录' },
       ]}
@@ -38,15 +38,13 @@ const { product } = Astro.props;
     <div class="head">
       <SectionHeader
         level={1}
-        fig="REV. 01"
         title={`${product.entry.data.name} 版本记录`}
-        aside={`${product.releaseViews.length} REV / ALL`}
-        description={`共 ${product.releaseViews.length} 条记录，按日期从新到旧；GitHub 自动条目只提供版本事实。`}
+        description={`共 ${product.releaseViews.length} 条，按日期从新到旧；GitHub 自动条目只提供版本事实。`}
       />
     </div>
     {
       product.releaseViews.length > 0 ? (
-        <div class="rev-list">
+        <div class="list">
           {product.releaseViews.map((release) => (
             <ReleaseItem release={release} />
           ))}
@@ -64,33 +62,28 @@ const { product } = Astro.props;
 
 <style>
   .page {
-    padding-top: var(--space-6);
+    padding-top: var(--space-8);
   }
 
   .head {
-    margin-top: var(--space-4);
+    margin-top: var(--space-12);
   }
 
-  .rev-list {
-    border-top: 1px solid var(--ink);
+  .list {
+    border-top: 1px solid var(--line);
   }
 
   .back {
     margin-top: var(--space-8);
-    font-family: var(--font-mono);
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+    font-size: 15px;
   }
 
   .back a {
-    color: var(--ink);
+    color: var(--ink-muted);
     text-decoration: none;
-    border-bottom: 1px solid var(--accent);
-    padding-bottom: 2px;
   }
 
   .back a:hover {
-    color: var(--accent);
+    color: var(--accent-ink);
   }
 </style>

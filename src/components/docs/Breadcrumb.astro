@@ -33,10 +33,7 @@ const { items } = Astro.props;
     margin: 0;
     padding: 0;
     list-style: none;
-    font-family: var(--font-mono);
-    font-size: 9.5px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
+    font-size: 14px;
   }
 
   .breadcrumb li {
@@ -52,11 +49,7 @@ const { items } = Astro.props;
   }
 
   a:hover {
-    color: var(--accent);
-  }
-
-  .sep {
-    color: var(--ink-faint);
+    color: var(--accent-ink);
   }
 
   [aria-current='page'] {

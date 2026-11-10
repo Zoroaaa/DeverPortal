@@ -1,52 +1,37 @@
 /*
- * 设计 token：唯一视觉方向 B「工程蓝图」（基准 docs/visual-drafts/b-blueprint.html）。
- * 只定义语义名，组件内禁止直接写色值。
- * 取值相对样张的微调：--ink-muted / --ink-faint 加深，保证纸底上次要文本 ≥ 4.5:1；
- * 警示橙拆为 --accent-warm（描边/圆点）与 --accent-warm-ink（小字，加深到 5.5:1）。
+ * 设计 token：极简明亮。
+ * 白底、近黑文字、一个暖橙强调色（只用于点缀：句号、状态点、悬停、选中）。
+ * 组件内禁止直接写色值，只引用语义名。
+ * 对比度：--ink-muted 6.9:1、--ink-faint 4.6:1、--accent-ink 4.9:1（均在白底上）。
  */
 :root {
   color-scheme: light;
 
-  /* 纸与墨 */
-  --bg: #f1eee4;              /* 纸底 */
-  --bg-sunken: #e7e2d3;       /* 压深纸（悬停/填充） */
-  --surface: #fbf9f2;         /* 卡片纸 */
-  --line: rgba(30, 76, 138, 0.16);   /* 蓝淡：虚线、软分隔 */
-  --line-strong: rgba(20, 32, 46, 0.45);
-  --ink: #14202e;
+  --bg: #ffffff;
+  --bg-soft: #f7f6f3;
+  --line: #ececec;
+  --line-strong: #d9d8d3;
 
-  /* 文本 */
-  --ink-muted: #4e5865;       /* 6.20:1 on --bg */
-  --ink-faint: #5f6975;       /* 4.80:1 on --bg */
-  --ink-inverse: #f1eee4;
+  --ink: #111111;
+  --ink-muted: #595959;
+  --ink-faint: #767676;
 
-  /* 强调：蓝图蓝 + 警示橙 */
-  --accent: #1e4c8a;
-  --accent-ink: #f1eee4;
-  --accent-warm: #b8501b;
-  --accent-warm-ink: #9e4214; /* 5.56:1 on --bg，小字用 */
+  --accent: #ff5a1f;
+  --accent-ink: #c8390a;
+  --accent-soft: #fff1ea;
+  --on-accent: #ffffff;
 
-  /* 网格纸（页面级背景） */
-  --grid: rgba(30, 76, 138, 0.1);
-  --grid-strong: rgba(30, 76, 138, 0.2);
-  --grid-size: 24px;
-  --grid-major: 120px;
+  --status-live: #15803d;
+  --status-beta: #b45309;
+  --status-lab: #6d4cc4;
+  --status-archived: #767676;
+  --danger: #b42318;
 
-  /* 状态 */
-  --status-live: #1e4c8a;
-  --status-beta: #9e4214;
-  --status-lab: #4c4a86;
-  --status-archived: #5f6975;
-  --danger: #a12f2f;
-
-  /* 排版：不引入 Web 字体，中文走系统栈 */
   --font-display: 'Helvetica Neue', Helvetica, Arial, 'PingFang SC', 'Hiragino Sans GB',
     'Microsoft YaHei', sans-serif;
-  --font-body: 'Helvetica Neue', Helvetica, Arial, 'PingFang SC', 'Hiragino Sans GB',
-    'Microsoft YaHei', sans-serif;
+  --font-body: var(--font-display);
   --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
 
-  /* 尺度与节奏 */
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
@@ -57,14 +42,15 @@
   --space-16: 64px;
   --space-24: 96px;
 
-  /* 版心 */
-  --pad: clamp(18px, 4.5vw, 72px);
-  --w-content: 1400px;
-  --w-prose: 68ch;
-  --w-docs: 1440px;
+  --pad: clamp(20px, 5vw, 48px);
+  --w-content: 1040px;
+  --w-prose: 66ch;
+  --w-docs: 1200px;
 
-  /* 动效：只用于 hover 颜色，无新增动画 */
+  --radius: 14px;
+  --radius-sm: 8px;
+
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --dur-fast: 120ms;
-  --dur-base: 180ms;
+  --dur-base: 200ms;
 }

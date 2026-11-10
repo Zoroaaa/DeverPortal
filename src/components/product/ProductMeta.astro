@@ -28,111 +28,76 @@ const snapshotDate = snapshot?.fetchedAt ? snapshot.fetchedAt.slice(0, 10) : nul
 ---
 
 <dl class="meta">
-  <div class="strip">
-    <dt>SPEC SHEET</dt>
-    <dd aria-hidden="true">DP</dd>
-  </div>
   <div class="row">
-    <dt>VERSION</dt>
-    <dd>{latestRelease ? `v${latestRelease.version}` : 'NO RELEASES'}</dd>
-  </div>
-  <div class="row">
-    <dt>PLATFORM</dt>
-    <dd>{platformText || '—'}</dd>
-  </div>
-  <div class="row">
-    <dt>STATUS</dt>
+    <dt>状态</dt>
     <dd><StatusPill status={status} /></dd>
   </div>
   <div class="row">
-    <dt>LANGUAGE</dt>
+    <dt>版本</dt>
+    <dd>{latestRelease ? `v${latestRelease.version}` : '暂无发布'}</dd>
+  </div>
+  <div class="row">
+    <dt>平台</dt>
+    <dd>{platformText || '—'}</dd>
+  </div>
+  <div class="row">
+    <dt>语言</dt>
     <dd>{repo?.language ?? '—'}</dd>
   </div>
   <div class="row">
-    <dt>STARS</dt>
+    <dt>Stars</dt>
     <dd>{repo?.stars ?? '—'}</dd>
   </div>
   <div class="row">
-    <dt>LICENSE</dt>
+    <dt>许可证</dt>
     <dd>{repo?.license ?? '未声明'}</dd>
   </div>
   <div class="row">
-    <dt>UPDATED</dt>
+    <dt>更新</dt>
     <dd>{updated ? <time datetime={formatDate(updated)}>{formatDate(updated)}</time> : '—'}</dd>
   </div>
   <div class="row row--note">
-    <dt>DATA</dt>
+    <dt>数据</dt>
     <dd>
       {snapshotDate ? `快照 ${snapshotDate}` : '无快照'}
-      {stale && <span class="stale"> STALE</span>}
+      {stale && <span class="stale"> · 未同步</span>}
     </dd>
   </div>
 </dl>
 
 <style>
   .meta {
-    display: flex;
-    flex-direction: column;
-    background: var(--surface);
-    border: 1px solid var(--ink);
-  }
-
-  .strip {
-    display: flex;
-    justify-content: space-between;
-    padding: 8px 11px;
-    border-bottom: 1px solid var(--ink);
-    background: var(--ink);
-  }
-
-  .strip dt,
-  .strip dd {
-    color: var(--ink-inverse);
-    font-family: var(--font-mono);
-    font-size: 9px;
-    letter-spacing: 0.14em;
-  }
-
-  .strip dd {
-    color: #9fb0c6;
+    padding: var(--space-2) var(--space-6);
+    border-radius: var(--radius);
+    background: var(--bg-soft);
   }
 
   .row {
     display: flex;
     align-items: baseline;
     justify-content: space-between;
-    gap: var(--space-3);
-    padding: 8px 11px;
-    border-bottom: 1px dashed var(--line);
+    gap: var(--space-4);
+    padding: 11px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 14px;
   }
 
   .row:last-child {
     border-bottom: 0;
   }
 
-  .row--note {
-    margin-top: auto;
-  }
-
   dt {
-    color: var(--accent);
-    font-family: var(--font-mono);
-    font-size: 9px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
+    color: var(--ink-faint);
   }
 
   dd {
+    min-width: 0;
     color: var(--ink);
-    font-family: var(--font-mono);
-    font-size: 11px;
-    letter-spacing: 0.06em;
     text-align: right;
     overflow-wrap: anywhere;
   }
 
   .stale {
     color: var(--danger);
-    font-size: 9px;
   }
 </style>

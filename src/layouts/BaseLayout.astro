@@ -25,23 +25,7 @@ const pathname = Astro.url.pathname;
 
 const isActive = (href: string) => (href === '/' ? pathname === '/' : pathname.startsWith(href));
 
-const sheet = pathname === '/'
-  ? '01'
-  : pathname.startsWith('/products')
-    ? '02'
-    : pathname.startsWith('/docs')
-      ? '03'
-      : pathname.startsWith('/writing')
-        ? '04'
-        : pathname.startsWith('/changelog')
-          ? '05'
-          : pathname.startsWith('/about')
-            ? '06'
-            : '07';
-
-const now = new Date();
-const rev = `${now.getFullYear()}.${String(now.getMonth() + 1).padStart(2, '0')}`;
-const year = now.getFullYear();
+const year = new Date().getFullYear();
 ---
 
 <!doctype html>
@@ -71,9 +55,9 @@ const year = now.getFullYear();
 
     <header class="site-header">
       <div class="container header-inner">
-        <a class="brand" href="/">
+        <a class="brand" href="/" aria-label={`${site.ownerName} · 首页`}>
+          <span class="brand-dot" aria-hidden="true"></span>
           <span class="brand-name">{site.ownerName}</span>
-          <span class="brand-sub">作品图纸集</span>
         </a>
         <nav class="site-nav" aria-label="主导航">
           <ul>
@@ -88,10 +72,6 @@ const year = now.getFullYear();
             }
           </ul>
         </nav>
-        <p class="stamp">
-          <span>SHEET {sheet} / 07</span>
-          <span>REV {rev}</span>
-        </p>
       </div>
     </header>
 
@@ -101,58 +81,18 @@ const year = now.getFullYear();
 
     <footer class="site-footer">
       <div class="container foot-inner">
-        <div class="foot-grid">
-          <div class="cell">
-            <dl>
-              <dt>作品</dt>
-              <dd>DEVERPORTAL<br />作品图纸集<br />SHEET 01—07</dd>
-            </dl>
-          </div>
-          <div class="cell">
-            <dl>
-              <dt>索引</dt>
-              <dd>
-                <a href="/products">产品</a><br />
-                <a href="/docs">文档</a><br />
-                <a href="/writing">写作</a><br />
-                <a href="/changelog">更新日志</a>
-              </dd>
-            </dl>
-          </div>
-          <div class="cell">
-            <dl>
-              <dt>渠道</dt>
-              <dd>
-                <a href={site.githubUrl} target="_blank" rel="noopener noreferrer">
-                  GitHub<span aria-hidden="true"> ↗</span>
-                  <span class="visually-hidden">（外部链接）</span>
-                </a><br />
-                <a href={site.rssHref}>RSS<span aria-hidden="true"> ↗</span></a>
-              </dd>
-            </dl>
-          </div>
-          <div class="cell">
-            <dl>
-              <dt>联系</dt>
-              <dd>
-                <a href={site.emailHref}>{site.email}</a><br />
-                <a href="/about">关于<span aria-hidden="true"> ↗</span></a>
-              </dd>
-            </dl>
-          </div>
-          <div class="cell">
-            <dl>
-              <dt>版权</dt>
-              <dd>© {year} {site.ownerName.toUpperCase()}<br />BUILT WITH ASTRO</dd>
-            </dl>
-          </div>
-        </div>
-        <div class="foot-bar">
-          <span>SHEET 01—07</span>
-          <span>REV {rev}</span>
-          <span>SCALE 1:1</span>
-          <span class="bar-hide">STATIC / ASTRO</span>
-        </div>
+        <p>© {year} {site.ownerName}</p>
+        <ul>
+          <li><a href="/changelog">更新日志</a></li>
+          <li>
+            <a href={site.githubUrl} target="_blank" rel="noopener noreferrer">
+              GitHub<span aria-hidden="true"> ↗</span>
+              <span class="visually-hidden">（外部链接）</span>
+            </a>
+          </li>
+          <li><a href={site.rssHref}>RSS</a></li>
+          <li><a href={site.emailHref}>邮件</a></li>
+        </ul>
       </div>
     </footer>
   </body>
@@ -163,232 +103,111 @@ const year = now.getFullYear();
     position: sticky;
     top: 0;
     z-index: 40;
-    background: var(--bg);
-    border-bottom: 1px solid var(--ink);
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: saturate(180%) blur(12px);
+    -webkit-backdrop-filter: saturate(180%) blur(12px);
+    border-bottom: 1px solid var(--line);
   }
 
   .header-inner {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    align-items: stretch;
-    column-gap: var(--space-6);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-6);
+    min-height: 64px;
   }
 
   .brand {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: 10px;
-    padding-block: 14px;
     color: var(--ink);
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
     text-decoration: none;
   }
 
-  .brand-name {
-    font-family: var(--font-display);
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
+  .brand:hover {
+    color: var(--ink);
   }
 
-  .brand-sub {
-    color: var(--accent);
-    font-family: var(--font-mono);
-    font-size: 9.5px;
-    letter-spacing: 0.16em;
+  .brand-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    transition: transform var(--dur-base) var(--ease-out);
+  }
+
+  .brand:hover .brand-dot {
+    transform: scale(1.35);
   }
 
   .site-nav ul {
     display: flex;
-    align-items: stretch;
-    height: 100%;
+    gap: clamp(16px, 3vw, 32px);
     margin: 0;
     padding: 0;
     list-style: none;
   }
 
-  .site-nav li {
-    display: flex;
-  }
-
   .site-nav a {
-    display: flex;
-    align-items: center;
-    padding: 0 16px;
-    border-left: 1px solid var(--line);
+    position: relative;
+    display: block;
+    padding-block: 6px;
     color: var(--ink-muted);
-    font-family: var(--font-mono);
-    font-size: 10px;
-    letter-spacing: 0.14em;
+    font-size: 15px;
     text-decoration: none;
-    text-transform: uppercase;
-    transition:
-      background-color var(--dur-fast) var(--ease-out),
-      color var(--dur-fast) var(--ease-out);
   }
 
-  .site-nav a:hover {
-    background: var(--accent);
-    color: var(--accent-ink);
-  }
-
+  .site-nav a:hover,
   .site-nav a[aria-current='page'] {
-    background: var(--accent);
-    color: var(--accent-ink);
+    color: var(--ink);
   }
 
-  .stamp {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 2px;
-    padding-left: 16px;
-    border-left: 1px solid var(--line);
-    color: var(--accent);
-    font-family: var(--font-mono);
-    font-size: 9.5px;
-    line-height: 1.5;
-    letter-spacing: 0.14em;
-    white-space: nowrap;
+  .site-nav a[aria-current='page']::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--accent);
   }
 
   .site-footer {
-    margin-top: clamp(44px, 6vw, 80px);
-    border-top: 2px solid var(--ink);
-    background: var(--bg);
+    margin-top: clamp(64px, 9vw, 120px);
+    border-top: 1px solid var(--line);
   }
 
-  .foot-grid {
-    display: grid;
-    grid-template-columns: 1.3fr 1fr 1fr 1fr 1fr;
-    border-inline: 1px solid var(--ink);
+  .foot-inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3) var(--space-6);
+    padding-block: var(--space-8);
+    color: var(--ink-faint);
+    font-size: 14px;
   }
 
-  .cell {
-    min-width: 0;
-    min-height: 86px;
-    padding: 14px 14px 18px;
-    border-right: 1px solid var(--ink);
+  .foot-inner ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-6);
+    margin: 0;
+    padding: 0;
+    list-style: none;
   }
 
-  .cell:last-child {
-    border-right: 0;
-  }
-
-  .cell dt {
-    margin-bottom: 8px;
-    color: var(--accent);
-    font-family: var(--font-mono);
-    font-size: 9px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-  }
-
-  .cell dd {
-    color: var(--ink-muted);
-    font-size: 12px;
-    line-height: 1.6;
-  }
-
-  .cell a {
+  .foot-inner a {
     color: var(--ink-muted);
     text-decoration: none;
   }
 
-  .cell a:hover {
-    color: var(--accent);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-  }
-
-  .foot-bar {
-    display: flex;
-    justify-content: space-between;
-    gap: var(--space-4);
-    padding: 8px 14px;
-    border: 1px solid var(--ink);
-    border-top: 0;
-    color: var(--ink-faint);
-    font-family: var(--font-mono);
-    font-size: 9px;
-    letter-spacing: 0.12em;
-  }
-
-  @media (max-width: 899px) {
-    .foot-grid {
-      grid-template-columns: 1fr 1fr;
-    }
-
-    .cell {
-      border-bottom: 1px solid var(--ink);
-    }
-
-    .cell:nth-child(2n) {
-      border-right: 0;
-    }
-
-    .cell:nth-last-child(-n + 2) {
-      border-bottom: 0;
-    }
-
-    .cell:last-child {
-      grid-column: 1 / -1;
-      border-top: 1px solid var(--ink);
-      border-right: 0;
-    }
-
-    .foot-bar {
-      flex-wrap: wrap;
-    }
-  }
-
-  @media (max-width: 767px) {
-    .header-inner {
-      grid-template-columns: 1fr auto;
-      column-gap: 0;
-    }
-
-    .brand {
-      padding-block: 10px;
-    }
-
-    .stamp {
-      display: none;
-    }
-
-    .site-nav {
-      grid-column: 1 / -1;
-      border-top: 1px solid var(--line);
-    }
-
-    .site-nav ul {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-    }
-
-    .site-nav a {
-      justify-content: center;
-      padding: 9px 4px;
-      border-left: 1px solid var(--line);
-      font-size: 9px;
-      letter-spacing: 0.08em;
-    }
-
-    .site-nav li:first-child a {
-      border-left: 0;
-    }
-
-    .site-footer {
-      margin-top: var(--space-12);
-    }
-
-    .cell {
-      min-height: 0;
-      padding: 12px;
-    }
-
-    .bar-hide {
-      display: none;
-    }
+  .foot-inner a:hover {
+    color: var(--accent-ink);
   }
 </style>

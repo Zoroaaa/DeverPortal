@@ -6,17 +6,14 @@ import { loadContentGraph, docPathOf } from '../../lib/content-graph';
 
 const { products } = await loadContentGraph();
 const withDocs = products.filter((product) => product.docs.length > 0);
-const docCount = products.reduce((total, product) => total + product.docs.length, 0);
 ---
 
 <BaseLayout title="文档" description="按产品组织的使用手册与说明。">
   <div class="container page">
     <SectionHeader
       level={1}
-      fig="MANUAL / DOC"
       title="文档"
-      aside={`${docCount} DOC / ${withDocs.length} PRODUCT`}
-      description="使用手册按产品组织：每个产品的说明、配置与已知限制都归在对应产品下，并随版本一起维护。"
+      description="使用手册按产品组织：说明、配置与已知限制都归在对应产品下，并随版本一起维护。"
     />
     {
       withDocs.length > 0 ? (
@@ -43,7 +40,7 @@ const docCount = products.reduce((total, product) => total + product.docs.length
       ) : (
         <EmptyState
           title="文档整理中"
-          description="文档按产品组织，目前还没有发布任何产品文档；有产品上线后会从这里进入各自的手册。"
+          description="目前还没有发布任何产品文档；有产品上线后会从这里进入各自的手册。"
         />
       )
     }
@@ -52,17 +49,12 @@ const docCount = products.reduce((total, product) => total + product.docs.length
 
 <style>
   .page {
-    padding-top: clamp(24px, 4vw, 48px);
+    padding-top: clamp(40px, 7vw, 88px);
   }
 
   .doc-index {
     display: grid;
-    gap: var(--space-6);
-  }
-
-  .doc-group {
-    border: 1px solid var(--ink);
-    background: var(--surface);
+    gap: var(--space-12);
   }
 
   .group-head {
@@ -70,30 +62,32 @@ const docCount = products.reduce((total, product) => total + product.docs.length
     align-items: baseline;
     justify-content: space-between;
     gap: var(--space-4);
-    padding: 9px 12px;
-    border-bottom: 1px solid var(--ink);
+    padding-bottom: var(--space-3);
   }
 
   .group-head h2 {
-    font-size: 18px;
-    letter-spacing: -0.01em;
+    font-size: 24px;
   }
 
   .group-head a {
-    font-family: var(--font-mono);
-    font-size: 9px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
+    color: var(--ink-muted);
+    font-size: 14px;
+    text-decoration: none;
+  }
+
+  .group-head a:hover {
+    color: var(--accent-ink);
   }
 
   ul {
     margin: 0;
     padding: 0;
+    border-top: 1px solid var(--line);
     list-style: none;
   }
 
-  li + li {
-    border-top: 1px dotted var(--line);
+  li {
+    border-bottom: 1px solid var(--line);
   }
 
   li a {
@@ -101,23 +95,23 @@ const docCount = products.reduce((total, product) => total + product.docs.length
     align-items: baseline;
     justify-content: space-between;
     gap: var(--space-4);
-    padding: 9px 12px;
-    color: var(--ink);
-    font-size: 13.5px;
+    padding: 14px 0;
     text-decoration: none;
   }
 
-  li a:hover {
-    background: rgba(30, 76, 138, 0.05);
-    color: var(--accent);
+  li a:hover .title {
+    color: var(--accent-ink);
+  }
+
+  .title {
+    font-size: 17px;
+    font-weight: 500;
+    transition: color var(--dur-fast) var(--ease-out);
   }
 
   .section {
     color: var(--ink-faint);
-    font-family: var(--font-mono);
-    font-size: 9px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
+    font-size: 14px;
     white-space: nowrap;
   }
 </style>

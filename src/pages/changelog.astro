@@ -13,14 +13,12 @@ const nameBySlug = new Map(products.map((product) => [product.slug, product.entr
   <div class="container page">
     <SectionHeader
       level={1}
-      fig="REV. 01"
       title="更新日志"
-      aside={`${releaseViews.length} REV / ALL`}
-      description="同一个版本集合的两个入口：这里看全站，产品页看单产品历史；GitHub 自动条目只提供版本事实。"
+      description="全站版本流水，按时间从新到旧。单个产品的历史在各自的产品页里。"
     />
     {
       releaseViews.length > 0 ? (
-        <div class="rev-list">
+        <div class="list">
           {releaseViews.map((release) => (
             <ReleaseItem release={release} productName={nameBySlug.get(release.productSlug)} />
           ))}
@@ -37,10 +35,10 @@ const nameBySlug = new Map(products.map((product) => [product.slug, product.entr
 
 <style>
   .page {
-    padding-top: clamp(24px, 4vw, 48px);
+    padding-top: clamp(40px, 7vw, 88px);
   }
 
-  .rev-list {
-    border-top: 1px solid var(--ink);
+  .list {
+    border-top: 1px solid var(--line);
   }
 </style>

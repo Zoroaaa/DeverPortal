@@ -31,14 +31,6 @@ const firstDoc = docs[0];
 const repoUrl = entry.data.links.repo ?? snapshot?.data?.url ?? null;
 const stale = snapshot?.stale || snapshot?.missing || snapshot?.releasesStale;
 
-const platformLabels: Record<string, string> = {
-  web: 'Web',
-  desktop: 'Desktop',
-  cli: 'CLI',
-  'self-host': 'Self-host',
-  cloudflare: 'Cloudflare',
-};
-const platforms = entry.data.platforms.map((platform) => platformLabels[platform] ?? platform).join(' / ');
 ---
 
 <BaseLayout
@@ -51,14 +43,13 @@ const platforms = entry.data.platforms.map((platform) => platformLabels[platform
     <Breadcrumb
       items={[
         { label: '首页', href: '/' },
-        { label: '产品', href: '/products' },
+        { label: '作品', href: '/products' },
         { label: entry.data.name },
       ]}
     />
 
     <header class="hero">
       <div class="hero-main">
-        <p class="eyebrow">DWG / {product.slug.toUpperCase()} · {platforms || 'PLATFORM TBD'}</p>
         <div class="title-row">
           <h1>{entry.data.name}</h1>
           <StatusPill status={entry.data.status} />
@@ -111,39 +102,31 @@ const platforms = entry.data.platforms.map((platform) => platformLabels[platform
     </div>
 
     <section class="section">
-      <SectionHeader
-        fig="FIG. 01"
-        title="现状与已知限制"
-        aside={`${entry.data.limitations.length} ITEMS`}
-        description="这些是当前明确没做到或做得不够好的地方。"
-      />
+      <SectionHeader title="现状与已知限制" description="当前明确没做到、或做得不够好的地方。" />
       <LimitationsList items={entry.data.limitations} />
     </section>
 
     <section class="section">
-      <SectionHeader fig="FIG. 02" title="最近版本" aside={`${releaseViews.length} REV`} />
+      <SectionHeader
+        title="最近版本"
+        href={releaseViews.length > 3 ? `/products/${product.slug}/releases` : undefined}
+        hrefLabel={`全部 ${releaseViews.length} 条`}
+      />
       {
         releaseViews.length > 0 ? (
           <div class="rev-list">
             {releaseViews.slice(0, 3).map((release) => (
               <ReleaseItem release={release} />
             ))}
-            <p class="more">
-              <a href={`/products/${product.slug}/releases`}>查看全部 {releaseViews.length} 条版本记录 →</a>
-            </p>
           </div>
         ) : (
-          <p class="muted">仓库未发布版本，按 commit 维护；最近提交见右侧 UPDATED。</p>
+          <p class="muted">仓库未发布版本，按 commit 维护；最近提交时间见上方「更新」。</p>
         )
       }
     </section>
 
     <section class="section">
-      <SectionHeader
-        fig="FIG. 03"
-        title="快速开始"
-        aside={firstDoc ? 'MANUAL' : 'PENDING'}
-      />
+      <SectionHeader title="快速开始" />
       {
         firstDoc ? (
           <p class="muted">
@@ -171,79 +154,66 @@ const platforms = entry.data.platforms.map((platform) => platformLabels[platform
 
 <style>
   .page {
-    padding-top: var(--space-6);
+    padding-top: var(--space-8);
   }
 
   .hero {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 292px;
-    gap: clamp(20px, 3vw, 40px);
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: clamp(32px, 5vw, 72px);
     align-items: start;
-    margin-top: var(--space-4);
-    padding-block: clamp(20px, 3vw, 34px);
-    border-block: 2px solid var(--ink);
+    margin-top: var(--space-12);
   }
 
   .hero-main {
     min-width: 0;
   }
 
-  .eyebrow {
-    margin-bottom: 12px;
-    color: var(--accent);
-    font-family: var(--font-mono);
-    font-size: 9.5px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    overflow-wrap: anywhere;
-  }
-
   .title-row {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: var(--space-3);
+    gap: var(--space-4);
   }
 
   h1 {
-    font-size: clamp(32px, 4.6vw, 52px);
-    letter-spacing: -0.035em;
+    font-size: clamp(38px, 6vw, 68px);
+    line-height: 1.08;
+    letter-spacing: -0.045em;
   }
 
   .tagline {
-    max-width: 46ch;
-    margin-top: 12px;
-    color: var(--ink);
-    font-size: clamp(16px, 1.8vw, 19px);
+    max-width: 30em;
+    margin-top: var(--space-4);
+    font-size: clamp(18px, 2vw, 22px);
+    font-weight: 500;
     line-height: 1.55;
   }
 
   .summary {
-    max-width: 62ch;
-    margin-top: 10px;
+    max-width: 58ch;
+    margin-top: var(--space-3);
     color: var(--ink-muted);
-    font-size: 13.5px;
-    line-height: 1.75;
+    font-size: 16px;
+    line-height: 1.8;
   }
 
   .actions {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-2);
-    margin-top: var(--space-6);
+    gap: var(--space-3);
+    margin-top: var(--space-8);
   }
 
   .action {
     display: inline-flex;
     align-items: center;
-    padding: 8px 14px;
-    border: 1px solid var(--ink);
-    background: var(--surface);
+    padding: 10px 20px;
+    border-radius: 999px;
+    background: var(--bg-soft);
     color: var(--ink);
-    font-family: var(--font-mono);
-    font-size: 9.5px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
+    font-size: 15px;
+    font-weight: 600;
     text-decoration: none;
     transition:
       background-color var(--dur-fast) var(--ease-out),
@@ -251,61 +221,45 @@ const platforms = entry.data.platforms.map((platform) => platformLabels[platform
   }
 
   .action:hover {
-    background: var(--accent);
-    border-color: var(--accent);
+    background: var(--accent-soft);
     color: var(--accent-ink);
   }
 
   .action--primary {
     background: var(--ink);
-    color: var(--ink-inverse);
+    color: var(--bg);
+  }
+
+  .action--primary:hover {
+    background: var(--accent);
+    color: var(--on-accent);
   }
 
   .body {
-    padding-top: clamp(20px, 3vw, 36px);
+    padding-top: clamp(48px, 7vw, 88px);
   }
 
   .section {
-    padding-top: clamp(36px, 4.5vw, 60px);
+    padding-top: clamp(48px, 7vw, 88px);
   }
 
   .rev-list {
-    border-top: 1px solid var(--ink);
-  }
-
-  .more {
-    margin-top: var(--space-4);
-    font-family: var(--font-mono);
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-
-  .more a {
-    color: var(--ink);
-    text-decoration: none;
-    border-bottom: 1px solid var(--accent);
-    padding-bottom: 2px;
-  }
-
-  .more a:hover {
-    color: var(--accent);
+    border-top: 1px solid var(--line);
   }
 
   .muted {
     max-width: 62ch;
     color: var(--ink-muted);
-    font-size: 13.5px;
+    font-size: 16px;
   }
 
   .snapshot-note {
     max-width: 58ch;
     margin-top: var(--space-4);
-    padding-left: 10px;
-    border-left: 2px solid var(--danger);
+    padding-left: 12px;
+    border-left: 3px solid var(--danger);
     color: var(--ink-muted);
-    font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: 14px;
     line-height: 1.7;
   }
 
@@ -315,7 +269,7 @@ const platforms = entry.data.platforms.map((platform) => platformLabels[platform
     gap: var(--space-2);
   }
 
-  @media (max-width: 767px) {
+  @media (max-width: 799px) {
     .hero {
       grid-template-columns: minmax(0, 1fr);
     }

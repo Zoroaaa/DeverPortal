@@ -34,7 +34,7 @@ const { title, description, product, docs, current, headings, breadcrumb } = Ast
     <div class="docs-grid">
       <aside class="docs-nav" aria-label={`${product.entry.data.name} 文档目录`}>
         <div class="nav-head">
-          <p class="nav-label">MANUAL</p>
+          <p class="nav-label">手册</p>
           <a class="nav-product" href={`/products/${product.slug}`}>{product.entry.data.name}</a>
         </div>
         {
@@ -59,7 +59,7 @@ const { title, description, product, docs, current, headings, breadcrumb } = Ast
 
       <article class="docs-main">
         <header class="docs-head">
-          <p class="kicker">{product.entry.data.name} / DOC</p>
+          <p class="kicker">{product.entry.data.name}</p>
           <h1>{title}</h1>
           {description && <p class="docs-desc">{description}</p>}
         </header>
@@ -75,6 +75,7 @@ const { title, description, product, docs, current, headings, breadcrumb } = Ast
 
 <style>
   .docs-page {
+    max-width: var(--w-docs);
     padding-top: var(--space-6);
   }
 
@@ -82,115 +83,94 @@ const { title, description, product, docs, current, headings, breadcrumb } = Ast
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     gap: var(--space-6);
-    margin-top: var(--space-6);
+    margin-top: var(--space-8);
   }
 
   .docs-nav {
-    background: var(--surface);
-    border: 1px solid var(--ink);
+    padding: var(--space-4) var(--space-6);
+    border-radius: var(--radius);
+    background: var(--bg-soft);
   }
 
   .nav-head {
-    padding: 10px 12px;
-    border-bottom: 1px solid var(--ink);
+    padding-bottom: var(--space-3);
   }
 
   .nav-label {
-    color: var(--accent);
-    font-family: var(--font-mono);
-    font-size: 9px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
+    color: var(--ink-faint);
+    font-size: 13px;
   }
 
   .nav-product {
     display: block;
     margin-top: 2px;
     color: var(--ink);
-    font-size: 13px;
+    font-size: 16px;
     font-weight: 700;
     line-height: 1.4;
     text-decoration: none;
   }
 
   .nav-product:hover {
-    color: var(--accent);
+    color: var(--accent-ink);
   }
 
   .docs-nav ul {
     display: flex;
     flex-wrap: wrap;
+    gap: 4px var(--space-4);
     margin: 0;
-    padding: 6px 10px;
+    padding: 0;
     list-style: none;
-  }
-
-  .docs-nav li + li::before {
-    content: '/';
-    margin: 0 6px;
-    color: var(--ink-faint);
-    font-family: var(--font-mono);
-    font-size: 10px;
   }
 
   .docs-nav a {
     color: var(--ink-muted);
-    font-size: 12.5px;
+    font-size: 15px;
     text-decoration: none;
   }
 
   .docs-nav a:hover {
-    color: var(--accent);
-    text-decoration: underline;
-    text-underline-offset: 3px;
+    color: var(--accent-ink);
   }
 
   .docs-nav a[aria-current='page'] {
-    color: var(--accent);
-    text-decoration: underline;
-    text-underline-offset: 3px;
+    color: var(--ink);
+    font-weight: 600;
   }
 
   .nav-empty {
-    padding: 8px 12px;
     color: var(--ink-faint);
-    font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: 14px;
   }
 
   .docs-main {
     min-width: 0;
-    padding: clamp(14px, 2.4vw, 26px) 0 var(--space-8);
-    background: var(--bg);
+    padding-bottom: var(--space-8);
   }
 
   .docs-head {
     max-width: var(--w-prose);
-    margin-inline: auto;
-    padding-top: 14px;
-    margin-bottom: var(--space-6);
-    border-top: 2px solid var(--ink);
+    margin-bottom: var(--space-8);
   }
 
   .kicker {
     margin-bottom: 8px;
-    color: var(--accent);
-    font-family: var(--font-mono);
-    font-size: 9px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
+    color: var(--accent-ink);
+    font-size: 14px;
+    font-weight: 600;
   }
 
   .docs-head h1 {
-    font-size: clamp(26px, 3.4vw, 40px);
-    letter-spacing: -0.03em;
+    font-size: clamp(30px, 4vw, 44px);
+    letter-spacing: -0.035em;
   }
 
   .docs-desc {
-    max-width: 62ch;
-    margin-top: 8px;
+    max-width: 58ch;
+    margin-top: 12px;
     color: var(--ink-muted);
-    font-size: 14px;
+    font-size: 17px;
   }
 
   .docs-toc {
@@ -199,54 +179,39 @@ const { title, description, product, docs, current, headings, breadcrumb } = Ast
 
   @media (min-width: 1024px) {
     .docs-grid {
-      grid-template-columns: 220px minmax(0, 1fr) 200px;
-      gap: clamp(24px, 3vw, 44px);
+      grid-template-columns: 200px minmax(0, 1fr) 200px;
+      gap: clamp(32px, 4vw, 64px);
     }
 
     .docs-nav {
       position: sticky;
-      top: 84px;
+      top: 88px;
       align-self: start;
+      padding: 0;
+      background: transparent;
     }
 
     .docs-nav ul {
       display: grid;
-      padding: 6px 0;
-    }
-
-    .docs-nav li + li::before {
-      content: none;
+      gap: 2px;
     }
 
     .docs-nav a {
       display: block;
-      padding: 6px 12px;
-      border-left: 2px solid transparent;
+      padding: 5px 0 5px 12px;
+      border-left: 2px solid var(--line);
     }
 
     .docs-nav a:hover {
-      background: rgba(30, 76, 138, 0.05);
-      border-left-color: var(--line-strong);
-      text-decoration: none;
+      border-left-color: var(--accent);
     }
 
     .docs-nav a[aria-current='page'] {
       border-left-color: var(--accent);
-      background: rgba(30, 76, 138, 0.05);
-      text-decoration: none;
-    }
-
-    .docs-main {
-      padding: 0 clamp(0px, 2vw, 24px) var(--space-12);
-    }
-
-    .docs-main > :global(.prose) {
-      margin-inline: auto;
     }
 
     .docs-toc {
       display: block;
-      padding-top: 20px;
     }
   }
 </style>

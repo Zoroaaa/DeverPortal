@@ -8,9 +8,9 @@
 
 html {
   -webkit-text-size-adjust: 100%;
+  scroll-padding-top: 80px;
 }
 
-/* 网格纸：24px 细线 + 120px 粗线，固定不随内容滚动 */
 body {
   display: flex;
   flex-direction: column;
@@ -18,13 +18,7 @@ body {
   min-height: 100dvh;
   overflow-x: clip;
   color: var(--ink);
-  background-color: var(--bg);
-  background-image:
-    repeating-linear-gradient(0deg, var(--grid) 0 1px, transparent 1px var(--grid-size)),
-    repeating-linear-gradient(90deg, var(--grid) 0 1px, transparent 1px var(--grid-size)),
-    repeating-linear-gradient(0deg, var(--grid-strong) 0 1px, transparent 1px var(--grid-major)),
-    repeating-linear-gradient(90deg, var(--grid-strong) 0 1px, transparent 1px var(--grid-major));
-  background-attachment: fixed;
+  background: var(--bg);
   font-family: var(--font-body);
   font-size: 16px;
   line-height: 1.7;
@@ -38,8 +32,8 @@ h3,
 h4 {
   margin: 0;
   font-family: var(--font-display);
-  font-weight: 800;
-  line-height: 1.15;
+  font-weight: 700;
+  line-height: 1.2;
   letter-spacing: -0.02em;
 }
 
@@ -52,30 +46,28 @@ blockquote {
 }
 
 a {
-  color: var(--accent);
+  color: inherit;
   text-decoration-line: underline;
+  text-decoration-color: var(--line-strong);
   text-decoration-thickness: 1px;
-  text-underline-offset: 0.2em;
+  text-underline-offset: 0.25em;
+  transition: color var(--dur-fast) var(--ease-out), text-decoration-color var(--dur-fast) var(--ease-out);
 }
 
 a:hover {
-  text-decoration-thickness: 2px;
+  color: var(--accent-ink);
+  text-decoration-color: var(--accent);
 }
 
 ::selection {
   background: var(--accent);
-  color: var(--accent-ink);
+  color: var(--on-accent);
 }
 
 :focus-visible {
   outline: 2px solid var(--accent);
-  outline-offset: 2px;
-}
-
-/* 深底上的焦点环换成纸色，保证始终可见 */
-.on-accent :focus-visible,
-:focus-visible.on-accent {
-  outline-color: var(--accent-ink);
+  outline-offset: 3px;
+  border-radius: 4px;
 }
 
 img,
@@ -99,7 +91,7 @@ pre {
 
 hr {
   border: 0;
-  border-top: 1px solid var(--line-strong);
+  border-top: 1px solid var(--line);
 }
 
 main {
@@ -113,13 +105,11 @@ main {
   padding-inline: var(--pad);
 }
 
-/* 等宽标签：图号 / 版本号 / 导航 / 图注 */
-.mono {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 400;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+/* 次要小字：日期 / 版本 / 元信息。不再使用等宽大写。 */
+.meta-text {
+  color: var(--ink-faint);
+  font-size: 13px;
+  line-height: 1.5;
 }
 
 .visually-hidden {
@@ -140,12 +130,10 @@ main {
   left: var(--space-2);
   z-index: 60;
   padding: var(--space-2) var(--space-4);
-  background: var(--surface);
-  color: var(--ink);
-  border: 1px solid var(--ink);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.08em;
+  border-radius: var(--radius-sm);
+  background: var(--ink);
+  color: var(--bg);
+  font-size: 14px;
   text-decoration: none;
   transform: translateY(-200%);
 }

@@ -16,7 +16,7 @@ const visible = headings.filter((heading) => heading.depth === 2 || heading.dept
 {
   visible.length > 0 && (
     <nav class="toc" aria-label="本页目录">
-      <p class="title">TOC / 本页目录</p>
+      <p class="title">本页目录</p>
       <ol>
         {visible.map((heading) => (
           <li class={heading.depth === 3 ? 'depth-3' : undefined}>
@@ -31,18 +31,14 @@ const visible = headings.filter((heading) => heading.depth === 2 || heading.dept
 <style>
   .toc {
     position: sticky;
-    top: 84px;
+    top: 88px;
   }
 
   .title {
-    padding-bottom: 6px;
-    margin-bottom: var(--space-2);
-    border-bottom: 1px solid var(--line);
-    color: var(--accent);
-    font-family: var(--font-mono);
-    font-size: 9px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
+    margin-bottom: var(--space-3);
+    color: var(--ink);
+    font-size: 14px;
+    font-weight: 600;
   }
 
   ol {
@@ -55,22 +51,22 @@ const visible = headings.filter((heading) => heading.depth === 2 || heading.dept
 
   a {
     display: block;
-    padding: 3px 0 3px 10px;
-    border-left: 1px solid var(--line);
+    padding: 4px 0 4px 12px;
+    border-left: 2px solid var(--line);
     color: var(--ink-muted);
-    font-size: 12px;
+    font-size: 14px;
     line-height: 1.5;
     text-decoration: none;
   }
 
   a:hover {
     border-left-color: var(--accent);
-    color: var(--accent);
+    color: var(--accent-ink);
   }
 
   li.depth-3 a {
-    padding-left: 22px;
+    padding-left: 26px;
     color: var(--ink-faint);
-    font-size: 11.5px;
+    font-size: 13px;
   }
 </style>
