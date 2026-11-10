@@ -1,0 +1,36 @@
+{
+  "generatedBy": "scripts/sync-github.mjs",
+  "owner": "Zoroaaa",
+  "repo": "personal-blog",
+  "slug": "personal-blog",
+  "fetchedAt": "2026-11-10T08:41:16.883Z",
+  "etag": "W/\"924a8ee3f2e501ca50027355fdd474eafbeb5c4b4b558c63ce0ddab91fe5d53c\"",
+  "stale": false,
+  "error": null,
+  "missing": false,
+  "readmeEtag": "\"f063a82ce69f6e869e970947c1771dfbebb1d58d\"",
+  "data": {
+    "id": 1147744414,
+    "fullName": "Zoroaaa/personal-blog",
+    "url": "https://github.com/Zoroaaa/personal-blog",
+    "description": "使用cloudflare workers+pages+kv+d1+r2、resend 搭建的轻量化个人博客网站，功能丰富，页面美观。",
+    "homepage": "https://blog.wort.uk",
+    "stars": 54,
+    "forks": 17,
+    "openIssues": 0,
+    "language": "TypeScript",
+    "license": "MIT",
+    "createdAt": "2026-02-02",
+    "pushedAt": "2026-11-06",
+    "archived": false,
+    "fork": false,
+    "topics": [
+      "blog",
+      "cloudflare",
+      "resend",
+      "serverless"
+    ],
+    "defaultBranch": "main",
+    "readmeExcerpt": "Personal Blog 一个基于 Cloudflare 全栈技术构建的现代化个人博客系统。 --- 🔗 快速访问 | 资源类型 | 链接 | 备注 | |---------|------|------| | 📖 项目文档 | 👉 完整介绍 | 详细的项目说明和使用指南 | | 🚀 在线体验 | 👉 https://blog.wort.uk | 体验完整功能 | 效果图 --- 项目概述 这是一个功能丰富、性能卓越的个人博客系统，采用前后端分离架构，基于 Cloudflare 边缘计算平台构建。系统支持 Markdown 写作、代码高亮、评论…"
+  }
+}

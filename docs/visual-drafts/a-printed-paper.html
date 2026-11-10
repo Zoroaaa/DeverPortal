@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>样张 A · 纸本印刷 — DeverPortal 视觉方向</title>
+<style>
+  :root{
+    --paper:#F6F3EC;
+    --paper-2:#EDE8DC;
+    --ink:#14120F;
+    --red:#D8371C;
+    --muted:#6B6458;
+    --line:#D6D0C1;
+    --pad:clamp(20px,5vw,80px);
+    --max:1440px;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+  body{
+    background:var(--paper);color:var(--ink);
+    font-family:"Helvetica Neue",Helvetica,Arial,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  }
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 var(--pad)}
+  .mono{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+  :focus-visible{outline:2px solid var(--red);outline-offset:3px}
+
+  /* 样张说明条 */
+  .notice{border-bottom:1px solid var(--line);background:var(--paper-2)}
+  .notice .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;height:34px}
+  .notice b{color:var(--red);font-weight:700}
+  .notice a{color:var(--ink);border-bottom:1px solid var(--line)}
+  .notice a:hover{color:var(--red);border-color:var(--red)}
+
+  /* 顶栏 */
+  .top{position:sticky;top:0;z-index:50;background:rgba(246,243,236,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--ink)}
+  .top-in{display:flex;align-items:center;justify-content:space-between;height:58px;gap:28px}
+  .brand{font-size:12px;letter-spacing:.22em;font-weight:700}
+  .nav{display:flex;gap:26px}
+  .nav a{position:relative;padding:4px 0;color:var(--ink);letter-spacing:.16em}
+  .nav a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--red);transform:scaleX(0);transform-origin:left;transition:transform .22s cubic-bezier(.22,1,.36,1)}
+  .nav a:hover::after{transform:scaleX(1)}
+  .top-meta{text-align:right}
+
+  /* Hero */
+  .hero{padding:clamp(44px,6.5vw,92px) 0 clamp(26px,3.5vw,44px)}
+  .eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:clamp(24px,3vw,40px)}
+  .eyebrow .mark{width:9px;height:9px;background:var(--red);display:inline-block}
+  .hero-grid{display:grid;grid-template-columns:1fr 306px;gap:clamp(28px,4vw,64px);align-items:end}
+  h1{font-size:clamp(44px,8vw,116px);line-height:.88;letter-spacing:-.045em;font-weight:800}
+  h1 .dot{color:var(--red)}
+  .hero-side{padding-bottom:8px;border-top:1px solid var(--ink);padding-top:18px}
+  .lede{font-size:14.5px;line-height:1.78;color:var(--muted);max-width:34ch}
+  .facts{margin-top:22px;display:grid;gap:0}
+  .facts>div{display:flex;justify-content:space-between;align-items:baseline;padding:7px 0;border-top:1px solid var(--line)}
+  .facts dt{font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase}
+  .facts dd{font-family:var(--mono);font-size:13px;letter-spacing:.06em}
+
+  /* 跑马灯 */
+  .ticker{border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);overflow:hidden;padding:9px 0;margin-top:clamp(20px,3vw,36px)}
+  .track{display:flex;width:max-content;animation:slide 44s linear infinite}
+  .set{display:flex;gap:44px;padding-right:44px}
+  .set span{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;white-space:nowrap;display:flex;align-items:center;gap:12px}
+  .set span i{width:5px;height:5px;background:var(--red);display:inline-block;border-radius:50%}
+  @keyframes slide{to{transform:translateX(-50%)}}
+
+  /* 区块标题 */
+  .block{padding-top:clamp(48px,6vw,88px)}
+  .shead{display:flex;justify-content:space-between;align-items:baseline;gap:20px;border-bottom:2px solid var(--ink);padding-bottom:12px}
+  .shead h2{font-size:clamp(24px,3.2vw,40px);letter-spacing:-.035em;font-weight:800}
+
+  /* 索引行 */
+  .rows{border-bottom:1px solid var(--ink)}
+  .row{
+    display:grid;grid-template-columns:44px minmax(150px,1.1fr) minmax(0,1.5fr) 92px 64px 22px;
+    gap:clamp(10px,2vw,26px);align-items:center;
+    padding:20px 14px;margin:0 -14px;border-bottom:1px solid var(--line);
+    transition:background .16s linear,color .16s linear;
+  }
+  .row:hover{background:var(--ink);color:var(--paper)}
+  .row:hover .num,.row:hover .ptag,.row:hover .ver{color:#BEB7A6}
+  .row:hover .pill{border-color:#BEB7A6;color:#BEB7A6}
+  .row:hover .arrow{transform:translate(3px,-3px)}
+  .num{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;color:var(--red);transition:color .16s linear}
+  .pname{font-size:clamp(19px,2.1vw,27px);font-weight:700;letter-spacing:-.02em;line-height:1.1}
+  .ptag{font-size:13.5px;line-height:1.5;color:var(--muted);transition:color .16s linear}
+  .pill{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;border:1px solid var(--line);padding:3px 7px;justify-self:start;color:var(--ink);transition:.16s linear}
+  .pill.live{border-color:var(--ink)}
+  .pill i{width:4px;height:4px;border-radius:50%;background:currentColor;display:inline-block}
+  .ver{font-family:var(--mono);font-size:11px;letter-spacing:.05em;color:var(--muted);transition:color .16s linear}
+  .arrow{font-size:15px;transition:transform .18s cubic-bezier(.22,1,.36,1)}
+
+  /* 更新流 */
+  .feed{margin-top:0}
+  .frow{display:grid;grid-template-columns:120px 1fr auto;gap:clamp(12px,3vw,36px);align-items:baseline;padding:18px 0;border-bottom:1px solid var(--line)}
+  .fdate{font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--muted)}
+  .ftitle{font-size:16.5px;line-height:1.55;font-weight:500}
+  .ftitle em{font-style:normal;color:var(--red);font-family:var(--mono);font-size:11px;letter-spacing:.08em;margin-right:10px}
+  .fprod{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;white-space:nowrap}
+  .frow:hover .ftitle{text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
+
+  /* 关于 */
+  .about{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,6vw,90px);padding-top:clamp(56px,7vw,104px);padding-bottom:clamp(56px,7vw,104px);border-top:1px solid var(--ink);margin-top:clamp(48px,6vw,88px)}
+  .about p{font-size:clamp(17px,1.9vw,23px);line-height:1.62;letter-spacing:-.01em;max-width:30ch}
+  .about p+p{margin-top:16px;font-size:14px;line-height:1.8;color:var(--muted);max-width:38ch;letter-spacing:0}
+  .links{border-top:1px solid var(--ink)}
+  .links a{display:flex;justify-content:space-between;align-items:center;padding:15px 4px;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+  .links a span:last-child{transition:transform .18s}
+  .links a:hover{background:var(--ink);color:var(--paper);padding-left:14px;padding-right:14px}
+
+  /* 页脚 */
+  .foot{background:var(--ink);color:var(--paper);padding:clamp(40px,5vw,64px) 0}
+  .foot-in{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:24px}
+  .foot h3{font-size:clamp(30px,5vw,64px);letter-spacing:-.04em;line-height:.95;font-weight:800}
+  .foot .mono{color:#8D8677}
+  .foot-links{display:flex;gap:22px}
+
+  /* 设计说明 */
+  .note{background:var(--paper-2);border-left:4px solid var(--red);padding:clamp(28px,4vw,52px) 0}
+  .note-in{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(20px,4vw,52px)}
+  .note h4{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--red);margin-bottom:10px}
+  .note p{font-size:13.5px;line-height:1.75;color:#3E382E}
+
+  @media (max-width:900px){
+    .hero-grid{grid-template-columns:1fr}
+    .hero-side{max-width:520px}
+    .nav{display:none}
+    .row{grid-template-columns:32px 1fr auto;row-gap:8px}
+    .ptag{grid-column:2/4;grid-row:2;font-size:12.5px}
+    .pill{grid-column:3;grid-row:1;justify-self:end}
+    .ver{display:none}
+    .arrow{display:none}
+    .frow{grid-template-columns:1fr;gap:4px}
+    .fprod{justify-self:start}
+    .about{grid-template-columns:1fr}
+    .note-in{grid-template-columns:1fr}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .track{animation:none}
+    *{transition:none !important}
+  }
+</style>
+</head>
+<body>
+
+<div class="notice">
+  <div class="wrap">
+    <span class="mono"><b>样张 A / 03</b> · 纸本印刷 PRINTED PAPER · 数据待 KV 导出校准</span>
+    <span class="mono">对比：<a href="b-blueprint.html">B 工程蓝图</a> · <a href="c-hard-edge.html">C 硬边色块</a></span>
+  </div>
+</div>
+
+<header class="top">
+  <div class="wrap top-in">
+    <div class="brand">DEVERPORTAL</div>
+    <nav class="nav mono">
+      <a href="#works">作品</a>
+      <a href="#">手册</a>
+      <a href="#feed">版本</a>
+      <a href="#">写作</a>
+      <a href="#about">关于</a>
+    </nav>
+    <div class="top-meta mono">ZH-CN / 2026</div>
+  </div>
+</header>
+
+<main>
+  <section class="wrap hero">
+    <div class="eyebrow mono"><span class="mark"></span>Portfolio — 07 works · 2022–2026</div>
+    <div class="hero-grid">
+      <h1>自己写的工具<br>自己每天在用<span class="dot">。</span></h1>
+      <div class="hero-side">
+        <p class="lede">七个作品，全部自己写、自己部署。每个都配了使用手册与版本记录——这里只回答四件事：它是什么、做到哪一步、怎么用、改了什么。</p>
+        <dl class="facts">
+          <div><dt>作品</dt><dd>07</dd></div>
+          <div><dt>在线</dt><dd>05</dd></div>
+          <div><dt>最近更新</dt><dd>2026.11.02</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <div class="ticker" aria-hidden="true">
+    <div class="track">
+      <div class="set">
+        <span><i></i>codesdeek</span><span><i></i>omnibox</span><span><i></i>it-toolbox</span>
+        <span><i></i>fileconverter</span><span><i></i>cf-bestip</span><span><i></i>personal-blog</span>
+        <span><i></i>deverportal</span>
+      </div>
+      <div class="set">
+        <span><i></i>codesdeek</span><span><i></i>omnibox</span><span><i></i>it-toolbox</span>
+        <span><i></i>fileconverter</span><span><i></i>cf-bestip</span><span><i></i>personal-blog</span>
+        <span><i></i>deverportal</span>
+      </div>
+    </div>
+  </div>
+
+  <section class="wrap block" id="works">
+    <div class="shead">
+      <h2>作品索引</h2>
+      <span class="mono">按最近更新排序 · 07 entries</span>
+    </div>
+    <div class="rows">
+      <a class="row" href="#">
+        <span class="num">01</span>
+        <span class="pname">codesdeek</span>
+        <span class="ptag">多引擎聚合搜索，一次查询拿全所有结果</span>
+        <span class="pill live"><i></i>LIVE</span>
+        <span class="ver">v2.4.1</span>
+        <span class="arrow">↗</span>
+      </a>
+      <a class="row" href="#">
+        <span class="num">02</span>
+        <span class="pname">OmniBox</span>
+        <span class="ptag">Web 代理服务，给受限网络里的自建服务留一个入口</span>
+        <span class="pill"><i></i>BETA</span>
+        <span class="ver">v0.9.6</span>
+        <span class="arrow">↗</span>
+      </a>
+      <a class="row" href="#">
+        <span class="num">03</span>
+        <span class="pname">it-toolbox</span>
+        <span class="ptag">72 款开发小工具集合，纯前端，打开即用</span>
+        <span class="pill live"><i></i>LIVE</span>
+        <span class="ver">v3.1.0</span>
+        <span class="arrow">↗</span>
+      </a>
+      <a class="row" href="#">
+        <span class="num">04</span>
+        <span class="pname">FileConverter</span>
+        <span class="ptag">图片、文档、音视频的格式互转，批量处理</span>
+        <span class="pill live"><i></i>LIVE</span>
+        <span class="ver">v1.8.2</span>
+        <span class="arrow">↗</span>
+      </a>
+      <a class="row" href="#">
+        <span class="num">05</span>
+        <span class="pname">personal-blog</span>
+        <span class="ptag">跑在 Cloudflare 上的静态博客，Markdown 即发布</span>
+        <span class="pill live"><i></i>LIVE</span>
+        <span class="ver">v1.0.4</span>
+        <span class="arrow">↗</span>
+      </a>
+      <a class="row" href="#">
+        <span class="num">06</span>
+        <span class="pname">cf-bestip</span>
+        <span class="ptag">Cloudflare 优选 IP 获取与测速脚本</span>
+        <span class="pill"><i></i>ARCHIVED</span>
+        <span class="ver">v1.2.0</span>
+        <span class="arrow">↗</span>
+      </a>
+      <a class="row" href="#">
+        <span class="num">07</span>
+        <span class="pname">DeverPortal</span>
+        <span class="ptag">你现在看的这个站，正在从 SPA 重构成静态站</span>
+        <span class="pill"><i></i>BETA</span>
+        <span class="ver">v0.1.0</span>
+        <span class="arrow">↗</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="wrap block" id="feed">
+    <div class="shead">
+      <h2>最近更新</h2>
+      <span class="mono">全站流水 · 最近 4 条</span>
+    </div>
+    <a class="frow" href="#">
+      <span class="fdate">2026.11.02</span>
+      <span class="ftitle"><em>v2.4.1</em>聚合结果去重改为按域名归一，修掉重复卡片</span>
+      <span class="fprod">codesdeek</span>
+    </a>
+    <a class="frow" href="#">
+      <span class="fdate">2026.10.21</span>
+      <span class="ftitle"><em>v0.9.6</em>新增 WebSocket 透传，长连接不再掉线</span>
+      <span class="fprod">omnibox</span>
+    </a>
+    <a class="frow" href="#">
+      <span class="fdate">2026.10.09</span>
+      <span class="ftitle"><em>v3.1.0</em>工具数到 72，全部改为 Web Worker 内执行</span>
+      <span class="fprod">it-toolbox</span>
+    </a>
+    <a class="frow" href="#">
+      <span class="fdate">2026.09.18</span>
+      <span class="ftitle"><em>v1.8.2</em>批量转换支持拖拽排序，失败项单独重试</span>
+      <span class="fprod">fileconverter</span>
+    </a>
+  </section>
+
+  <section class="wrap about" id="about">
+    <div>
+      <p>我做工具。不追热点，只解决自己每天都会遇到的那几个麻烦。</p>
+      <p>每个作品上线后会持续维护：改了什么写在版本记录里，怎么用写在手册里，没做完的部分直接写在页面上。这里不放简历，也不卖东西。</p>
+    </div>
+    <div class="links">
+      <a href="#"><span>GitHub</span><span>↗</span></a>
+      <a href="#"><span>使用手册</span><span>↗</span></a>
+      <a href="#"><span>RSS 订阅</span><span>↗</span></a>
+      <a href="#"><span>Email</span><span>↗</span></a>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div>
+      <div class="mono" style="margin-bottom:14px">ZORO — 独立开发者</div>
+      <h3>写出来，<br>用起来。</h3>
+    </div>
+    <div class="mono" style="text-align:right">© 2026 DEVERPORTAL<br>BUILT WITH ASTRO · CF PAGES</div>
+  </div>
+</footer>
+
+<section class="note">
+  <div class="wrap note-in">
+    <div>
+      <h4>视觉主张</h4>
+      <p>把网页当一本印刷刊物：纸白底、严格栅格、单色印刷红、超大字号。信息靠"尺度差"分层，不靠卡片和阴影。</p>
+    </div>
+    <div>
+      <h4>记忆点</h4>
+      <p>撑满视口的巨型中文标题 + 编号列表式作品索引；hover 时整行反成墨黑。作品多时像目录页，作品少时像海报。</p>
+    </div>
+    <div>
+      <h4>代价</h4>
+      <p>信息密度最低，靠字体与留白撑场；产品超过 10 个必须有筛选，否则索引变成一条长表；中文 800 字重在 Windows 上需实测字距，否则大标题会糊。</p>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

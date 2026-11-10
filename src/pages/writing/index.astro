@@ -1,0 +1,108 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SectionHeader from '../../components/ui/SectionHeader.astro';
+import EmptyState from '../../components/ui/EmptyState.astro';
+import Tag from '../../components/ui/Tag.astro';
+import { loadContentGraph, postSlugOf } from '../../lib/content-graph';
+import { formatDate } from '../../lib/format';
+
+const { posts } = await loadContentGraph();
+const visible = posts.filter((post) => !post.data.draft);
+---
+
+<BaseLayout title="写作" description="关于做法、取舍与踩坑的记录。">
+  <div class="container page">
+    <SectionHeader
+      level={1}
+      fig="TEXT / NOTES"
+      title="写作"
+      aside={`${visible.length} TEXT`}
+      description="叙述性长文，不替代产品文档。"
+    />
+    {
+      visible.length > 0 ? (
+        <ul class="post-list">
+          {visible.map((post) => (
+            <li>
+              <div class="meta">
+                <time datetime={formatDate(post.data.date)}>{formatDate(post.data.date).replaceAll('-', '.')}</time>
+                <span>{post.data.type}</span>
+              </div>
+              <h2><a href={`/writing/${postSlugOf(post)}`}>{post.data.title}</a></h2>
+              <p>{post.data.summary}</p>
+              {post.data.tags.length > 0 && (
+                <div class="tags">
+                  {post.data.tags.map((tag) => <Tag label={tag} />)}
+                </div>
+              )}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <EmptyState
+          title="文章整理中"
+          description="还在整理第一批写作内容；发布后会按时间列在这里。"
+        />
+      )
+    }
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    padding-top: clamp(24px, 4vw, 48px);
+  }
+
+  .post-list {
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--ink);
+    list-style: none;
+  }
+
+  .post-list li {
+    display: grid;
+    gap: 6px;
+    padding: 16px 2px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .meta {
+    display: flex;
+    gap: var(--space-3);
+    color: var(--ink-faint);
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  h2 {
+    font-size: clamp(19px, 2.2vw, 24px);
+    letter-spacing: -0.02em;
+  }
+
+  h2 a {
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  h2 a:hover {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  p {
+    max-width: 68ch;
+    color: var(--ink-muted);
+    font-size: 13.5px;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-top: 2px;
+  }
+</style>

@@ -1,11 +1,3 @@
 name = "zoro"
 compatibility_date = "2024-01-01"
 pages_build_output_dir = "dist"
-
-[[kv_namespaces]]
-binding = "DB"
-id = "f670a87385324c8a94e2026a9b747b67"
-
-# Optional: set GITHUB_TOKEN for higher API rate limits
-# [vars]
-# GITHUB_TOKEN = "ghp_xxxxx"

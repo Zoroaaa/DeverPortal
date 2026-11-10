@@ -1,0 +1,96 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../../components/docs/Breadcrumb.astro';
+import ReleaseItem from '../../../components/release/ReleaseItem.astro';
+import SectionHeader from '../../../components/ui/SectionHeader.astro';
+import EmptyState from '../../../components/ui/EmptyState.astro';
+import { loadContentGraph, type ProductView } from '../../../lib/content-graph';
+
+export async function getStaticPaths() {
+  const { products } = await loadContentGraph();
+  if (products.length === 0) return [];
+  return products.map((product) => ({
+    params: { slug: product.slug },
+    props: { product },
+  }));
+}
+
+interface Props {
+  product: ProductView;
+}
+
+const { product } = Astro.props;
+---
+
+<BaseLayout
+  title={`${product.entry.data.name} 版本记录`}
+  description={`${product.entry.data.name} 的全部版本记录与变更说明。`}
+>
+  <div class="container page">
+    <Breadcrumb
+      items={[
+        { label: '首页', href: '/' },
+        { label: '产品', href: '/products' },
+        { label: product.entry.data.name, href: `/products/${product.slug}` },
+        { label: '版本记录' },
+      ]}
+    />
+    <div class="head">
+      <SectionHeader
+        level={1}
+        fig="REV. 01"
+        title={`${product.entry.data.name} 版本记录`}
+        aside={`${product.releaseViews.length} REV / ALL`}
+        description={`共 ${product.releaseViews.length} 条记录，按日期从新到旧；GitHub 自动条目只提供版本事实。`}
+      />
+    </div>
+    {
+      product.releaseViews.length > 0 ? (
+        <div class="rev-list">
+          {product.releaseViews.map((release) => (
+            <ReleaseItem release={release} />
+          ))}
+        </div>
+      ) : (
+        <EmptyState
+          title="暂无版本记录"
+          description="仓库没有发布 Release 或打 tag；项目按 commit 维护，最近提交时间见产品页。"
+        />
+      )
+    }
+    <p class="back"><a href={`/products/${product.slug}`}>← 返回产品详情</a></p>
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    padding-top: var(--space-6);
+  }
+
+  .head {
+    margin-top: var(--space-4);
+  }
+
+  .rev-list {
+    border-top: 1px solid var(--ink);
+  }
+
+  .back {
+    margin-top: var(--space-8);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .back a {
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--accent);
+    padding-bottom: 2px;
+  }
+
+  .back a:hover {
+    color: var(--accent);
+  }
+</style>

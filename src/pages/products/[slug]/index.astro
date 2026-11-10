@@ -1,0 +1,323 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../../components/docs/Breadcrumb.astro';
+import ProductMeta from '../../../components/product/ProductMeta.astro';
+import StatusPill from '../../../components/product/StatusPill.astro';
+import LimitationsList from '../../../components/product/LimitationsList.astro';
+import ReleaseItem from '../../../components/release/ReleaseItem.astro';
+import SectionHeader from '../../../components/ui/SectionHeader.astro';
+import Tag from '../../../components/ui/Tag.astro';
+import Prose from '../../../components/ui/Prose.astro';
+import { loadContentGraph, docPathOf, type ProductView } from '../../../lib/content-graph';
+
+export async function getStaticPaths() {
+  const { products } = await loadContentGraph();
+  if (products.length === 0) return [];
+  return products.map((product) => ({
+    params: { slug: product.slug },
+    props: { product },
+  }));
+}
+
+interface Props {
+  product: ProductView;
+}
+
+const { product } = Astro.props;
+const { entry, latestRelease, releaseViews, docs, snapshot } = product;
+const { Content } = await render(entry);
+const firstDoc = docs[0];
+const repoUrl = entry.data.links.repo ?? snapshot?.data?.url ?? null;
+const stale = snapshot?.stale || snapshot?.missing || snapshot?.releasesStale;
+
+const platformLabels: Record<string, string> = {
+  web: 'Web',
+  desktop: 'Desktop',
+  cli: 'CLI',
+  'self-host': 'Self-host',
+  cloudflare: 'Cloudflare',
+};
+const platforms = entry.data.platforms.map((platform) => platformLabels[platform] ?? platform).join(' / ');
+---
+
+<BaseLayout
+  title={entry.data.seo?.title ?? entry.data.name}
+  description={entry.data.seo?.description ?? entry.data.summary}
+  ogImage={entry.data.seo?.ogImage}
+  type="website"
+>
+  <div class="container page">
+    <Breadcrumb
+      items={[
+        { label: '首页', href: '/' },
+        { label: '产品', href: '/products' },
+        { label: entry.data.name },
+      ]}
+    />
+
+    <header class="hero">
+      <div class="hero-main">
+        <p class="eyebrow">DWG / {product.slug.toUpperCase()} · {platforms || 'PLATFORM TBD'}</p>
+        <div class="title-row">
+          <h1>{entry.data.name}</h1>
+          <StatusPill status={entry.data.status} />
+        </div>
+        <p class="tagline">{entry.data.tagline}</p>
+        <p class="summary">{entry.data.summary}</p>
+
+        <div class="actions">
+          {entry.data.links.demo && (
+            <a class="action action--primary" href={entry.data.links.demo} target="_blank" rel="noopener noreferrer">
+              打开 Demo<span aria-hidden="true"> ↗</span>
+              <span class="visually-hidden">（外部链接）</span>
+            </a>
+          )}
+          {repoUrl && (
+            <a class="action" href={repoUrl} target="_blank" rel="noopener noreferrer">
+              源码仓库<span aria-hidden="true"> ↗</span>
+              <span class="visually-hidden">（外部链接）</span>
+            </a>
+          )}
+          {entry.data.links.download && (
+            <a class="action" href={entry.data.links.download} target="_blank" rel="noopener noreferrer">
+              下载<span aria-hidden="true"> ↗</span>
+              <span class="visually-hidden">（外部链接）</span>
+            </a>
+          )}
+        </div>
+        {
+          stale && (
+            <p class="snapshot-note">
+              GitHub 数据同步失败，当前沿用上次快照{snapshot?.fetchedAt ? `（${snapshot.fetchedAt.slice(0, 10)}）` : ''}；
+              页面内容不受影响。
+            </p>
+          )
+        }
+      </div>
+
+      <ProductMeta
+        status={entry.data.status}
+        platforms={entry.data.platforms}
+        latestRelease={latestRelease}
+        snapshot={snapshot}
+      />
+    </header>
+
+    <div class="body">
+      <Prose>
+        <Content />
+      </Prose>
+    </div>
+
+    <section class="section">
+      <SectionHeader
+        fig="FIG. 01"
+        title="现状与已知限制"
+        aside={`${entry.data.limitations.length} ITEMS`}
+        description="这些是当前明确没做到或做得不够好的地方。"
+      />
+      <LimitationsList items={entry.data.limitations} />
+    </section>
+
+    <section class="section">
+      <SectionHeader fig="FIG. 02" title="最近版本" aside={`${releaseViews.length} REV`} />
+      {
+        releaseViews.length > 0 ? (
+          <div class="rev-list">
+            {releaseViews.slice(0, 3).map((release) => (
+              <ReleaseItem release={release} />
+            ))}
+            <p class="more">
+              <a href={`/products/${product.slug}/releases`}>查看全部 {releaseViews.length} 条版本记录 →</a>
+            </p>
+          </div>
+        ) : (
+          <p class="muted">仓库未发布版本，按 commit 维护；最近提交见右侧 UPDATED。</p>
+        )
+      }
+    </section>
+
+    <section class="section">
+      <SectionHeader
+        fig="FIG. 03"
+        title="快速开始"
+        aside={firstDoc ? 'MANUAL' : 'PENDING'}
+      />
+      {
+        firstDoc ? (
+          <p class="muted">
+            从 <a href={`/docs/${product.slug}/${docPathOf(firstDoc)}`}>{firstDoc.data.title}</a> 开始，
+            按最短路径把它跑起来。
+          </p>
+        ) : (
+          <p class="muted">文档还在整理中。</p>
+        )
+      }
+    </section>
+
+    {
+      (entry.data.topics.length > 0 || entry.data.tech.length > 0) && (
+        <section class="section">
+          <div class="tags">
+            {entry.data.topics.map((topic) => <Tag label={topic} />)}
+            {entry.data.tech.map((tech) => <Tag label={tech} />)}
+          </div>
+        </section>
+      )
+    }
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    padding-top: var(--space-6);
+  }
+
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 292px;
+    gap: clamp(20px, 3vw, 40px);
+    align-items: start;
+    margin-top: var(--space-4);
+    padding-block: clamp(20px, 3vw, 34px);
+    border-block: 2px solid var(--ink);
+  }
+
+  .hero-main {
+    min-width: 0;
+  }
+
+  .eyebrow {
+    margin-bottom: 12px;
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    overflow-wrap: anywhere;
+  }
+
+  .title-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  h1 {
+    font-size: clamp(32px, 4.6vw, 52px);
+    letter-spacing: -0.035em;
+  }
+
+  .tagline {
+    max-width: 46ch;
+    margin-top: 12px;
+    color: var(--ink);
+    font-size: clamp(16px, 1.8vw, 19px);
+    line-height: 1.55;
+  }
+
+  .summary {
+    max-width: 62ch;
+    margin-top: 10px;
+    color: var(--ink-muted);
+    font-size: 13.5px;
+    line-height: 1.75;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-top: var(--space-6);
+  }
+
+  .action {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 14px;
+    border: 1px solid var(--ink);
+    background: var(--surface);
+    color: var(--ink);
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition:
+      background-color var(--dur-fast) var(--ease-out),
+      color var(--dur-fast) var(--ease-out);
+  }
+
+  .action:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent-ink);
+  }
+
+  .action--primary {
+    background: var(--ink);
+    color: var(--ink-inverse);
+  }
+
+  .body {
+    padding-top: clamp(20px, 3vw, 36px);
+  }
+
+  .section {
+    padding-top: clamp(36px, 4.5vw, 60px);
+  }
+
+  .rev-list {
+    border-top: 1px solid var(--ink);
+  }
+
+  .more {
+    margin-top: var(--space-4);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .more a {
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--accent);
+    padding-bottom: 2px;
+  }
+
+  .more a:hover {
+    color: var(--accent);
+  }
+
+  .muted {
+    max-width: 62ch;
+    color: var(--ink-muted);
+    font-size: 13.5px;
+  }
+
+  .snapshot-note {
+    max-width: 58ch;
+    margin-top: var(--space-4);
+    padding-left: 10px;
+    border-left: 2px solid var(--danger);
+    color: var(--ink-muted);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    line-height: 1.7;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  @media (max-width: 767px) {
+    .hero {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

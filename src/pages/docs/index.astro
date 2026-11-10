@@ -1,0 +1,123 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SectionHeader from '../../components/ui/SectionHeader.astro';
+import EmptyState from '../../components/ui/EmptyState.astro';
+import { loadContentGraph, docPathOf } from '../../lib/content-graph';
+
+const { products } = await loadContentGraph();
+const withDocs = products.filter((product) => product.docs.length > 0);
+const docCount = products.reduce((total, product) => total + product.docs.length, 0);
+---
+
+<BaseLayout title="文档" description="按产品组织的使用手册与说明。">
+  <div class="container page">
+    <SectionHeader
+      level={1}
+      fig="MANUAL / DOC"
+      title="文档"
+      aside={`${docCount} DOC / ${withDocs.length} PRODUCT`}
+      description="使用手册按产品组织：每个产品的说明、配置与已知限制都归在对应产品下，并随版本一起维护。"
+    />
+    {
+      withDocs.length > 0 ? (
+        <div class="doc-index">
+          {withDocs.map((product) => (
+            <section class="doc-group">
+              <header class="group-head">
+                <h2>{product.entry.data.name}</h2>
+                <a href={`/products/${product.slug}`}>产品页 →</a>
+              </header>
+              <ul>
+                {product.docs.map((doc) => (
+                  <li>
+                    <a href={`/docs/${product.slug}/${docPathOf(doc)}`}>
+                      <span class="title">{doc.data.title}</span>
+                      <span class="section">{doc.data.section}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))}
+        </div>
+      ) : (
+        <EmptyState
+          title="文档整理中"
+          description="文档按产品组织，目前还没有发布任何产品文档；有产品上线后会从这里进入各自的手册。"
+        />
+      )
+    }
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    padding-top: clamp(24px, 4vw, 48px);
+  }
+
+  .doc-index {
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  .doc-group {
+    border: 1px solid var(--ink);
+    background: var(--surface);
+  }
+
+  .group-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--ink);
+  }
+
+  .group-head h2 {
+    font-size: 18px;
+    letter-spacing: -0.01em;
+  }
+
+  .group-head a {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  li + li {
+    border-top: 1px dotted var(--line);
+  }
+
+  li a {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding: 9px 12px;
+    color: var(--ink);
+    font-size: 13.5px;
+    text-decoration: none;
+  }
+
+  li a:hover {
+    background: rgba(30, 76, 138, 0.05);
+    color: var(--accent);
+  }
+
+  .section {
+    color: var(--ink-faint);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+</style>

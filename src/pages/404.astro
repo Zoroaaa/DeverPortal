@@ -1,0 +1,124 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="页面不存在" description="请求的页面不存在。">
+  <div class="container page">
+    <div class="frame">
+      <p class="eyebrow">ERROR 404 / SHEET NOT FOUND</p>
+      <p class="code" aria-hidden="true">404</p>
+      <h1>页面不存在</h1>
+      <p class="desc">这个地址没有对应的内容，可能是链接过期或拼写有误。</p>
+      <div class="links">
+        <a class="action" href="/products">浏览产品 →</a>
+        <a class="action" href="/">返回首页</a>
+      </div>
+      <p class="foot-note">SHEET 07 / 07 · SCALE 1:1 · CHECK DWG NO.</p>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    padding-block: clamp(40px, 8vw, 96px);
+  }
+
+  .frame {
+    position: relative;
+    max-width: 760px;
+    padding: clamp(24px, 4vw, 48px);
+    border: 1px dashed var(--line-strong);
+    background: var(--bg);
+  }
+
+  .frame::before,
+  .frame::after {
+    content: '+';
+    position: absolute;
+    padding: 0 2px;
+    background: var(--bg);
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    line-height: 1;
+  }
+
+  .frame::before {
+    top: -7px;
+    left: 14px;
+  }
+
+  .frame::after {
+    bottom: -7px;
+    right: 14px;
+  }
+
+  .eyebrow {
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .code {
+    margin-top: var(--space-4);
+    color: var(--line-strong);
+    font-family: var(--font-mono);
+    font-size: clamp(56px, 12vw, 112px);
+    font-weight: 700;
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+  }
+
+  h1 {
+    margin-top: var(--space-3);
+    font-size: clamp(28px, 4vw, 40px);
+  }
+
+  .desc {
+    margin-top: var(--space-3);
+    max-width: 46ch;
+    color: var(--ink-muted);
+    font-size: 14px;
+  }
+
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-8);
+  }
+
+  .action {
+    display: inline-flex;
+    align-items: center;
+    padding: 9px 16px;
+    border: 1px solid var(--ink);
+    color: var(--ink);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition:
+      background-color var(--dur-fast) var(--ease-out),
+      color var(--dur-fast) var(--ease-out);
+  }
+
+  .action:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent-ink);
+  }
+
+  .foot-note {
+    margin-top: var(--space-8);
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--line);
+    color: var(--ink-faint);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+  }
+</style>

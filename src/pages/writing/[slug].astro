@@ -1,0 +1,149 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Prose from '../../components/ui/Prose.astro';
+import Tag from '../../components/ui/Tag.astro';
+import { loadContentGraph, postSlugOf, type PostEntry } from '../../lib/content-graph';
+import { formatDate } from '../../lib/format';
+
+export async function getStaticPaths() {
+  const { posts } = await loadContentGraph();
+  if (posts.every((post) => post.data.draft)) return [];
+  return posts
+    .filter((post) => !post.data.draft)
+    .map((post) => ({
+      params: { slug: postSlugOf(post) },
+      props: { post },
+    }));
+}
+
+interface Props {
+  post: PostEntry;
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<BaseLayout title={post.data.title} description={post.data.summary} type="article">
+  <article class="container page">
+    <header class="head">
+      <p class="type">WRITING / {post.data.type}</p>
+      <h1>{post.data.title}</h1>
+      <p class="meta">
+        <time datetime={formatDate(post.data.date)}>{formatDate(post.data.date).replaceAll('-', '.')}</time>
+        {post.data.product && (
+          <>
+            <span aria-hidden="true">/</span>
+            <a href={`/products/${post.data.product}`}>关联产品</a>
+          </>
+        )}
+      </p>
+      <p class="summary">{post.data.summary}</p>
+      {
+        post.data.tags.length > 0 && (
+          <div class="tags">
+            {post.data.tags.map((tag) => <Tag label={tag} />)}
+          </div>
+        )
+      }
+    </header>
+
+    <div class="body">
+      <Prose>
+        <Content />
+      </Prose>
+    </div>
+
+    <p class="back"><a href="/writing">← 返回写作列表</a></p>
+  </article>
+</BaseLayout>
+
+<style>
+  .page {
+    max-width: min(var(--w-content), 900px);
+    padding-top: clamp(24px, 4vw, 48px);
+  }
+
+  .head {
+    padding-top: 14px;
+    margin-bottom: var(--space-6);
+    border-top: 2px solid var(--ink);
+  }
+
+  .type {
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  h1 {
+    max-width: 20ch;
+    margin-top: 10px;
+    font-size: clamp(30px, 4.2vw, 48px);
+    letter-spacing: -0.03em;
+  }
+
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-top: var(--space-4);
+    color: var(--ink-faint);
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .meta a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .meta a:hover {
+    text-decoration: underline;
+  }
+
+  .summary {
+    max-width: 62ch;
+    margin-top: var(--space-3);
+    color: var(--ink-muted);
+    font-size: 15px;
+    line-height: 1.75;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-top: var(--space-4);
+  }
+
+  .body {
+    padding-block: var(--space-4) var(--space-6);
+  }
+
+  .back {
+    margin-top: var(--space-8);
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--line);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .back a {
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--accent);
+    padding-bottom: 2px;
+  }
+
+  .back a:hover {
+    color: var(--accent);
+  }
+</style>

@@ -1,0 +1,12 @@
+{
+  "owner": "Zoroaaa",
+  "items": [
+    { "repo": "Atlas", "slug": "atlas", "featured": true, "order": 10 },
+    { "repo": "it-toolbox", "slug": "it-toolbox", "featured": true, "order": 20 },
+    { "repo": "OmniBox", "slug": "omnibox", "featured": true, "order": 30 },
+    { "repo": "personal-blog", "slug": "personal-blog", "featured": true, "order": 40 },
+    { "repo": "OSSshelf", "slug": "ossshelf", "featured": false, "order": 50 },
+    { "repo": "cf-bestip", "slug": "cf-bestip", "featured": false, "order": 60 },
+    { "repo": "lingbeast", "slug": "lingbeast", "featured": false, "order": 70 }
+  ]
+}

@@ -1,0 +1,54 @@
+---
+# 示例，发布前替换。复制到 src/content/products/<slug>/index.mdx，
+# 并把目录名改成自己的产品 slug（小写字母、数字、连字符）。
+name: 示例工具盒
+tagline: 一个用来演示字段写法的虚构产品（示例，发布前替换）
+summary: 这份文件只演示产品字段与正文结构。复制到新目录后，请替换全部示例内容。
+status: beta
+# 草稿写 true：不生成页面，也不进列表 / RSS / sitemap
+draft: false
+featured: false
+order: 100
+startedAt: 2025-01-15
+topics:
+  - 示例主题
+platforms:
+  - web
+  - cli
+tech:
+  - TypeScript
+links:
+  demo: https://example.com/demo
+  repo: https://example.com/repo
+# 图片放 public/images/<slug>/，用站点绝对路径；下面两项目前不会显示。
+# cover: /images/sample-tool/cover.webp
+# gallery:
+#   - src: /images/sample-tool/screen-1.webp
+#     alt: 示例截图：主界面
+limitations:
+  - 示例：目前只支持单文件处理，批量任务会排队。
+  - 示例：移动端布局尚未适配，窄屏下表格需要横向滚动。
+seo:
+  title: 示例工具盒（示例，发布前替换）
+  description: 这是一个示例页面，发布前请替换为真实摘要。
+---
+
+示例，发布前替换。以下正文只演示三段结构，不要原样发布。
+
+## 为什么做
+
+示例：把一件反复发生、每次都要手动处理的小事固定下来。写清楚原来的做法、卡在哪一步、为什么要单独做个工具，而不是继续用现成方案。
+
+不要写"为了提升效率"这类空话，要写具体场景和具体损失。
+
+## 能力边界
+
+示例：支持拖拽导入单个文件，导出前可以预览前 20 行；不做云端同步，也不保存历史记录。
+
+明确写出"不做什么"，比罗列功能更能说明完成度。
+
+## 已知限制
+
+示例：批量处理会串行排队；Windows 之外的路径分隔符没有完整测试；设置项只存在本地。
+
+正文这里解释限制的影响，`limitations` 列表里写具体条目，两处不要重复堆同一句话。

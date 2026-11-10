@@ -1,0 +1,54 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  status: CollectionEntry<'products'>['data']['status'];
+}
+
+const { status } = Astro.props;
+
+const labels = {
+  live: { code: 'LIVE', text: '在线' },
+  beta: { code: 'BETA', text: '测试' },
+  lab: { code: 'LAB', text: '实验' },
+  archived: { code: 'ARCHIVED', text: '已归档' },
+} as const;
+
+const label = labels[status];
+---
+
+<span class={`pill pill--${status}`}>
+  {label.code}<span class="visually-hidden">（{label.text}）</span>
+</span>
+
+<style>
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 6px;
+    border: 1px solid currentColor;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    line-height: 1.6;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .pill--live {
+    color: var(--status-live);
+  }
+
+  .pill--beta {
+    color: var(--status-beta);
+  }
+
+  .pill--lab {
+    color: var(--status-lab);
+  }
+
+  .pill--archived {
+    color: var(--status-archived);
+    border-style: dashed;
+  }
+</style>

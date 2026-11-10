@@ -1,0 +1,138 @@
+---
+import StatusPill from './StatusPill.astro';
+import type { ProductEntry, ReleaseView, GithubSnapshot } from '../../lib/content-graph';
+import { formatDate } from '../../lib/format';
+
+interface Props {
+  status: ProductEntry['data']['status'];
+  platforms: ProductEntry['data']['platforms'];
+  latestRelease?: ReleaseView;
+  snapshot: GithubSnapshot | null;
+}
+
+const { status, platforms, latestRelease, snapshot } = Astro.props;
+const repo = snapshot?.data ?? null;
+const stale = snapshot?.stale || snapshot?.missing || snapshot?.releasesStale;
+
+const platformLabels: Record<string, string> = {
+  web: 'Web',
+  desktop: 'Desktop',
+  cli: 'CLI',
+  'self-host': 'Self-host',
+  cloudflare: 'Cloudflare',
+};
+
+const platformText = platforms.map((platform) => platformLabels[platform] ?? platform).join(' / ');
+const updated = latestRelease?.date ?? (repo?.pushedAt ? new Date(repo.pushedAt) : null);
+const snapshotDate = snapshot?.fetchedAt ? snapshot.fetchedAt.slice(0, 10) : null;
+---
+
+<dl class="meta">
+  <div class="strip">
+    <dt>SPEC SHEET</dt>
+    <dd aria-hidden="true">DP</dd>
+  </div>
+  <div class="row">
+    <dt>VERSION</dt>
+    <dd>{latestRelease ? `v${latestRelease.version}` : 'NO RELEASES'}</dd>
+  </div>
+  <div class="row">
+    <dt>PLATFORM</dt>
+    <dd>{platformText || '—'}</dd>
+  </div>
+  <div class="row">
+    <dt>STATUS</dt>
+    <dd><StatusPill status={status} /></dd>
+  </div>
+  <div class="row">
+    <dt>LANGUAGE</dt>
+    <dd>{repo?.language ?? '—'}</dd>
+  </div>
+  <div class="row">
+    <dt>STARS</dt>
+    <dd>{repo?.stars ?? '—'}</dd>
+  </div>
+  <div class="row">
+    <dt>LICENSE</dt>
+    <dd>{repo?.license ?? '未声明'}</dd>
+  </div>
+  <div class="row">
+    <dt>UPDATED</dt>
+    <dd>{updated ? <time datetime={formatDate(updated)}>{formatDate(updated)}</time> : '—'}</dd>
+  </div>
+  <div class="row row--note">
+    <dt>DATA</dt>
+    <dd>
+      {snapshotDate ? `快照 ${snapshotDate}` : '无快照'}
+      {stale && <span class="stale"> STALE</span>}
+    </dd>
+  </div>
+</dl>
+
+<style>
+  .meta {
+    display: flex;
+    flex-direction: column;
+    background: var(--surface);
+    border: 1px solid var(--ink);
+  }
+
+  .strip {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 11px;
+    border-bottom: 1px solid var(--ink);
+    background: var(--ink);
+  }
+
+  .strip dt,
+  .strip dd {
+    color: var(--ink-inverse);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.14em;
+  }
+
+  .strip dd {
+    color: #9fb0c6;
+  }
+
+  .row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding: 8px 11px;
+    border-bottom: 1px dashed var(--line);
+  }
+
+  .row:last-child {
+    border-bottom: 0;
+  }
+
+  .row--note {
+    margin-top: auto;
+  }
+
+  dt {
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  dd {
+    color: var(--ink);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-align: right;
+    overflow-wrap: anywhere;
+  }
+
+  .stale {
+    color: var(--danger);
+    font-size: 9px;
+  }
+</style>

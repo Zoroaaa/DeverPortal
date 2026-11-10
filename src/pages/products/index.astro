@@ -1,0 +1,54 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SectionHeader from '../../components/ui/SectionHeader.astro';
+import ProductCard from '../../components/product/ProductCard.astro';
+import EmptyState from '../../components/ui/EmptyState.astro';
+import { loadContentGraph } from '../../lib/content-graph';
+
+const { products } = await loadContentGraph();
+const liveCount = products.filter((product) => product.entry.data.status === 'live').length;
+---
+
+<BaseLayout title="产品" description="全部作品与产品：状态、最近版本、已知限制。">
+  <div class="container page">
+    <SectionHeader
+      level={1}
+      fig="INDEX / DWG"
+      title="全部产品"
+      aside={`${products.length} DWG / ${liveCount} LIVE`}
+      description="按维护顺序排列；已归档作品保留版本记录，便于回溯。"
+    />
+    {
+      products.length > 0 ? (
+        <div class="product-grid">
+          {products.map((product, index) => (
+            <ProductCard product={product} fig={String(index + 1).padStart(2, '0')} />
+          ))}
+        </div>
+      ) : (
+        <EmptyState
+          title="作品内容整理中"
+          description="这里会按维护状态与主题筛选作品；目前还没有发布任何作品。"
+        />
+      )
+    }
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    padding-top: clamp(24px, 4vw, 48px);
+  }
+
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(14px, 2vw, 22px);
+  }
+
+  @media (max-width: 767px) {
+    .product-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

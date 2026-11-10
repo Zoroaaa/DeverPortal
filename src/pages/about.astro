@@ -1,0 +1,189 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeader from '../components/ui/SectionHeader.astro';
+import { site } from '../data/site';
+---
+
+<BaseLayout title="关于" description={`${site.ownerName} 的背景、在做的事与联系方式。`}>
+  <div class="container page">
+    <SectionHeader
+      level={1}
+      fig="ABOUT / PERSON"
+      title={site.ownerName}
+      aside={`${site.role} · ${site.location}`}
+      description="只看作品，不放简历：判断一个作品的方式，是看它做到什么程度、有什么限制。"
+    />
+
+    <div class="about-grid">
+      <div class="about-body">
+        <p>{site.bio}</p>
+
+        <h2>在做的事</h2>
+        <p>
+          维护一组自用的小工具，并把它们的定位、使用手册与版本记录公开出来。
+          这里不放简历、不做技能进度条；判断一个作品的方式是看它做到什么程度、有什么限制。
+        </p>
+
+        <h2 id="contact">联系方式</h2>
+        <ul class="contact">
+          <li>
+            <span class="label">EMAIL</span>
+            <a href={site.emailHref}>{site.email}</a>
+          </li>
+          <li>
+            <span class="label">GITHUB</span>
+            <a href={site.githubUrl} target="_blank" rel="noopener noreferrer">
+              {site.githubUsername}<span aria-hidden="true"> ↗</span>
+              <span class="visually-hidden">（外部链接）</span>
+            </a>
+          </li>
+          <li>
+            <span class="label">RSS</span>
+            <a href={site.rssHref}>订阅更新<span aria-hidden="true"> ↗</span></a>
+          </li>
+        </ul>
+      </div>
+
+      <dl class="profile">
+        <div class="tr"><dt>制图</dt><dd>{site.ownerName.toUpperCase()}</dd></div>
+        <div class="tr"><dt>角色</dt><dd>{site.role}</dd></div>
+        <div class="tr"><dt>位置</dt><dd>{site.location}</dd></div>
+        <div class="tr"><dt>邮箱</dt><dd><a href={site.emailHref}>{site.email}</a></dd></div>
+        <div class="tr"><dt>仓库</dt><dd><a href={site.githubUrl} target="_blank" rel="noopener noreferrer">GitHub<span aria-hidden="true"> ↗</span><span class="visually-hidden">（外部链接）</span></a></dd></div>
+        <div class="tr note-row"><dt>说明</dt><dd>长期维护 · 边界公开</dd></div>
+      </dl>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    padding-top: clamp(24px, 4vw, 48px);
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: clamp(24px, 4vw, 56px);
+    align-items: start;
+  }
+
+  .about-body {
+    max-width: 62ch;
+  }
+
+  .about-body > p {
+    color: var(--ink-muted);
+    font-size: 15.5px;
+    line-height: 1.85;
+  }
+
+  .about-body h2 {
+    margin-top: var(--space-12);
+    padding-top: 12px;
+    border-top: 1px solid var(--ink);
+    font-size: clamp(20px, 2.4vw, 26px);
+  }
+
+  .about-body h2 + p {
+    margin-top: var(--space-3);
+    color: var(--ink-muted);
+    font-size: 14.5px;
+    line-height: 1.8;
+  }
+
+  .contact {
+    margin: var(--space-4) 0 0;
+    padding: 0;
+    border-top: 1px solid var(--line-strong);
+    list-style: none;
+  }
+
+  .contact li {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-4);
+    padding: 8px 2px;
+    border-bottom: 1px dotted var(--line);
+  }
+
+  .label {
+    flex: none;
+    width: 64px;
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+  }
+
+  .contact a {
+    font-size: 14px;
+  }
+
+  .profile {
+    display: flex;
+    flex-direction: column;
+    background: var(--surface);
+    border: 1px solid var(--ink);
+  }
+
+  .tr {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 8px 11px;
+    border-bottom: 1px dashed var(--line);
+  }
+
+  .tr:last-child {
+    border-bottom: 0;
+  }
+
+  dt {
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  dd {
+    min-width: 0;
+    color: var(--ink);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-align: right;
+    overflow-wrap: anywhere;
+  }
+
+  dd a {
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  dd a:hover {
+    color: var(--accent);
+    text-decoration: underline;
+  }
+
+  .note-row {
+    margin-top: auto;
+    background: var(--ink);
+  }
+
+  .note-row dt {
+    color: #9fb0c6;
+  }
+
+  .note-row dd {
+    color: var(--ink-inverse);
+  }
+
+  @media (max-width: 899px) {
+    .about-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

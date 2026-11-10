@@ -1,0 +1,44 @@
+---
+import { render } from 'astro:content';
+import DocsLayout from '../../../layouts/DocsLayout.astro';
+import Prose from '../../../components/ui/Prose.astro';
+import { loadContentGraph, docPathOf, type DocEntry, type ProductView } from '../../../lib/content-graph';
+
+export async function getStaticPaths() {
+  const { products } = await loadContentGraph();
+  if (products.every((product) => product.docs.length === 0)) return [];
+  return products.flatMap((product) =>
+    product.docs.map((doc) => ({
+      params: { product: product.slug, page: docPathOf(doc) },
+      props: { product, doc },
+    })),
+  );
+}
+
+interface Props {
+  product: ProductView;
+  doc: DocEntry;
+}
+
+const { product, doc } = Astro.props;
+const { Content, headings } = await render(doc);
+---
+
+<DocsLayout
+  title={doc.data.title}
+  description={doc.data.description}
+  product={product}
+  docs={product.docs}
+  current={doc}
+  headings={headings}
+  breadcrumb={[
+    { label: '首页', href: '/' },
+    { label: '产品', href: '/products' },
+    { label: product.entry.data.name, href: `/products/${product.slug}` },
+    { label: doc.data.title },
+  ]}
+>
+  <Prose>
+    <Content />
+  </Prose>
+</DocsLayout>

@@ -1,0 +1,35 @@
+{
+  "generatedBy": "scripts/sync-github.mjs",
+  "owner": "Zoroaaa",
+  "repo": "cf-bestip",
+  "slug": "cf-bestip",
+  "fetchedAt": "2026-11-10T08:41:16.883Z",
+  "etag": "W/\"418d2634507a6385f2aba83cae30069a402ec9315858e142bced96db2518e4bb\"",
+  "stale": false,
+  "error": null,
+  "missing": false,
+  "readmeEtag": "\"20ac0680d62ba5b1050a177adc70f7d4ee94fb52\"",
+  "data": {
+    "id": 1136379509,
+    "fullName": "Zoroaaa/cf-bestip",
+    "url": "https://github.com/Zoroaaa/cf-bestip",
+    "description": "Cloudflare 优选 IP/proxyip 获取工具",
+    "homepage": "https://zoroaaa.github.io/cf-bestip/",
+    "stars": 21,
+    "forks": 15,
+    "openIssues": 0,
+    "language": "Python",
+    "license": "MIT",
+    "createdAt": "2026-01-17",
+    "pushedAt": "2026-03-21",
+    "archived": false,
+    "fork": false,
+    "topics": [
+      "bestip",
+      "cloudflare",
+      "proxyip"
+    ],
+    "defaultBranch": "main",
+    "readmeExcerpt": "Cloudflare 优选 IP/代理IP 获取工具 自动化 Cloudflare IPv4 Anycast IP 探测、测速、评分与区域归类工具 🔗 快速访问 | 资源类型 | 链接 | 备注 | |---------|------|------| | 📖 项目文档 | 👉 完整介绍 | 详细的项目说明和使用指南 | | 🚀 在线体验 | 👉 https://zoroaaa.github.io/cf-bestip | 体验完整功能 | 📑 目录 - 项目简介 - 核心特性 - 系统架构 - 快速开始 - 配置说明 - 数据源 - 输出文件 …"
+  }
+}

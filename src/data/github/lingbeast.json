@@ -1,0 +1,34 @@
+{
+  "generatedBy": "scripts/sync-github.mjs",
+  "owner": "Zoroaaa",
+  "repo": "lingbeast",
+  "slug": "lingbeast",
+  "fetchedAt": "2026-11-10T08:41:16.883Z",
+  "etag": "W/\"8a58bf5fa40e746c8d9d053422e1a5fb6f9036548bce085c2ca729eb66382561\"",
+  "stale": false,
+  "error": null,
+  "missing": false,
+  "readmeEtag": "\"96b1f10cc2aa7faaa78656067b4cf3e9767b732e\"",
+  "data": {
+    "id": 1429472163,
+    "fullName": "Zoroaaa/lingbeast",
+    "url": "https://github.com/Zoroaaa/lingbeast",
+    "description": "像素风回合制灵兽收集 RPG。玩家以青溪末门弟子的身份入山，在八境中探索、结契、解碑、问名，最终面对「新契」或「断契」的抉择。",
+    "homepage": "https://lingbeast.wort.uk/",
+    "stars": 1,
+    "forks": 1,
+    "openIssues": 0,
+    "language": "JavaScript",
+    "license": null,
+    "createdAt": "2026-10-22",
+    "pushedAt": "2026-10-28",
+    "archived": false,
+    "fork": false,
+    "topics": [
+      "pixel-art",
+      "rpg-game"
+    ],
+    "defaultBranch": "main",
+    "readmeExcerpt": "灵兽录 · 山海新契 像素风回合制灵兽收集 RPG。玩家以青溪末门弟子的身份入山，在十九境中探索、结契、解碑、问名，最终面对「新契」或「断契」的抉择。 前端为 Phaser 3.90 + 原生脚本（无构建工具、可离线运行），后端为 Cloudflare Worker + D1，静态资源与 /api/ 同源部署。 版本 2.4.1 · 存档 v4 · 十九境 · 62 种灵兽 · 12 章主线 · 63 条支线 世界观 三十年前，十二山门为争灵脉铸出锁灵器，强抽灵兽灵息，酿成「断契之乱」。灵脉逆流，渊兽自裂谷爬出，山门一夜覆灭。如今只剩青溪末门还点着灯。 …"
+  }
+}

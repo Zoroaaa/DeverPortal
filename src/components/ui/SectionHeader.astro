@@ -1,0 +1,103 @@
+---
+interface Props {
+  fig?: string;
+  title: string;
+  aside?: string;
+  description?: string;
+  level?: 1 | 2;
+}
+
+const { fig, title, aside, description, level = 2 } = Astro.props;
+---
+
+<header class:list={['shead', { 'shead--page': level === 1 }]}>
+  <div class="head">
+    <div class="head-top">
+      {fig && <span class="fig">{fig}</span>}
+      {level === 1 ? <h1>{title}</h1> : <h2>{title}</h2>}
+    </div>
+    {description && <p class="desc">{description}</p>}
+  </div>
+  {aside && <span class="aside">{aside}</span>}
+</header>
+
+<style>
+  .shead {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding-bottom: 10px;
+    margin-bottom: var(--space-6);
+    border-bottom: 1px solid var(--ink);
+  }
+
+  .head {
+    display: grid;
+    gap: 6px;
+    min-width: 0;
+  }
+
+  .head-top {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .fig {
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  h2 {
+    font-size: clamp(20px, 2.6vw, 30px);
+  }
+
+  h1 {
+    font-size: clamp(30px, 4.2vw, 48px);
+    letter-spacing: -0.03em;
+  }
+
+  .desc {
+    max-width: 62ch;
+    color: var(--ink-muted);
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  .aside {
+    flex: none;
+    max-width: 24ch;
+    color: var(--ink-faint);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    line-height: 1.7;
+    text-align: right;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 600px) {
+    .shead {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .head-top {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .aside {
+      max-width: none;
+      text-align: left;
+    }
+  }
+</style>

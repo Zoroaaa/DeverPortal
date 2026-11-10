@@ -1,0 +1,61 @@
+---
+import EmptyState from '../ui/EmptyState.astro';
+
+interface Props {
+  items: string[];
+}
+
+const { items } = Astro.props;
+---
+
+{
+  items.length > 0 ? (
+    <ul class="limits">
+      {items.map((item, index) => (
+        <li>
+          <span class="idx" aria-hidden="true">L-{String(index + 1).padStart(2, '0')}</span>
+          <span class="tx">{item}</span>
+        </li>
+      ))}
+    </ul>
+  ) : (
+    <EmptyState title="暂无已知限制" description="该产品还没有补充限制说明。" />
+  )
+}
+
+<style>
+  .limits {
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--ink);
+    list-style: none;
+  }
+
+  li {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-4);
+    padding: 10px 2px;
+    border-bottom: 1px dotted var(--line);
+  }
+
+  .idx {
+    flex: none;
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+  }
+
+  .tx {
+    color: var(--ink-muted);
+    font-size: 13.5px;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 600px) {
+    li {
+      gap: var(--space-3);
+    }
+  }
+</style>

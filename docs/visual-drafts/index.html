@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>视觉方向对照 — DeverPortal</title>
+<style>
+  :root{--bg:#FAF8F2;--ink:#15130F;--muted:#5F5A4F;--line:#DDD7C9;--pad:clamp(18px,5vw,72px);--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--ink);font-family:"Helvetica Neue",Helvetica,Arial,"PingFang SC","Microsoft YaHei",sans-serif;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 var(--pad)}
+  .mono{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+
+  header{border-bottom:1px solid var(--ink);padding:clamp(32px,5vw,56px) 0 22px}
+  h1{font-size:clamp(28px,4.4vw,46px);letter-spacing:-.035em;font-weight:800;line-height:1.05}
+  .sub{margin-top:12px;font-size:14px;line-height:1.75;color:var(--muted);max-width:56ch}
+  .verdict{margin-top:22px;border-left:3px solid var(--ink);padding:2px 0 2px 14px;font-size:14px;line-height:1.75}
+  .verdict b{border-bottom:2px solid #FFD400}
+
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:32px}
+  .card{border:1px solid var(--ink);background:#fff;display:flex;flex-direction:column}
+  .card .hd{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-bottom:1px solid var(--ink);font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase}
+  .card .bd{padding:14px 12px;flex:1}
+  .card h2{font-size:20px;letter-spacing:-.02em;margin-bottom:4px}
+  .card .one{font-size:12.5px;line-height:1.6;color:var(--muted);min-height:40px}
+  .card dl{margin-top:12px;display:grid;gap:9px}
+  .card dt{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+  .card dd{font-size:12.5px;line-height:1.6}
+  .card .go{display:block;text-align:center;padding:11px;border-top:1px solid var(--ink);font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:700}
+  .card .go:hover{background:var(--ink);color:#fff}
+
+  table{width:100%;border-collapse:collapse;margin-top:36px;border-top:1px solid var(--ink)}
+  th,td{padding:10px 8px;border-bottom:1px solid var(--line);font-size:13px;text-align:left}
+  th{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  td:first-child{font-weight:600;width:26%}
+  .dots{font-family:var(--mono);letter-spacing:2px}
+
+  .how{margin:34px 0 0;border-top:1px solid var(--ink);padding-top:20px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:22px}
+  .how h3{font-size:14px;margin-bottom:6px}
+  .how p{font-size:12.5px;line-height:1.7;color:var(--muted)}
+  footer{margin-top:40px;border-top:1px solid var(--line);padding:16px 0 40px}
+  @media(max-width:860px){.cards,.how{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="mono" style="margin-bottom:16px">DeverPortal · 视觉方向 · 三选一</div>
+    <h1>先挑气质，再定设计系统</h1>
+    <p class="sub">三个方向都基于同一份真实内容（7 个作品）做成首页样张。看气质差异，不看细节完成度——选定后我会把该方向做成完整 token 与组件。</p>
+    <p class="verdict">我的建议：<b>B 工程蓝图</b>。它和"作品 + 说明书 + 版本记录"的结构同构，记忆点来自页面结构而不是贴上去的装饰，扩到文档页也立得住。</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="cards">
+    <article class="card">
+      <div class="hd"><span>A / EDITORIAL</span><span>01</span></div>
+      <div class="bd">
+        <h2>纸本印刷</h2>
+        <p class="one">把网页当一本高端印刷刊物：纸白底、超大字、严格栅格、单色印刷红。</p>
+        <dl>
+          <div><dt>适合什么气质</dt><dd>冷静、克制、有品位；像设计工作室的作品集。</dd></div>
+          <div><dt>代价与风险</dt><dd>信息密度最低；产品超过 10 个必须有筛选；离开大标题就显得素。</dd></div>
+        </dl>
+      </div>
+      <a class="go" href="a-printed-paper.html">打开样张 A →</a>
+    </article>
+
+    <article class="card">
+      <div class="hd"><span>B / BLUEPRINT</span><span>02</span></div>
+      <div class="bd">
+        <h2>工程蓝图</h2>
+        <p class="one">网站是一份产品图纸集：米色纸、细蓝网格、图号、规格表、手绘感图解。</p>
+        <dl>
+          <div><dt>适合什么气质</dt><dd>工程感、认真、可考据；像在读一份设备说明书。</dd></div>
+          <div><dt>代价与风险</dt><dd>维护成本最高；装饰多易吵；文档正文必须能关掉网格。</dd></div>
+        </dl>
+      </div>
+      <a class="go" href="b-blueprint.html">打开样张 B →</a>
+    </article>
+
+    <article class="card">
+      <div class="hd"><span>C / HARD EDGE</span><span>03</span></div>
+      <div class="bd">
+        <h2>硬边色块</h2>
+        <p class="one">每个作品占一块高饱和色卡：2px 黑边、零圆角、偏移实心阴影。</p>
+        <dl>
+          <div><dt>适合什么气质</dt><dd>直接、有活力、敢冒险；像贴满标签的工作台。</dd></div>
+          <div><dt>代价与风险</dt><dd>长文疲劳；色彩纪律一松就廉价；气质偏"玩"，削弱工程严肃感。</dd></div>
+        </dl>
+      </div>
+      <a class="go" href="c-hard-edge.html">打开样张 C →</a>
+    </article>
+  </div>
+
+  <table>
+    <thead><tr><th>维度</th><th>A 纸本印刷</th><th>B 工程蓝图</th><th>C 硬边色块</th></tr></thead>
+    <tbody>
+      <tr><td>第一眼冲击力</td><td class="dots">●●●○</td><td class="dots">●●●●</td><td class="dots">●●●●●</td></tr>
+      <tr><td>长文/文档可读性</td><td class="dots">●●●●●</td><td class="dots">●●●○○</td><td class="dots">●●○○○</td></tr>
+      <tr><td>实现与维护成本</td><td class="dots">低</td><td class="dots">高</td><td class="dots">中</td></tr>
+      <tr><td>三年后还耐看</td><td class="dots">●●●●●</td><td class="dots">●●●●○</td><td class="dots">●●○○○</td></tr>
+      <tr><td>与"开发者作品"的贴合度</td><td class="dots">●●●○○</td><td class="dots">●●●●●</td><td class="dots">●●●○○</td></tr>
+    </tbody>
+  </table>
+
+  <div class="how">
+    <div><h3>想要稳、长期不腻</h3><p>选 A。最省维护，产品再多也不崩，但需要接受"不算特别"。</p></div>
+    <div><h3>想要记得住、又不轻浮</h3><p>选 B。信息结构与视觉语言统一，是我推荐的方向。</p></div>
+    <div><h3>想要一眼被记住</h3><p>选 C。风险最高，但配合严格配色纪律可以成立；文档区需要单独降饱和。</p></div>
+  </div>
+
+  <footer class="mono">样张中的版本号 / 日期为示意值，KV 导出后替换为真实数据 · 三个方向均为明亮基调</footer>
+</main>
+</body>
+</html>

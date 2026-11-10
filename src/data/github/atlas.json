@@ -1,0 +1,41 @@
+{
+  "generatedBy": "scripts/sync-github.mjs",
+  "owner": "Zoroaaa",
+  "repo": "Atlas",
+  "slug": "atlas",
+  "fetchedAt": "2026-11-10T08:41:16.883Z",
+  "etag": "W/\"5ac714b11a597ce859300d92c6c374900041118633431b0759119c19bd9bf276\"",
+  "stale": false,
+  "error": null,
+  "missing": false,
+  "readmeEtag": "\"36ded3db6f379f9526c0dbe09d43e3dbda7a141d\"",
+  "data": {
+    "id": 1035723342,
+    "fullName": "Zoroaaa/Atlas",
+    "url": "https://github.com/Zoroaaa/Atlas",
+    "description": "开源聚合搜索引擎 — JAV / 动漫 / 影视 / 漫画/小说，一站式搜索",
+    "homepage": "https://atlas.wort.uk/",
+    "stars": 90,
+    "forks": 17,
+    "openIssues": 0,
+    "language": "TypeScript",
+    "license": "MIT",
+    "createdAt": "2025-08-11",
+    "pushedAt": "2026-11-10",
+    "archived": false,
+    "fork": false,
+    "topics": [
+      "anime",
+      "cloudflare",
+      "comics",
+      "jav",
+      "magnet-link",
+      "movie",
+      "novels",
+      "proxy",
+      "search"
+    ],
+    "defaultBranch": "main",
+    "readmeExcerpt": "Atlas An open-source search engine that aggregates content across categories — JAV, anime, movies, comics, and novels, all in one place. This repository contains both English and Chinese documentation. English — this file is the English README. 中文（简体） — 查看中文 README Table of Conte…"
+  }
+}
