@@ -1,0 +1,11 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "deverportal",
+  "compatibility_date": "2026-11-11",
+  // 纯静态资源，没有 Worker 脚本：不声明 main，避免塞一个空的 fetch handler。
+  "assets": {
+    "directory": "./dist",
+    // 有真正的 404.html，直接用它，不做 SPA 回退。
+    "not_found_handling": "404-page"
+  }
+}

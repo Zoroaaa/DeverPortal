@@ -8,6 +8,7 @@
     "check": "astro check",
     "build": "astro check && astro build",
     "preview": "astro preview",
+    "deploy": "wrangler deploy",
     "sync:github": "node scripts/sync-github.mjs",
     "new:drafts": "node scripts/scaffold-projects.mjs"
   },
@@ -19,7 +20,8 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.12",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "wrangler": "4.160.0"
   },
   "engines": {
     "node": ">=22"
