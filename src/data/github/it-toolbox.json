@@ -3,25 +3,25 @@
   "owner": "Zoroaaa",
   "repo": "it-toolbox",
   "slug": "it-toolbox",
-  "fetchedAt": "2026-11-10T08:41:16.883Z",
-  "etag": "W/\"cc3ad157be6c6664874f064db61b58bf2f9bfae9bf8f87294fe134622dd8e164\"",
+  "fetchedAt": "2026-11-11T09:43:01.141Z",
+  "etag": "W/\"62bf6b954b2400956d0201a4d366457857d7a936006570cc71c9c870c3e3c6f6\"",
   "stale": false,
   "error": null,
   "missing": false,
-  "readmeEtag": "\"59ba793967ae76569f0f256079fa9584fe3fe91d\"",
+  "readmeEtag": "\"43a680bffed90d3f13d49dd182d537e0197a7e2a\"",
   "data": {
     "id": 1162457467,
     "fullName": "Zoroaaa/it-toolbox",
     "url": "https://github.com/Zoroaaa/it-toolbox",
     "description": "IT Toolbox 是一款基于 Cloudflare Pages Functions 全栈部署的面向开发者的在线工具箱，集成 140+ 高频开发工具，覆盖格式化、编码解码、加密哈希、网络查询、文本处理、颜色设计等多个类别。",
     "homepage": "https://ittool.wort.uk",
-    "stars": 144,
-    "forks": 99,
+    "stars": 143,
+    "forks": 98,
     "openIssues": 1,
     "language": "TypeScript",
     "license": "MIT",
     "createdAt": "2026-02-20",
-    "pushedAt": "2026-11-06",
+    "pushedAt": "2026-11-11",
     "archived": false,
     "fork": false,
     "topics": [
@@ -31,6 +31,6 @@
       "toolbox"
     ],
     "defaultBranch": "main",
-    "readmeExcerpt": "IT Toolbox 开发者工具箱 — 140+ 款实用工具，基于 Cloudflare Pages Functions 全栈部署 快速开始 · API 文档 · 部署指南 --- 🔗 快速访问 | 资源类型 | 链接 | 备注 | |---------|------|------| | 📖 项目文档 | 👉 完整介绍 | 详细的项目说明和使用指南 | | 🚀 在线体验 | 👉 https://ittool.wort.uk | 体验完整功能 | 项目简介 IT Toolbox 是一款面向开发者的在线工具箱，集成 140+ 款高频开发工具，覆盖格…"
+    "readmeExcerpt": "IT Toolbox 开发者工具箱 — 140+ 款实用工具，基于 Cloudflare Workers 全栈部署 快速开始 · API 文档 · 部署指南 --- 🔗 快速访问 | 资源类型 | 链接 | 备注 | |---------|------|------| | 📖 项目文档 | 👉 完整介绍 | 详细的项目说明和使用指南 | | 🚀 在线体验 | 👉 https://ittool.wort.uk | 体验完整功能 | 项目简介 IT Toolbox 是一款面向开发者的在线工具箱，集成 140+ 款高频开发工具，覆盖格式化、编码解码、…"
   }
 }
