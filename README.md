@@ -55,7 +55,7 @@ npm run new:drafts               # 为白名单缺内容的仓库生成草稿 MD
 
 同步失败不会阻断构建：保留上次快照并标 `stale`，页面显示“数据同步失败，当前沿用上次快照”。白名单新增但从未抓到过快照 → 构建失败，提示先跑 `sync:github`。
 
-GitHub Actions（`.github/workflows/sync-github.yml`）每天 UTC 02:00 同步一次，有变更时创建 `chore/github-sync` 分支并开 PR，人工看 diff 后合并。可选 Secret：`GH_SYNC_TOKEN`（fine-grained PAT，只读公开仓库）；没有则用 `GITHUB_TOKEN`。
+GitHub Actions（`.github/workflows/sync-github.yml`）每天 UTC 02:00 同步一次，有真实内容变更时先 `pull --rebase` 再直接提交并推送到 `main`（不开 PR、不建分支）。`fetchedAt` / `etag` / `readmeEtag` 这类每次都变的字段只在内容变化时才重写，不会单独造成提交。可选 Secret：`GH_SYNC_TOKEN`（fine-grained PAT，只读公开仓库）；没有则用 `GITHUB_TOKEN`。
 
 完整设计见 [docs/github-projects-sync-plan.md](./docs/github-projects-sync-plan.md)。
 

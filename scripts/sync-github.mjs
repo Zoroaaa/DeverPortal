@@ -129,13 +129,31 @@ async function readJson(file) {
 
 const changes = { updated: [], unchanged: [], stale: [], missing: [], unlisted: [] };
 
+// 这三个字段每次抓取都会变，不代表内容变化。
+// 比较时把它们剔掉：只有真实内容变了才重写文件，避免每天产生时间戳噪音提交。
+const VOLATILE_FIELDS = ['fetchedAt', 'etag', 'readmeEtag'];
+
+function stableJson(value) {
+  const copy = { ...value };
+  for (const field of VOLATILE_FIELDS) delete copy[field];
+  return JSON.stringify(copy, null, 2);
+}
+
 async function persist(file, value) {
-  const json = `${JSON.stringify(value, null, 2)}\n`;
-  const previous = await readFile(file, 'utf8').catch(() => null);
-  if (previous === json) {
-    changes.unchanged.push(path.basename(file));
-    return false;
+  const previousRaw = await readFile(file, 'utf8').catch(() => null);
+  if (previousRaw !== null) {
+    let previous = null;
+    try {
+      previous = JSON.parse(previousRaw);
+    } catch {
+      previous = null;
+    }
+    if (previous && stableJson(previous) === stableJson(value)) {
+      changes.unchanged.push(path.basename(file));
+      return false;
+    }
   }
+  const json = `${JSON.stringify(value, null, 2)}\n`;
   if (!DRY_RUN) {
     await writeFile(file, json, 'utf8');
   }

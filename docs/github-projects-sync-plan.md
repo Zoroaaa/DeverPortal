@@ -278,14 +278,15 @@ sync-github.yml
     1. checkout
     2. node scripts/sync-github.mjs        # 读 curated.json，写 src/data/github/*.json
     3. 若无变更 → 结束（不产生空提交）
-    4. 有变更 → 创建/更新分支 chore/github-sync → 开 PR（不在 main 上直接提交）
-    5. PR 描述里贴出变更摘要：版本变化、仓库 404、新发现未收录仓库
+    4. 有变更 → 提交 → `git pull --rebase origin main` → 直接推送 main
+    5. 推送失败即步骤失败，工作流标红，不会静默成功
 ```
 
-人工只做一件事：看 PR 的 diff，合并。合并即部署。
+不再有 PR 环节，也不需要 `pull-requests: write`。人工不需要介入；失败时看工作流日志。
 
+- 变更判定只看真实内容：`fetchedAt` / `etag` / `readmeEtag` 由脚本在写入前剔除比较，内容没变就不重写文件，因此不会产生纯时间戳提交。
 - token：优先 fine-grained PAT（`GH_SYNC_TOKEN`，只读 public repo 权限）；没有则用默认 `GITHUB_TOKEN`（限额较低，够用）。
-- 分支保护：`main` 不允许机器人直接推。
+- 仓库需放开 Actions 写权限（见下）。
 
 ---
 

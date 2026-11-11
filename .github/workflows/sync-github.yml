@@ -6,9 +6,9 @@ on:
     - cron: '0 2 * * *'
   workflow_dispatch:
 
+# 直接提交到 main，不再需要 pull-requests 权限
 permissions:
   contents: write
-  pull-requests: write
 
 concurrency:
   group: sync-github
@@ -19,6 +19,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main
 
       - uses: actions/setup-node@v4
         with:
@@ -28,9 +30,12 @@ jobs:
       - run: npm ci
 
       - name: 同步 GitHub 快照
+        shell: bash
         env:
           GH_SYNC_TOKEN: ${{ secrets.GH_SYNC_TOKEN || secrets.GITHUB_TOKEN }}
-        run: node scripts/sync-github.mjs | tee "$RUNNER_TEMP/sync-report.md"
+        run: |
+          set -o pipefail
+          node scripts/sync-github.mjs | tee "$RUNNER_TEMP/sync-report.md"
 
       - name: 校验构建（快照只读，不联网）
         run: npm run build
@@ -40,49 +45,22 @@ jobs:
         run: |
           if git diff --quiet -- src/data/github; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
-            echo "快照无变化，不创建 PR。"
+            echo "快照无变化，不提交。"
           else
             echo "changed=true" >> "$GITHUB_OUTPUT"
+            git diff --stat -- src/data/github
           fi
 
-      - name: 创建或更新同步 PR
+      - name: 提交并推送 main
         if: steps.diff.outputs.changed == 'true'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
         run: |
+          set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git checkout -B chore/github-sync
           git add src/data/github
           git commit -m "chore: 同步 GitHub 项目数据"
-          # 只强推机器人自己的分支 chore/github-sync，main 受分支保护
-          git push --force origin chore/github-sync
-
-          {
-            echo "## GitHub 项目数据同步"
-            echo
-            echo "自动抓取 src/data/github/*.json，构建仍只读本地快照。"
-            echo
-            echo "### 变更文件"
-            echo '```'
-            git diff --stat "origin/${{ github.event.repository.default_branch }}...HEAD" -- src/data/github || git show --stat --oneline HEAD
-            echo '```'
-            echo
-            echo "### 同步报告"
-            echo '```'
-            cat "$RUNNER_TEMP/sync-report.md"
-            echo '```'
-            echo
-            echo "合并后触发部署。手写内容（src/content/**）不会被本 PR 修改。"
-          } > "$RUNNER_TEMP/pr-body.md"
-
-          if gh pr list --head chore/github-sync --state open --json number --jq '.[0].number' | grep -q .; then
-            gh pr edit chore/github-sync --body-file "$RUNNER_TEMP/pr-body.md"
-            echo "已更新现有 PR。"
-          else
-            gh pr create \
-              --title "chore: 同步 GitHub 项目数据" \
-              --body-file "$RUNNER_TEMP/pr-body.md" \
-              --base "${{ github.event.repository.default_branch }}" \
-              --head chore/github-sync
-          fi
+          # 先 rebase 到最新 main，避免和人工提交撞车；冲突会让本步骤失败而不是静默跳过
+          git pull --rebase origin main
+          # 推送失败即非零退出，工作流标红，不会静默成功
+          git push origin HEAD:main
