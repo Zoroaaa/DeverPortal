@@ -3,12 +3,21 @@
   "owner": "Zoroaaa",
   "repo": "Atlas",
   "slug": "atlas",
-  "fetchedAt": "2026-11-10T08:41:16.883Z",
-  "etag": "W/\"155c58dc34475f3d13d19475d63d08516f542274a47c2344711237c90074d0f5\"",
+  "fetchedAt": "2026-11-12T09:11:12.266Z",
+  "etag": "W/\"b17029c23e868b5e81f4db77b49a355df1fe17a75848939132425fa361d7f372\"",
   "stale": false,
   "error": null,
   "source": "releases",
   "releases": [
+    {
+      "version": "1.7.0",
+      "tag": "v1.7.0",
+      "name": "v1.7.0",
+      "date": "2026-11-11",
+      "url": "https://github.com/Zoroaaa/Atlas/releases/tag/v1.7.0",
+      "prerelease": false,
+      "source": "release"
+    },
     {
       "version": "1.6.0",
       "tag": "v1.6.0",
