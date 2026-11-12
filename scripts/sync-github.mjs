@@ -61,8 +61,12 @@ function compact(text, max) {
   return value.length > max ? `${value.slice(0, max)}…` : value;
 }
 
+// 从 tag 里取出版本号：v1.2.0 → 1.2.0，blog_v1.4.0 → 1.4.0，1.0.0-beta.1 保留后缀。
+// 取不到数字版本时退回原 tag（去空白），不编造。
 function normalizeVersion(tag) {
-  return String(tag ?? '').trim().replace(/^v(?=\d)/i, '');
+  const raw = String(tag ?? '').trim();
+  const match = /(\d+\.\d+(?:\.\d+)?(?:-[0-9A-Za-z.-]+)?)/.exec(raw);
+  return match ? match[1] : raw;
 }
 
 function formatDate(value) {

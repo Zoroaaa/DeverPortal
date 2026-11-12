@@ -22,7 +22,7 @@ export interface NavItem {
 }
 
 export const nav: NavItem[] = [
-  { label: '产品', href: '/products' },
+  { label: '作品', href: '/products' },
   { label: '文档', href: '/docs' },
   { label: '写作', href: '/writing' },
   { label: '关于', href: '/about' },

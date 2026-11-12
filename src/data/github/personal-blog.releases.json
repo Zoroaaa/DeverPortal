@@ -10,7 +10,7 @@
   "source": "releases",
   "releases": [
     {
-      "version": "blog_v1.4.0",
+      "version": "1.4.0",
       "tag": "blog_v1.4.0",
       "name": "v1.4.0",
       "date": "2026-02-17",
@@ -19,7 +19,7 @@
       "source": "release"
     },
     {
-      "version": "blog_v1.3.3",
+      "version": "1.3.3",
       "tag": "blog_v1.3.3",
       "name": "v1.3.3",
       "date": "2026-02-15",
@@ -28,7 +28,7 @@
       "source": "release"
     },
     {
-      "version": "blog_v1.3.1",
+      "version": "1.3.1",
       "tag": "blog_v1.3.1",
       "name": "v1.3.1",
       "date": "2026-02-13",
@@ -37,7 +37,7 @@
       "source": "release"
     },
     {
-      "version": "blog_v1.2.0",
+      "version": "1.2.0",
       "tag": "blog_v1.2.0",
       "name": "v1.2.0",
       "date": "2026-02-10",
@@ -46,7 +46,7 @@
       "source": "release"
     },
     {
-      "version": "blog_v1.1.0",
+      "version": "1.1.0",
       "tag": "blog_v1.1.0",
       "name": "v1.1.0",
       "date": "2026-02-09",

@@ -8,7 +8,7 @@ const { products } = await loadContentGraph();
 const withDocs = products.filter((product) => product.docs.length > 0);
 ---
 
-<BaseLayout title="文档" description="按产品组织的使用手册与说明。">
+<BaseLayout title="文档" noindex={withDocs.length === 0} description="按产品组织的使用手册与说明。">
   <div class="container page">
     <SectionHeader
       level={1}
@@ -22,7 +22,7 @@ const withDocs = products.filter((product) => product.docs.length > 0);
             <section class="doc-group">
               <header class="group-head">
                 <h2>{product.entry.data.name}</h2>
-                <a href={`/products/${product.slug}`}>产品页 →</a>
+                <a href={`/products/${product.slug}`}>作品页 →</a>
               </header>
               <ul>
                 {product.docs.map((doc) => (

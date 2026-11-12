@@ -5,7 +5,7 @@ import Breadcrumb from '../../../components/docs/Breadcrumb.astro';
 import ProductMeta from '../../../components/product/ProductMeta.astro';
 import StatusPill from '../../../components/product/StatusPill.astro';
 import LimitationsList from '../../../components/product/LimitationsList.astro';
-import ReleaseItem from '../../../components/release/ReleaseItem.astro';
+import ReleaseList from '../../../components/release/ReleaseList.astro';
 import SectionHeader from '../../../components/ui/SectionHeader.astro';
 import Tag from '../../../components/ui/Tag.astro';
 import Prose from '../../../components/ui/Prose.astro';
@@ -115,11 +115,7 @@ const stale = snapshot?.stale || snapshot?.missing || snapshot?.releasesStale;
       />
       {
         releaseViews.length > 0 ? (
-          <div class="rev-list">
-            {releaseViews.slice(0, 3).map((release) => (
-              <ReleaseItem release={release} />
-            ))}
-          </div>
+          <ReleaseList releases={releaseViews.slice(0, 3)} />
         ) : (
           <p class="muted">仓库未发布版本，按 commit 维护；最近提交时间见上方「更新」。</p>
         )
@@ -244,9 +240,6 @@ const stale = snapshot?.stale || snapshot?.missing || snapshot?.releasesStale;
     padding-top: clamp(48px, 7vw, 88px);
   }
 
-  .rev-list {
-    border-top: 1px solid var(--line);
-  }
 
   .muted {
     max-width: 62ch;

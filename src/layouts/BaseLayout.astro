@@ -8,6 +8,7 @@ interface Props {
   canonical?: string;
   ogImage?: string;
   type?: string;
+  noindex?: boolean;
 }
 
 const {
@@ -16,6 +17,7 @@ const {
   canonical = Astro.url.pathname,
   ogImage = '/og.png',
   type = 'website',
+  noindex = false,
 } = Astro.props;
 
 const pageTitle = title ? `${title} · ${site.ownerName}` : `${site.ownerName} · ${site.title}`;
@@ -65,6 +67,7 @@ const jsonLd =
     <meta property="og:url" content={canonicalUrl.href} />
     <meta property="og:image" content={new URL(ogImage, siteUrl).href} />
     <meta property="og:locale" content="zh_CN" />
+    {noindex && <meta name="robots" content="noindex, follow" />}
     <meta name="theme-color" content="#ffffff" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={pageTitle} />

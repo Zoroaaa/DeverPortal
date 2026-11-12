@@ -40,7 +40,6 @@
   --space-8: 32px;
   --space-12: 48px;
   --space-16: 64px;
-  --space-24: 96px;
 
   --pad: clamp(20px, 5vw, 48px);
   --w-content: 1040px;

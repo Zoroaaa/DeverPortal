@@ -11,28 +11,33 @@ const { release, productName } = Astro.props;
 const { version, date, title, summary, highlights, breaking, channel, source, url, href, productSlug } = release;
 
 const dateText = date ? displayDate(date) : '日期未知';
+
+// 标题只是版本号本身时没有信息量：聚合列表改显示产品名，单产品列表显示来源。
+const customTitle = title.replace(/^v/i, '') === version ? null : title;
+const sourceLabel = source === 'tag' ? 'Git tag' : 'GitHub Release';
+const label = productName ? (customTitle ? `${productName} · ${customTitle}` : productName) : (customTitle ?? sourceLabel);
+const target = source === 'manual' ? href : url;
+const external = source !== 'manual' && Boolean(url);
 ---
+
 
 <article class="release" id={`${productSlug}-${version}`}>
   <div class="row">
     <span class="ver">v{version}</span>
     <h3 class="title">
       {
-        source === 'manual' ? (
-          <a href={href}>{title}</a>
-        ) : url ? (
-          <a href={url} target="_blank" rel="noopener noreferrer">
-            {title}
-            <span aria-hidden="true"> ↗</span>
-            <span class="visually-hidden">（GitHub 发布页）</span>
+        target ? (
+          <a href={target} {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>
+            {label}
+            {external && <span aria-hidden="true"> ↗</span>}
+            {external && <span class="visually-hidden">（GitHub 发布页）</span>}
           </a>
         ) : (
-          title
+          label
         )
       }
     </h3>
     <p class="when meta-text">
-      {productName && <span>{productName} · </span>}
       <time datetime={date ? formatDate(date) : undefined}>{dateText}</time>
     </p>
   </div>
@@ -47,11 +52,10 @@ const dateText = date ? displayDate(date) : '日期未知';
     )
   }
   {
-    (breaking || channel === 'beta' || source !== 'manual') && (
+    (breaking || channel === 'beta') && (
       <p class="flags">
         {breaking && <span class="breaking">破坏性变更</span>}
         {channel === 'beta' && <span class="channel">Beta 通道</span>}
-        {source !== 'manual' && <span class="note">来自 GitHub，仅版本事实，改了什么以手写说明为准</span>}
       </p>
     )
   }
@@ -143,9 +147,6 @@ const dateText = date ? displayDate(date) : '日期未知';
     color: var(--status-beta);
   }
 
-  .note {
-    color: var(--ink-faint);
-  }
 
   @media (max-width: 700px) {
     .row {

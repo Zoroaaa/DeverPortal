@@ -1,0 +1,36 @@
+---
+import ReleaseItem from './ReleaseItem.astro';
+import type { ReleaseView } from '../../lib/content-graph';
+
+interface Props {
+  releases: ReleaseView[];
+  /** 传入后按“产品名 + 版本”展示，用于跨产品的聚合列表 */
+  names?: Map<string, string>;
+}
+
+const { releases, names } = Astro.props;
+const hasAuto = releases.some((release) => release.source !== 'manual');
+---
+
+<div class="rlist">
+  {
+    hasAuto && (
+      <p class="note meta-text">
+        带 ↗ 的条目来自 GitHub 发布页，只提供版本事实；改了什么以手写说明为准。
+      </p>
+    )
+  }
+  <div class="items">
+    {releases.map((release) => <ReleaseItem release={release} productName={names?.get(release.productSlug)} />)}
+  </div>
+</div>
+
+<style>
+  .note {
+    margin-bottom: var(--space-3);
+  }
+
+  .items {
+    border-top: 1px solid var(--line);
+  }
+</style>

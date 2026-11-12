@@ -1,7 +1,9 @@
 // 版本比较与 appliesTo 范围匹配：全站唯一实现。
 export function compareVersions(a: string, b: string): number {
-  const pa = a.split('.').map(Number);
-  const pb = b.split('.').map(Number);
+  // parseInt 容忍 "0-beta" 这类后缀；解析不出数字按 0，保证永远返回有限数，排序稳定。
+  const toParts = (v: string) => v.split('.').map((part) => Number.parseInt(part, 10) || 0);
+  const pa = toParts(a);
+  const pb = toParts(b);
   for (let i = 0; i < 3; i += 1) {
     const diff = (pa[i] ?? 0) - (pb[i] ?? 0);
     if (diff !== 0) return diff;

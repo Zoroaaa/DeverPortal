@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionHeader from '../components/ui/SectionHeader.astro';
 import ProductCard from '../components/product/ProductCard.astro';
-import ReleaseItem from '../components/release/ReleaseItem.astro';
+import ReleaseList from '../components/release/ReleaseList.astro';
 import EmptyState from '../components/ui/EmptyState.astro';
 import { site } from '../data/site';
 import { loadContentGraph } from '../lib/content-graph';
@@ -60,11 +60,7 @@ const hasStop = rest.endsWith('。');
     recentReleases.length > 0 && (
       <section class="container block">
         <SectionHeader title="最近更新" href="/changelog" hrefLabel="完整日志" />
-        <div class="list">
-          {recentReleases.map((release) => (
-            <ReleaseItem release={release} productName={nameBySlug.get(release.productSlug)} />
-          ))}
-        </div>
+        <ReleaseList releases={recentReleases} names={nameBySlug} />
       </section>
     )
   }

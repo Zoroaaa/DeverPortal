@@ -1,15 +1,16 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Breadcrumb from '../../../components/docs/Breadcrumb.astro';
-import ReleaseItem from '../../../components/release/ReleaseItem.astro';
+import ReleaseList from '../../../components/release/ReleaseList.astro';
 import SectionHeader from '../../../components/ui/SectionHeader.astro';
 import EmptyState from '../../../components/ui/EmptyState.astro';
 import { loadContentGraph, type ProductView } from '../../../lib/content-graph';
 
 export async function getStaticPaths() {
   const { products } = await loadContentGraph();
-  if (products.length === 0) return [];
-  return products.map((product) => ({
+  // 没有任何版本记录的作品不生成这一页，避免空页面进入索引。
+  const withReleases = products.filter((product) => product.releaseViews.length > 0);
+  return withReleases.map((product) => ({
     params: { slug: product.slug },
     props: { product },
   }));
@@ -44,19 +45,15 @@ const { product } = Astro.props;
     </div>
     {
       product.releaseViews.length > 0 ? (
-        <div class="list">
-          {product.releaseViews.map((release) => (
-            <ReleaseItem release={release} />
-          ))}
-        </div>
+        <ReleaseList releases={product.releaseViews} />
       ) : (
         <EmptyState
           title="暂无版本记录"
-          description="仓库没有发布 Release 或打 tag；项目按 commit 维护，最近提交时间见产品页。"
+          description="仓库没有发布 Release 或打 tag；项目按 commit 维护，最近提交时间见作品页。"
         />
       )
     }
-    <p class="back"><a href={`/products/${product.slug}`}>← 返回产品详情</a></p>
+    <p class="back"><a href={`/products/${product.slug}`}>← 返回作品详情</a></p>
   </div>
 </BaseLayout>
 
@@ -69,9 +66,6 @@ const { product } = Astro.props;
     margin-top: var(--space-12);
   }
 
-  .list {
-    border-top: 1px solid var(--line);
-  }
 
   .back {
     margin-top: var(--space-8);

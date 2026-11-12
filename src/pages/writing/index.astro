@@ -10,7 +10,7 @@ const { posts } = await loadContentGraph();
 const visible = posts.filter((post) => !post.data.draft);
 ---
 
-<BaseLayout title="写作" description="关于做法、取舍与踩坑的记录。">
+<BaseLayout title="写作" noindex={visible.length === 0} description="关于做法、取舍与踩坑的记录。">
   <div class="container page">
     <SectionHeader level={1} title="写作" description="叙述性长文，记录做法与取舍，不替代产品文档。" />
     {
