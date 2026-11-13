@@ -62,13 +62,6 @@
       "featured": false,
       "order": 60,
       "manifests": ["requirements.txt"]
-    },
-    {
-      "repo": "lingbeast",
-      "slug": "lingbeast",
-      "featured": false,
-      "order": 70,
-      "manifests": ["package.json"]
     }
   ]
 }

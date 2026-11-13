@@ -158,12 +158,12 @@ pnpm dev          # 终端 1：Vite
 pnpm pages:dev    # 终端 2：Wrangler，http://localhost:8788
 ```
 
-本地要用网络查询和 AI，需要复制配置模板并打开对应的 binding：
+本地要用网络查询和 AI，需要在 `wrangler.toml` 里打开对应的 binding：
 
 ```bash
-cp wrangler.toml wrangler.toml
-# 取消注释 [[kv_namespaces]] 的 CACHE，填 KV 命名空间 id
-# 取消注释 [ai] 的 AI
+# 仓库根目录已有 wrangler.toml，直接改这里
+# 填 [[kv_namespaces]] 的 CACHE 命名空间 id
+# [ai] 的 AI binding 已在文件里声明
 ```
 
 部署可以走 Pages 直连：push 到 `main` 就自动构建。手动部署是：

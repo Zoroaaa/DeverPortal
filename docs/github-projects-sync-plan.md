@@ -46,7 +46,7 @@
 
 | 类别 | 实例 | 能否直接当作品 |
 |---|---|---|
-| 真正的作品 | Atlas（90★）、it-toolbox（143★）、OmniBox（65★）、personal-blog（54★）、OSSshelf（8★）、cf-bestip（21★）、lingbeast、DeverPortal | 可以，但要人写定位与限制 |
+| 真正的作品 | Atlas（90★）、it-toolbox（143★）、OmniBox（65★）、personal-blog（54★）、OSSshelf（8★）、cf-bestip（21★）、DeverPortal | 可以，但要人写定位与限制 |
 | 个人资料仓库 | `Zoroaaa`（同名仓库，无语言、无描述） | 不能，它是 GitHub Profile 的特殊仓库 |
 | fork 仓库 | edgetunnel、cloud-mail、WorkerVless2sub | 不能，不是自己的代码 |
 | 工具/实验 | newspulse、node-aggregator、IpCheck（0–1★） | 视情况，需要人判断 |

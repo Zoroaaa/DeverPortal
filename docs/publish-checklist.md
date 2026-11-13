@@ -19,7 +19,7 @@
 src/content/products/<slug>/index.mdx      ← 只改这个
 ```
 
-`<slug>` 取 `src/data/curated.json` 里的 `slug`，目录名必须一致（atlas / it-toolbox / omnibox / personal-blog / ossshelf / cf-bestip / lingbeast）。
+`<slug>` 取 `src/data/curated.json` 里的 `slug`，目录名必须一致（atlas / it-toolbox / omnibox / personal-blog / ossshelf / cf-bestip）。
 
 ### 1.1 frontmatter：改这 5 个字段
 
@@ -141,9 +141,8 @@ Get-ChildItem dist -Recurse -File | Select-String -Pattern "TODO：|DRAFT / 草�
 | personal-blog | `src/content/products/personal-blog/index.mdx` | true | 40 | 8 项 | 54★ · TypeScript · MIT · 5 个 Release |
 | ossshelf | `src/content/products/ossshelf/index.mdx` | false | 50 | 8 项 | 8★ · TypeScript · MIT · 22 个 Release |
 | cf-bestip | `src/content/products/cf-bestip/index.mdx` | false | 60 | 8 项 | 21★ · Python · MIT · 0 个 Release（tag 级也为空） |
-| lingbeast | `src/content/products/lingbeast/index.mdx` | false | 70 | 8 项 | 1★ · JavaScript · 未声明 License · 0 个 Release |
 
-**建议先发 `atlas` 或 `it-toolbox`**：两者都有 7 个 Release，发布后产品页立刻有版本记录可看，能一次验证卡片、详情、版本、首页、sitemap 全链路。`ossshelf` 版本最多（22 个），适合验证长列表；`omnibox` / `cf-bestip` / `lingbeast` 没有任何版本，详情页会显示“仓库未发布版本，按 commit 维护”，同样可以发。
+**建议先发 `atlas` 或 `it-toolbox`**：两者都有 7 个 Release，发布后产品页立刻有版本记录可看，能一次验证卡片、详情、版本、首页、sitemap 全链路。`ossshelf` 版本最多（22 个），适合验证长列表；`omnibox` / `cf-bestip` 没有任何版本，详情页会显示“仓库未发布版本，按 commit 维护”，同样可以发。
 
 ---
 

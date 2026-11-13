@@ -144,7 +144,7 @@ OSSshelf 是一个自托管的多存储文件管理器。它自己不囤文件�
 
 仓库是 pnpm workspace 的单仓三分：`apps/api` 是 Hono + Workers，`apps/web` 是 React + Vite，`packages/shared` 放常量和类型。数据库是 D1 + Drizzle ORM。迁移脚本按模块编号：`010_core`、`020_auth`、`030_files_extended` 一路到 `119_file_name_unique`，共 27 个。
 
-存储层没有绑死 R2。`bucketResolver` 负责选桶，`s3client` 自己实现 SigV4，`telegramClient` 和 `telegramChunked` 处理 Bot API 的分片。`wrangler.toml.example` 里原来的 R2 binding 已经标成 OPTIONAL / LEGACY，新上传走应用内「存储桶管理」里配置的 provider。路径在 `117_path_model_unify.sql` 统一；删除走 `118_storage_deletion_queue.sql` 的队列，再由 `storageGC`、`storageAuditService`、`storageReconciliation` 收尾。commit `5d11794` 一次落了路径统一、流式传输、删除补偿和存储对账。
+存储层没有绑死 R2。`bucketResolver` 负责选桶，`s3client` 自己实现 SigV4，`telegramClient` 和 `telegramChunked` 处理 Bot API 的分片。`apps/api/wrangler.toml` 里原来的 R2 binding 已经标成 OPTIONAL / LEGACY，新上传走应用内「存储桶管理」里配置的 provider。路径在 `117_path_model_unify.sql` 统一；删除走 `118_storage_deletion_queue.sql` 的队列，再由 `storageGC`、`storageAuditService`、`storageReconciliation` 收尾。commit `5d11794` 一次落了路径统一、流式传输、删除补偿和存储对账。
 
 AI 在 v3.2 换了运行时：对话由 Cloudflare Agents SDK 的 `AIChatAgent` 承载，每个会话一个 `OSSShelfAgent` Durable Object；HTTP 层只负责会话和记忆管理、模型配置、索引任务与用量查询。批量索引、摘要、标签走 `ossshelf-ai-tasks` 队列，`max_batch_size = 1`，Vectorize 写入失败最多重试 6 次，避开限流窗口。检索是两路：FTS5 关键词，加 Vectorize 语义；FTS5 不可用时自动回退 LIKE。
 
@@ -192,7 +192,7 @@ wrangler pages deploy apps/web/dist --project-name=ossshelf-web
 
 有几个门槛，README 没全部写出来：
 
-- `wrangler.toml.example` 里还声明了 `[ai]`、`[[vectorize]]` 的 `ossshelf-files` 索引、`OSSShelfAgent` 这个 Durable Object，以及 `ossshelf-ai-tasks` 队列；README 的创建步骤只写了 D1 和 KV。这几个资源要按 example 里的名字自己建好，否则对应能力或部署不完整。
+- `wrangler.toml` 里还声明了 `[ai]`、`[[vectorize]]` 的 `ossshelf-files` 索引、`OSSShelfAgent` 这个 Durable Object，以及 `ossshelf-ai-tasks` 队列；README 的创建步骤只写了 D1 和 KV。这几个资源要按里面的名字自己建好，否则对应能力或部署不完整。
 - v3.2 移除了自动 D1 迁移，迁移要自己执行；仓库另有 `apps/api/scripts/preflight-migrations.mjs`，用于比对 `d1_migrations` 和真实 schema。
 - 回收站清理靠 `[triggers]` 里 `0 3 * * *` 的 cron，不配就不会自动清。
 - 第一个注册的用户自动成为管理员；登录后先去「设置 → 存储桶」加一个桶，否则没地方上传。
