@@ -15,10 +15,60 @@ links:
   demo: "https://blog.wort.uk/"
   repo: "https://github.com/Zoroaaa/personal-blog"
 limitations:
-  - "全文搜索依赖 D1 的 FTS5 虚表 `posts_fts`；`searchPosts` 在 `useFts` 为假时退回普通查询，这时检索只按字段匹配。"
-  - "database/ 只有 3 个 schema 文件，但 docs/ARCHITECTURE.md 和 v1.4.0 更新日志让人执行 migration-v1.4-message-recall.sql、migration-v1.9-post-pinning.sql，这两个文件在仓库里不存在；对应字段其实已并入前两个 schema。"
-  - "没有项目自己的自动化测试：前端 package.json 写了 test: jest，但没装 jest，仓库里也没有测试文件；CI 只做 typecheck、数据库迁移和部署。"
-  - "验证码、每日 / 每周邮件汇总依赖 Resend 和已验证的发件域名，不配这部分就不可用。"
+  - text: "全文搜索依赖 D1 的 FTS5 虚表 `posts_fts`；`searchPosts` 在 `useFts` 为假时退回普通查询，这时检索只按字段匹配。"
+    impact: med
+    evidence: []
+  - text: "database/ 只有 3 个 schema 文件，但 docs/ARCHITECTURE.md 和 v1.4.0 更新日志让人执行 migration-v1.4-message-recall.sql、migration-v1.9-post-pinning.sql，这两个文件在仓库里不存在；对应字段其实已并入前两个 schema。"
+    impact: med
+    evidence: []
+  - text: "没有项目自己的自动化测试：前端 package.json 写了 test: jest，但没装 jest，仓库里也没有测试文件；CI 只做 typecheck、数据库迁移和部署。"
+    impact: med
+    evidence: []
+  - text: "验证码、每日 / 每周邮件汇总依赖 Resend 和已验证的发件域名，不配这部分就不可用。"
+    impact: med
+    evidence: []
+capabilities:
+  - id: "cap-1"
+    title: "文章"
+    desc: "Markdown、代码高亮、专栏 / 分类 / 标签、置顶、上下篇、相关推荐、浏览量、SEO 字段、密码访问、软删除。"
+    state: done
+    evidence: []
+  - id: "cap-2"
+    title: "搜索"
+    desc: "D1 里有 FTS5 虚表 `posts_fts`，`searchPosts` 按 `useFts` 在全文检索和普通查询之间切换。"
+    state: done
+    evidence: []
+  - id: "cap-3"
+    title: "互动"
+    desc: "最多 5 层嵌套评论、@提及、点赞、收藏、阅读历史。"
+    state: done
+    evidence: []
+  - id: "cap-4"
+    title: "账号"
+    desc: "邮箱注册、GitHub OAuth、邮箱验证码、密码重置，前端接 refresh token 静默刷新。"
+    state: done
+    evidence: []
+  - id: "cap-5"
+    title: "通知与私信"
+    desc: "站内通知、类型开关、免打扰、每日 / 每周邮件汇总、私信会话与撤回。"
+    state: done
+    evidence: []
+  - id: "cap-6"
+    title: "后台与主题"
+    desc: "文章 / 专栏 / 评论 / 用户 / 分类标签 / 配置 / 统计 / 系统通知；亮暗色、跟随系统、自定义主色、三档字号。"
+    state: done
+    evidence: []
+evidence:
+  - file: "database/schema-v1.1-base.sql"
+  - file: "backend/src/services/postService.ts"
+  - file: "package.json"
+  - file: ".github/workflows/deploy.yml"
+  - file: "backend/wrangler.toml"
+  - file: "docs/QUICKSTART.md"
+  - file: "backend/package.json"
+  - file: "frontend/package.json"
+  - file: "scripts/migrate.sh"
+  - file: "frontend/.env.example"
 ---
 
 {/* 自动抓取事实（只读参考，删除也不影响页面）：
@@ -71,7 +121,7 @@ Star：54
 
 部署链路写在 workflow 里：main 分支推送 → 根目录 `npm ci` → typecheck → `scripts/migrate.sh blog-db --remote` → wrangler deploy。
 
-> 证据：根 `package.json` 的 workspaces；`backend/src/` 目录分层；上述 commit；`.github/workflows/deploy-backend.yml`；`backend/wrangler.toml` 的 Durable Object 绑定和 `crons = ["*/15 * * * *"]`。
+> 证据：根 `package.json` 的 workspaces；`backend/src/` 目录分层；上述 commit；`.github/workflows/deploy.yml`；`backend/wrangler.toml` 的 Durable Object 绑定和 `crons = ["*/15 * * * *"]`。
 
 ## 怎么用
 

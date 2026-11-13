@@ -1,0 +1,115 @@
+---
+interface Props {
+  cloudflare: {
+    d1: boolean;
+    kv: boolean;
+    r2: boolean;
+    vectorize: boolean;
+    ai: boolean;
+    queues: boolean;
+    durableObjects: boolean;
+  } | null;
+  tech: string[];
+  languages: { name: string; bytes: number }[];
+}
+
+const { cloudflare, tech, languages } = Astro.props;
+
+const catalog: [string, keyof NonNullable<Props['cloudflare']>][] = [
+  ['D1', 'd1'],
+  ['KV', 'kv'],
+  ['R2', 'r2'],
+  ['Vectorize', 'vectorize'],
+  ['Workers AI', 'ai'],
+  ['Queues', 'queues'],
+  ['Durable Objects', 'durableObjects'],
+];
+
+const resources = cloudflare ? catalog.filter(([, key]) => cloudflare[key]).map(([name]) => name) : [];
+const stack = (tech.length > 0 ? tech : languages.map((item) => item.name)).slice(0, 6);
+
+const boxHeight = 34;
+const gap = 12;
+const leftWidth = 150;
+const rightWidth = 150;
+const width = 520;
+const height = Math.max(stack.length, resources.length, 1) * (boxHeight + gap) - gap;
+const leftX = 0;
+const rightX = width - rightWidth;
+---
+
+{
+  (stack.length > 0 || resources.length > 0) && (
+    <figure class="stack">
+      <svg viewBox={`0 0 ${width} ${height}`} role="img" aria-label="应用与云资源依赖图">
+        <g class="column">
+          {stack.map((name, index) => (
+            <g>
+              <rect x={leftX} y={index * (boxHeight + gap)} width={leftWidth} height={boxHeight} rx="0" />
+              <text x={leftX + 12} y={index * (boxHeight + gap) + 22}>
+                {name}
+              </text>
+            </g>
+          ))}
+        </g>
+
+        {resources.map((name, index) => (
+          <g>
+            <line
+              x1={leftX + leftWidth}
+              y1={Math.min(stack.length, 1) * (boxHeight + gap) - boxHeight / 2}
+              x2={rightX}
+              y2={index * (boxHeight + gap) + boxHeight / 2}
+              class="link"
+            />
+            <rect x={rightX} y={index * (boxHeight + gap)} width={rightWidth} height={boxHeight} rx="0" class="resource" />
+            <text x={rightX + 12} y={index * (boxHeight + gap) + 22}>
+              {name}
+            </text>
+          </g>
+        ))}
+      </svg>
+      <figcaption>左侧为依赖，右侧为 wrangler 配置里检测到的 Cloudflare 资源。</figcaption>
+    </figure>
+  )
+}
+
+<style>
+  figure {
+    margin: 0;
+  }
+
+  svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  rect {
+    fill: none;
+    stroke: var(--line-strong);
+    stroke-width: 1;
+  }
+
+  .resource {
+    stroke: var(--accent);
+  }
+
+  text {
+    fill: var(--ink);
+    font-size: 12px;
+    font-family: var(--font-mono);
+  }
+
+  .link {
+    stroke: var(--line-strong);
+    stroke-width: 1;
+    stroke-dasharray: 3 3;
+  }
+
+  figcaption {
+    margin-top: 10px;
+    color: var(--ink-faint);
+    font-size: 12px;
+  }
+</style>

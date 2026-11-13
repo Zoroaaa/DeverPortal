@@ -3,6 +3,7 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 import {
   assertSnapshotCoverage,
   curated,
+  deriveTech,
   getCuratedItem,
   getSnapshots,
   mergeReleases,
@@ -32,6 +33,8 @@ export interface ProductView {
   releaseViews: ReleaseView[];
   latestRelease: ReleaseView | undefined;
   snapshot: GithubSnapshot | null;
+  // 由快照里的依赖推导，不读手写 tech
+  tech: string[];
 }
 
 export interface ContentGraph {
@@ -158,6 +161,68 @@ export function assertContentGraph(graph: {
   }
 }
 
+/**
+ * 判断层证据校验：frontmatter 声明 evidence.file 时，快照里记录的存在性必须为 true。
+ * 快照没有 evidence 字段（本次未校验）时跳过，不让构建因未同步而失败。
+ */
+function assertEvidence(views: ProductView[]): void {
+  const errors: string[] = [];
+  for (const view of views) {
+    const map = view.snapshot?.evidence;
+    if (!map) continue;
+    const refs = [
+      ...view.entry.data.evidence,
+      ...view.entry.data.capabilities.flatMap((item) => item.evidence),
+      ...view.entry.data.limitations.flatMap((item) => item.evidence),
+    ];
+    for (const ref of refs) {
+      if ('file' in ref && map[ref.file] === false) {
+        errors.push(`${view.slug}: evidence.file "${ref.file}" 在仓库当前 HEAD 中不存在`);
+      }
+    }
+  }
+  if (errors.length > 0) {
+    throw new Error(
+      `证据校验失败：\n- ${errors.join('\n- ')}\n` +
+        '证据指向的文件被删除或重命名了。改 frontmatter 里的路径，或删掉这条证据。',
+    );
+  }
+}
+
+/** 构建期规则：只告警，不阻断。 */
+function reportWarnings(views: ProductView[]): void {
+  for (const view of views) {
+    const data = view.snapshot?.data;
+    if (!data) continue;
+    const status = view.entry.data.status;
+
+    if (status === 'live' && data.pushedAt) {
+      const days = Math.floor((Date.now() - new Date(data.pushedAt).getTime()) / 86400000);
+      if (days > 365) {
+        console.warn(`[warn] ${view.slug}: status 是 live，但最后提交在 ${days} 天前`);
+      }
+    }
+
+    if (status === 'archived' && !data.archived) {
+      console.warn(`[warn] ${view.slug}: status 写的是 archived，但 GitHub 未归档`);
+    }
+    if (status !== 'archived' && data.archived) {
+      console.warn(`[warn] ${view.slug}: GitHub 已归档，但 status 是 ${status}`);
+    }
+
+    const handwritten = view.entry.data.tech;
+    if (handwritten.length > 0 && view.tech.length > 0) {
+      const derived = new Set(view.tech.map((item) => item.toLowerCase()));
+      const missing = handwritten.filter((item) => !derived.has(item.toLowerCase()));
+      if (missing.length > 0) {
+        console.warn(
+          `[warn] ${view.slug}: 手写 tech 与 package.json 推导不一致（以推导为准）：${missing.join('、')}`,
+        );
+      }
+    }
+  }
+}
+
 let graphCache: Promise<ContentGraph> | null = null;
 
 /** 生产构建里每个页面都会调用；内容在一次构建内不变，只算一次。开发模式不缓存，保证热更新。 */
@@ -234,6 +299,7 @@ async function buildContentGraph(): Promise<ContentGraph> {
         releaseViews,
         latestRelease: releaseViews[0],
         snapshot,
+        tech: deriveTech(snapshot?.data?.techDeps ?? []),
       };
     })
     .sort(
@@ -254,6 +320,9 @@ async function buildContentGraph(): Promise<ContentGraph> {
       `内容与白名单不一致：\n- ${unpublishedWhitelist.join('\n- ')}\n请把它们加入 src/data/curated.json 并运行 npm run sync:github，或设置 draft: true。`,
     );
   }
+
+  assertEvidence(productViews);
+  reportWarnings(productViews);
 
   return {
     products: productViews,

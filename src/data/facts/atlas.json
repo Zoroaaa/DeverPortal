@@ -1,0 +1,416 @@
+{
+  "schemaVersion": 1,
+  "slug": "atlas",
+  "owner": "Zoroaaa",
+  "repo": "Atlas",
+  "fetchedAt": "2026-11-13T06:51:41.866Z",
+  "etag": null,
+  "readmeEtag": "\"62627f6f6c491cf8bf84df5de4eb706e010b7ba9\"",
+  "stale": false,
+  "error": null,
+  "missing": false,
+  "data": {
+    "id": null,
+    "fullName": "Zoroaaa/Atlas",
+    "url": "https://github.com/Zoroaaa/Atlas",
+    "description": "开源聚合搜索引擎 — JAV / 动漫 / 影视 / 漫画/小说，一站式搜索",
+    "homepage": "https://atlas.wort.uk/",
+    "stars": 92,
+    "forks": 17,
+    "openIssues": 0,
+    "openPRs": 0,
+    "language": "TypeScript",
+    "license": "MIT",
+    "createdAt": "2025-08-11",
+    "pushedAt": "2026-11-13",
+    "archived": false,
+    "fork": false,
+    "topics": [
+      "cloudflare",
+      "proxy",
+      "search",
+      "jav",
+      "magnet-link",
+      "anime",
+      "movie",
+      "novels",
+      "comics"
+    ],
+    "defaultBranch": "main",
+    "readmeExcerpt": "Atlas An open-source search engine that aggregates content across categories — JAV, anime, movies, comics, and novels, all in one place. This repository contains both English and Chinese documentation. English — this file is the English README. 中文（简体） — 查看中文 README Table of Conte…",
+    "commitCount": 477,
+    "languages": [
+      {
+        "name": "TypeScript",
+        "bytes": 2985543
+      },
+      {
+        "name": "CSS",
+        "bytes": 34931
+      },
+      {
+        "name": "JavaScript",
+        "bytes": 31659
+      },
+      {
+        "name": "HTML",
+        "bytes": 24384
+      }
+    ],
+    "techDeps": [
+      {
+        "name": "@cloudflare/workers-types",
+        "scope": "dev"
+      },
+      {
+        "name": "@codeseek/shared",
+        "scope": "prod"
+      },
+      {
+        "name": "@eslint/js",
+        "scope": "dev"
+      },
+      {
+        "name": "@tailwindcss/vite",
+        "scope": "dev"
+      },
+      {
+        "name": "@tanstack/react-query",
+        "scope": "prod"
+      },
+      {
+        "name": "@testing-library/jest-dom",
+        "scope": "dev"
+      },
+      {
+        "name": "@testing-library/react",
+        "scope": "dev"
+      },
+      {
+        "name": "@types/react",
+        "scope": "dev"
+      },
+      {
+        "name": "@types/react-dom",
+        "scope": "dev"
+      },
+      {
+        "name": "@typescript-eslint/eslint-plugin",
+        "scope": "dev"
+      },
+      {
+        "name": "@typescript-eslint/parser",
+        "scope": "dev"
+      },
+      {
+        "name": "@vitejs/plugin-react",
+        "scope": "dev"
+      },
+      {
+        "name": "clsx",
+        "scope": "prod"
+      },
+      {
+        "name": "eslint",
+        "scope": "dev"
+      },
+      {
+        "name": "eslint-plugin-react-hooks",
+        "scope": "dev"
+      },
+      {
+        "name": "eslint-plugin-react-refresh",
+        "scope": "dev"
+      },
+      {
+        "name": "fuzzball",
+        "scope": "prod"
+      },
+      {
+        "name": "globals",
+        "scope": "dev"
+      },
+      {
+        "name": "hono",
+        "scope": "prod"
+      },
+      {
+        "name": "i18next",
+        "scope": "prod"
+      },
+      {
+        "name": "i18next-browser-languagedetector",
+        "scope": "prod"
+      },
+      {
+        "name": "jose",
+        "scope": "prod"
+      },
+      {
+        "name": "jsdom",
+        "scope": "dev"
+      },
+      {
+        "name": "lucide-react",
+        "scope": "prod"
+      },
+      {
+        "name": "opencc-js",
+        "scope": "prod"
+      },
+      {
+        "name": "pinyin-pro",
+        "scope": "prod"
+      },
+      {
+        "name": "react",
+        "scope": "prod"
+      },
+      {
+        "name": "react-dom",
+        "scope": "prod"
+      },
+      {
+        "name": "react-i18next",
+        "scope": "prod"
+      },
+      {
+        "name": "react-router-dom",
+        "scope": "prod"
+      },
+      {
+        "name": "sharp",
+        "scope": "dev"
+      },
+      {
+        "name": "tailwindcss",
+        "scope": "dev"
+      },
+      {
+        "name": "typescript",
+        "scope": "dev"
+      },
+      {
+        "name": "typescript-eslint",
+        "scope": "dev"
+      },
+      {
+        "name": "vite",
+        "scope": "dev"
+      },
+      {
+        "name": "vitest",
+        "scope": "dev"
+      },
+      {
+        "name": "wanakana",
+        "scope": "prod"
+      },
+      {
+        "name": "wrangler",
+        "scope": "dev"
+      },
+      {
+        "name": "zod",
+        "scope": "prod"
+      },
+      {
+        "name": "zustand",
+        "scope": "prod"
+      }
+    ],
+    "envKeys": [],
+    "files": {
+      "license": true,
+      "ci": true,
+      "tests": true,
+      "changelog": false,
+      "dockerfile": false,
+      "envExample": false,
+      "wrangler": true
+    },
+    "cloudflare": {
+      "d1": true,
+      "kv": false,
+      "r2": false,
+      "vectorize": false,
+      "ai": true,
+      "queues": false,
+      "durableObjects": false
+    }
+  },
+  "activity": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    135,
+    9,
+    0,
+    7,
+    0,
+    0,
+    0,
+    0,
+    0,
+    35,
+    0,
+    1,
+    2,
+    26,
+    45,
+    4,
+    3,
+    4,
+    15,
+    21,
+    4,
+    13,
+    32,
+    7,
+    0,
+    0,
+    0,
+    1,
+    0,
+    0,
+    14,
+    5,
+    0,
+    4,
+    28,
+    61
+  ],
+  "evidence": {
+    "README.md": true,
+    "README.zh-CN.md": true,
+    "backend/wrangler.toml": true,
+    "docs/CHANGELOG.md": true,
+    "docs/config.md": true,
+    "docs/deploy.md": true
+  },
+  "releases": {
+    "fetchedAt": "2026-11-13T06:51:41.866Z",
+    "etag": null,
+    "stale": false,
+    "error": null,
+    "source": "releases",
+    "items": [
+      {
+        "version": "1.7.0",
+        "tag": "v1.7.0",
+        "name": "v1.7.0",
+        "date": "2026-11-11",
+        "url": "https://github.com/Zoroaaa/Atlas/releases/tag/v1.7.0",
+        "prerelease": false,
+        "source": "release",
+        "body": "本次版本覆盖 v1.6.0 以来的全部变更，核心变化：JAV 搜索接入本地库优先与 JavBus 外部源回源；新增 JAV 推荐标签与标签作品；数据存储与 JAV 详情补全形成闭环；新增 PWA 与移动端底部导航；部署收敛为单一 Worker（前端静态资源同源托管）；帮助中心与文档补齐用量限速说明。\r\n\r\n### 新增\r\n\r\n- **JAV 本地库优先**：番号搜索先查 `data_records`，命中且磁力非空时直接返回本地库数据（`detail.fromLibrary=true`），未命中再回源 JavBus；本地库结果不重复落库、不写搜索缓存，避免回源后仍命中旧快照\r\n- **JavBus 外部源回源**：详情卡新增「外部源」按钮（`GET /api/jav/detail?code=...&refresh=1`），跳过 1 小时详情缓存强制回源，同步写回本地库（记录、磁力、完成度）并覆盖详情缓存\r\n- **JAV 推荐标签**：`/api/jav/genre-recommendations` 按收藏 / 搜索画像推荐标签（收藏权重 0.7、历史权重 0.3，最多 10 个）；`/api/jav/genre-works` 按标签浏览作品（每页 12 条、最多 30 页、1 小时缓存）；JavBus 标签词典每周同步；新增 `database/21_schema_jav_genres.sql`\r\n- **JAV 详情补全任务**：后台可手动启动批量补全（默认每批 10 条、批内间隔 4 秒，由每分钟 cron 推进），支持按缺少导演 / 制作商 / 发行商 / 磁力筛选；任务状态持久化在 `detail_fetch_jobs`，支持暂停、恢复、停止；源站缺失累计 3 次后不再重试；新增 `database/26_jav_detail_meta.sql`、`29` / `30` / `31` 迁移\r\n- **数据存储管理增强**：搜索结果异步去重落库；后台按类型查看统计、明细、来源与隐藏 / 删除记录；JAV 详情补齐导演、制作商、系列等元数据\r\n- **收藏栏分享到社区**：主页收藏栏竖排操作列新增「分享到社区」（打开 / 分享 / 删除），目前仅 JAV 作品可分享\r\n- **收藏分享从本地库补全信息**：收藏表不存磁力等详情，点击分享时先读本地库（只读接口 `GET /api/jav/library/:code`，不访问外部站点）取回磁力（最多 20 条）、导演、制作商、系列等，再与收藏字段合并；本地库没有时按收藏信息分享并提示\r\n- **关注动态分享**：主页与控制台「关注动态」每条作品增加分享按钮（分享精简信息：番号、标题、封面、发售日、女优）\r\n- **PWA**：新增 `manifest.json`、Service Worker、安装横幅与版本更新提示，支持添加到主屏幕与更新确认\r\n- **移动端导航**：新增底部 Tab（首页 / 社区 / 控制台 / 我的）与「我的」聚合页\r\n- **源站收录面板**：搜索源访问改为卡片式 SourceBoard，支持全部 / 我的 / 已启用 / 可搜索范围筛选、健康检测、启停与来源详情\r\n- **JAV 在线播放**：详情页聚合 MissAV / Jable 播放入口\r\n- **定时任务锁与数据保留**：新增 `cron_locks` 租约锁，上一轮未结束时本轮跳过；每小时分批清理 `rate_limits`、30 天前 `post_views`、半年未补全且无来源的 `data_records`；新增 `database/22` / `25` 迁移\r\n- **数据库迁移**：新增 `20` 至 `31` 共 12 个迁移（社区统计修复、JAV 标签、数据保留索引、遗留权限清理、复合索引、cron 锁、详情元数据、查询性能、详情任务开关 / 间隔 / 缺失筛选）\r\n\r\n### 变更\r\n\r\n- **部署架构**：前端静态资源并入 Worker `atlas`（`[assets]` + SPA 回退 + `/api` 优先走 Worker），前后端同源，不再单独托管前端；部署迁移到 Cloudflare Workers Builds，GitHub Actions 仅保留手动应急入口\r\n- **搜索**：缓存键纳入子模式、用户与禁用源；搜索历史增强字段由 Provider 提取；本地库命中跳过缓存写入\r\n- **通知与邮件**：邮件摘要合并发送由每 15 分钟改为每 30 分钟，与关注检测共用 `*/30` 触发器；新增每分钟 cron 推进 JAV 详情补全，最终为 3 个触发器（每小时 :05、每 30 分钟、每分钟）\r\n- **关注**：女优收藏并入关注（`database/15` 迁移），热门女优改为「榜单上榜作品数 × 5 + 被关注人数 × 2」排序\r\n- **权限**：删除遗留权限表与细粒度权限（`database/23` 迁移），仅保留 admin / super_admin 判定\r\n- **全站命名**：UI、文案、导航与三语文案中的「JAV番号搜索」统一为「JAV搜索」\r\n- **按钮可读性**：全站图标按钮统一为「图标 + 文字」或补齐 `aria-label` / `title`；JAV 详情卡的收藏与「外部源」在手机、平板、桌面均显示文字\r\n- **帮助中心**：新增「用量、限速与配额」章节（搜索四档配额、社区写入、注册 IP 限制、数据上限），补充本地库优先 / 外部源回源、验证码有效期与重发间隔\r\n- **版本号**：统一升级到 `1.7.0`（根与各 workspace 包、`APP_VERSION`、前端版本常量、README 徽章与相关文档）\r\n\r\n### 修复\r\n\r\n- **社区统计**：修复用户统计字段漂移（`database/20`）\r\n- **详情任务**：修正任务开关、执行间隔与缺失字段筛选语义（`database/29` / `30` / `31`）\r\n- **限流一致性**：档位配额与页面提示保持一致，超限统一返回 429 并按需带 `Retry-After`\r\n- **数据一致性**：磁力只写 `data_record_sources`，`content_data` 不再重复存储；详情与来源去重\r\n\r\n### 优化\r\n\r\n- **D1 读放大**：新增复合索引（`database/24` / `28`），定时任务减少无效读（`database/27`），详情任务按字段筛选\r\n- **缓存**：榜单、推荐标签、详情分别设置 TTL；详情回源后覆盖缓存\r\n- **前端**：移动端底部导航、面板懒加载、PWA 更新提示、按钮文字与响应式断点统一\r\n- **文档**：README、CHANGELOG、`docs/config.md`、`docs/deploy.md` 全面校准到 v1.7.0，限流表补齐社区写操作与管理端豁免\r\n\r\n",
+        "stats": {
+          "commits": 39,
+          "filesChanged": 174,
+          "additions": null,
+          "deletions": null
+        }
+      },
+      {
+        "version": "1.6.0",
+        "tag": "v1.6.0",
+        "name": "v1.6.0",
+        "date": "2026-11-08",
+        "url": "https://github.com/Zoroaaa/Atlas/releases/tag/v1.6.0",
+        "prerelease": false,
+        "source": "release",
+        "body": "## [v1.6.0] - 2026-11-08\r\n\r\n本次版本覆盖 v1.5.0 以来的全部功能与审计修复，核心变化：新增帮助中心与统一通知收件箱；邮箱验证/邮件通知/后台邮件运维形成完整闭环；社区帖子浏览量按 24 小时去重；前端与共享包改为 TS paths + Vite alias 解析；数据库迁移扩展到 `17` / `18` / `19`。\r\n\r\n### 新增\r\n\r\n- **帮助中心 `/help`**：覆盖快速上手、为你推荐、JAV榜单、热门女优、搜索基础与各 Tab 差异、五类搜索、详情页、社区、关注女优、通知与邮件、账号安全、通用注意事项与 FAQ；每类统一为「功能介绍 + 使用步骤 + 注意事项」，并新增独立的通用注意事项章节\r\n- **统一通知收件箱**：`notifications` 表（`(user_id, dedup_key)` 唯一，重复触发幂等）+ 按类型偏好表；`/api/notifications` 提供收件箱分页、未读数、标记已读、删除、偏好读写；顶栏通知铃铛的未读数随 `sync-state` 返回，不增加首屏请求\r\n- **站点公告并入收件箱**：公告不复制进 `notifications`，读取时与站内公告合并，仅用 `user_announcement_reads` 记录每个用户的已读/删除状态；新增 `database/17_schema_announcement_reads.sql`\r\n- **关注女优**：`/api/follows`（关注上限 100，名字精确匹配才允许关注）；`actress_watch` 全局一份，多人关注同一位只检查一次；关注时立即建立基线，首次检查不产生通知\r\n- **新作检测**：新增 `*/30 * * * *` 触发器，每轮最多检查 20 位，按番号集合对比，失败指数退避；新作通知按每人每轮每位女优合并为一条\r\n- **关注动态与关注管理**：主页「关注动态」面板（新作 / 即将发售、服务端分页、未读标记）；控制台新增我的关注、关注动态、通知三个页面；热门女优与搜索结果、影片详情演员旁均可直接关注\r\n- **邮件通知渠道**：新作与社区互动通知可选邮件；通知进入 `email_queue`，`*/15` 任务按用户合并发送（最早一条攒够 10 分钟、每人每天最多 3 封、全站每天最多 90 封）；失败按 30 分钟 × 2ⁿ 退避，连续 5 次放弃该批；发送前复核邮箱验证与偏好\r\n- **邮箱验证补入口**：通知偏好页可直接发送并校验邮箱验证码，无需跳转到账号设置\r\n- **邮件隐私与退订**：邮件主题保持中性、不含封面；支持「隐藏邮件详情」；每封通知邮件带 HMAC 签名的一键退订链接与 `List-Unsubscribe` 头，GET 仅展示确认页，POST 才执行\r\n- **后台邮件日志与队列**：`email_send_logs` 记录类型、状态、用户、IP、限流键与错误信息；`email_queue` 可按 pending / sent / skipped / failed 查看摘要任务；后台新增对应管理页与接口 `GET /api/config/email/logs`、`GET /api/config/email/queue`\r\n- **公告邮件**：发布公告时入队邮件，删除公告时清理待发送任务；用户之后开启公告邮件时，将最近 7 天内最多 20 条有效公告补发入队（按用户去重）\r\n- **社区帖子浏览去重**：同一用户对同一帖子 24 小时内只计一次 `view_count`，作者本人访问不计数；新增 `database/19_schema_community_post_views.sql`\r\n- **邮件相关迁移**：新增 `database/16_email_notifications.sql`（`email_send_logs` / `email_queue` / 退订令牌 / 通知偏好）\r\n- **历史通知补写**：新增 `database/18_backfill_community_notifications.sql`，把历史社区互动补写为通知\r\n\r\n### 修改\r\n\r\n- **社区通知 Tab 下线**：社区页不再有独立通知 Tab，原 `/api/community/notifications` 等旧接口删除；点赞、评论、收藏、举报处理结果统一进入 `/dashboard/notifications`\r\n- **女优收藏并入关注**：搜索结果与详情页不再提供女优收藏爱心，只保留「+ 关注」；后端拒绝新的 `actress:` 收藏并返回 `USE_FOLLOW`；`database/15_migrate_actress_favorites_to_follows.sql` 负责迁移存量数据\r\n- **热门女优与推荐口径调整**：热门女优得分改为「四个榜单上榜作品数 × 5 + 被关注人数 × 2」；为你推荐只使用标签 + 发行商（4:1），女优收藏不再计入画像\r\n- **统一邮件发送器**：事务邮件（验证码 / 找回密码 / 改邮箱 / 反馈回复）与通知邮件走同一发送器；事务邮件不受通知偏好和退订控制\r\n- **共享包解析方式**：前端不再依赖 `node_modules` 软链接，改为 `frontend/tsconfig.json` 的 `paths` + `frontend/vite.config.ts` 的 `alias` 直接指向 `packages/shared/src`；后端仍由 npm workspaces 链接 + 包 `exports` 解析\r\n- **全站命名统一**：所有 UI、文案、导航、帮助中心与三语文案中的「JAV番号搜索」统一改为「JAV搜索」\r\n- **榜单与缓存**：榜单增加名次变化（↑ / ↓ / NEW），后端榜单与女优缓存调整为 6 小时\r\n- **收藏与历史**：改为服务端分页并返回总数，控制台统计改为服务端聚合；新增 `sync-state` 跨设备缓存校验\r\n- **公告读取方式**：公告由「复制进通知表」改为「读取时合并」，避免公告更新后收件箱内容不一致\r\n- **数据库迁移顺序**：全新库需按 `01 → 19` 执行；`08` / `12` 修复幂等性，`17` / `18` / `19` 为 v1.6.0 新增\r\n- **版本号**：统一升级到 `1.6.0`（根与各 workspace 包、`APP_VERSION`、前后端版本常量、README 徽章、文档）\r\n\r\n### 修复\r\n\r\n- **登录失败锁定**：`security_lockouts` 写入补全 `identifier_hash`，统一使用 `hashToken` 生成，所有查询/清理路径按该字段匹配，避免 NOT NULL 约束异常被吞导致锁定失效\r\n- **迁移脚本幂等性**：`08` 不再引用不存在的表/列，`12` 不再重复加列，`10` 修复依赖顺序；全新库与已升级库均可安全重复执行\r\n- **用户配置越权**：`/user-configs/:userId`、`/export-user-configs/:userId` 校验请求者是资源所有者或管理员，复用 `/with-user-config` 的权限判断\r\n- **社区异常吞没**：发帖 / 更新 / 删除不再吞异常，失败时向上抛出真实错误，避免前端假成功导致数据丢失\r\n- **搜索竞态**：搜索请求增加 requestId/序号，仅接受最后一次请求的响应\r\n- **401 刷新**：收到 401 时先尝试一次单飞 token 刷新，失败后再登出，避免并发请求重复刷新\r\n- **导出鉴权**：CSV / OPML 导出改用带鉴权请求，后端错误 JSON 不再被写入导出文件\r\n- **邮件验证码**：统一按 `email_hash + code_hash` 匹配、写入 `max_attempts`、先校验状态再比对、超限提示与实际逻辑一致；失败计数统一由 `verifyCodeWithAttempts` 处理\r\n- **公开接口敏感配置**：所有公开接口过滤 `is_sensitive=1` 或未标记为公开的配置项\r\n- **公告删除**：同步清理关联的待发送邮件队列，避免无效任务堆积\r\n- **局部更新与 NOT NULL 字段**：局部更新使用动态 SET，INSERT/REPLACE 补全全部 NOT NULL 字段，避免意外清空或静默写入失败\r\n- **权限一致性**：标签、源、帖子、配置等资源的写操作统一在执行前校验权限\r\n- **计数与清理任务**：补齐计数、统计与定时清理的调用方，避免死代码和永久堆积数据\r\n- **前端审计项**：i18n 首次访问语言检测、管理端分页边界、重复请求与缓存失效等问题一并修复\r\n- **数据库迁移**：`INSERT OR IGNORE` / 条件冲突更新替代无条件覆盖，避免级联操作清空用户自定义数据\r\n\r\n### 优化\r\n\r\n- **首屏与请求**：收藏 / 历史服务端分页、屏幕外面板懒加载、跨设备缓存校验，减少无效请求\r\n- **缓存**：推荐画像 5 分钟、热度信号 1 小时、榜单与女优 6 小时，降低上游抓取压力\r\n- **搜索**：档位配额与提示保持一致，搜索缓存键按用户隔离\r\n- **邮件**：摘要合并、每日上限、退避重试与补发去重，降低 Resend 额度消耗与重复打扰\r\n- **通知**：`(user_id, dedup_key)` 保证重复触发幂等；公告读时合并减少冗余写入\r\n- **社区浏览**：24 小时去重表 + `(user_id, post_id)` 主键 upsert，避",
+        "stats": {
+          "commits": 23,
+          "filesChanged": 213,
+          "additions": null,
+          "deletions": null
+        }
+      },
+      {
+        "version": "1.5.0",
+        "tag": "v1.5.0",
+        "name": "v1.5.0",
+        "date": "2026-11-04",
+        "url": "https://github.com/Zoroaaa/Atlas/releases/tag/v1.5.0",
+        "prerelease": false,
+        "source": "release",
+        "body": "## [v1.5.0] - 2026-11-04\n\n### Added - 一体化工作台 + 三语国际化 + 榜单与推荐体系 🚀\n\n本次版本跨度 50 次提交，核心变化：主页面重构为一体化工作台；前端完成 zh-CN / zh-TW / en 三语国际化；JAV 榜单升级为 JavDB 周榜 / 月榜并接入热点推荐；搜索限流改为账号活跃度阶梯配额；后端完成 repository 分层与统一 zod 校验；小说搜索切换为多源跳转；管理后台新增用户活跃度排行。\n\n---\n\n#### 核心新功能（一）：一体化搜索工作台\n\n- **主页面重构**：搜索、快捷入口、公告与结果区域整合为单一工作台（`Workbench` + `SearchDock` + `SearchWorkspace`），统一五类搜索结果的页面骨架\n- **统一结果组件**：新增 `MediaCard` / `ResourceRow` / `GroupedSection` / `Pagination` / `Toolbar` 等工作台组件，类别结果共享同一套布局与交互\n- **常驻配额展示**：搜索页常驻展示当前档位与剩余配额，并说明晋升规则\n- **认证跳转**：登录 / 注册成功后统一进入主搜索页，不再跳转看板\n\n#### 核心新功能（二）：三语国际化（i18n）\n\n- **全量文案提取**：前端硬编码中文迁移到 i18n，覆盖 auth / home / layout / search / jav / feedback / community / dashboard / admin / ui 等 18 个命名空间、约 800+ key\n- **三语支持**：zh-CN、zh-TW、en 完整词条；首次访问按浏览器语言自动选择，用户手动选择持久化\n- **组件与接口**：新增 `LanguageSwitcher` 与 `languageStore`；非组件环境统一走 `i18next.t()`\n- **补齐遗漏**：搜索命名空间 65 个缺失 key、设置 / 公告 / 趋势 / 帖子详情等残余硬编码文案全部补齐\n\n#### 核心新功能（三）：JAV 榜单升级（JavDB 周榜 / 月榜）\n\n- **四通道导入**：JavDB 有码 / 无码 × 周榜 / 月榜；GitHub Actions 每日抓取并导入\n- **历史保留**：榜单作品与来源不删除，当前榜单只展示每个周期最新 `fetchedAt` 快照\n- **每小时补全**：最多 20 条 / 小时通过 JavBus 抓取演员、标签、发行商；失败 3 次后停止重试但保留活跃\n- **导入接口**：新增内部密钥保护的 `/api/internal/rankings/import`，榜单写入 `data_records` 占位与 `data_record_sources` 名次\n- **探测与容错**：新增 JavDB 榜单探测 workflow；CI 导入补充浏览器请求头并识别 Cloudflare 403\n- **封面**：榜单封面 CDN `tp.spfcas.com` 加入图片代理白名单\n\n#### 核心新功能（四）：热门女优榜与智能推荐\n\n- **热门女优榜**：站内近 30 天收藏 / 搜索热度 + 周榜 / 月榜上榜作品聚合，移除 JavBus 随机女优列表\n- **为你推荐**：12 个推荐位，top 5 标签各 2 位、top 2 演员各 3 位，名额不足从高分候选随机补位\n- **相关推荐**：8 个推荐位（演员 4 + 标签 4），标签桶随机轮转，每个标签最多 1 位；展示在多源聚合结果之前\n- **随机与缓存**：推荐接口 `Cache-Control: no-store`，前端请求加时间戳，每次刷新重新随机\n- **标签过滤**：高画质 / 蓝光 / 字幕 / 单体 / 有码无码 / DMM·FANZA 独家等技术与发行标签不参与匹配\n- **降级修复**：修复推荐结果固定不变、演员配比错误、标签数量不足等问题\n\n#### 核心新功能（五）：搜索限流档位化\n\n- **数据库**：`12_schema_search_tier.sql` 新增搜索限流档位字段，`13_backfill_search_tier.sql` 回填存量用户\n- **阶梯配额**：按账号活跃度动态分配搜索配额，替代固定限流\n- **晋升规则**：近 30 天内活跃 5 天即可晋升，前端展示当前档位与配额\n- **注册防护**：注册接口按出口 IP 多级限流（5 / 分、10 / 时、20 / 天），超限 429 并写入安全事件；GitHub / Google OAuth 仅自动注册分支共用配额；IPv6 按 /64 聚合，`CF-Connecting-IP` 优先\n\n#### 核心新功能（六）：小说搜索多源化\n\n- **知轩藏书接入**：新增 `zxcs.zip` 明文 HTML 直链源，置顶顺序调整为 zxcs → 奇书网 → Anna's Archive\n- **Anna 改为跳转**：Anna's Archive 人机验证无法稳定抓取，移除 `NovelItem` 抓取，保留为跳转卡片\n- **多源跳转卡片**：新增 Z-Library / Anna / 知轩藏书 / 奇书网 / SoBooks / Lunarora / PDFs.top / 读书派 8 个跳转源\n- **结果面板**：小说搜索复用数据库驱动多源卡片，独立展示\n\n#### 核心新功能（七）：管理后台\n\n- **用户活跃度排行**：新增 `/admin-panel/activity-ranking`，支持今日 / 7 天 / 30 天 / 全部；加权分数（搜索 ×2、收藏 ×3、登录 ×1、其他 ×1），今日按北京时间自然日\n- **社区统计修复**：修正统计字段别名与用户详情重复计数\n\n### Improved - 架构与性能 ⚡\n\n- **SearchProvider 契约扩展**：`SearchOptions` → `SearchContext`（db / user / categoryId / subMode / enabledSources），新增 `injectsUserSources` 与 `buildHistoryEnrichment`；JAV 三子模式与 Novel 多源注入下沉 Provider，`search.ts` 由 761 行降至约 400 行，路由零内联 SQL\n- **Repository 分层**：新增 `search-source` / `search-history` / `user` / `email-verification` / `community` / `admin` / `recommendation` repository，统一 SQL 查询\n- **鉴权性能**：`authMiddleware` 单次 LEFT JOIN 加载 session + role + permissions，每请求 D1 查库由 2~3 次降为 1 次；`admin` / `superAdmin` / `permission` 中间件改读上下文\n- **统一校验**：请求体统一为 zod `validateBody`，注册强制邮箱验证码；邮箱变更与注册使用同一套长度 / 规范化 / 可信域规则\n- **用户态缓存**：JAV / Novel 搜索缓存键按用户隔离，缓存命中仍补写搜索历史\n- **React Query 收敛**：收藏、搜索历史、搜索源、分类、分析页数据域统一到 react-query，删除双轨 hooks\n- **番号识别**：新增前后端共享 `jav-code` 宽识别解析器，非标准番号自动回退标题 / 多源搜索；搜索建议兼容带 / 不带横杠写法\n\n### Fixed - 问题修复 🔧\n\n- **女优数据源**：minnano-av 上线反爬导致资料恒空，切换 JavBus `/searchstar` + `/star`；资料源失败与未匹配分开展示，不再静默留白\n- **女优跳转代理**：女优面板、作品区、详情链接统一遵守用户网址跳转代理配置\n- **JAV 详情重试**：详情获取失败支持卡片内重试，无需重新搜索\n- **收藏标题**：收藏标题长度上限由 100 提升至 300\n- **榜单补全**：补全改为全量使用 JavBus 字段，仅缺失时回退原值\n- **榜单导入**：补充浏览器 UA / Accept 头并识别 Cloudflare 403\n- **注册校验**：验证码校验收口为无条件执行，移除路由内可选死分支\n\n### Changed - 行为变更 ⚠️\n\n- **Anna's Archive**：从抓取源改为跳转源，小说结果结构改为多源卡片\n- **推荐缓存**：推荐结果不再缓存，每次请求实时随机\n- **榜单展示**：周榜 / 月榜仅展示最新快照，历史作品保留但不在当前榜单出现\n- **版本号**：全项目版本号统一为 `1.5.0`（前端常量、后端 `APP_VERSION`、workspace 包、品牌页）\n\n### Technical Details\n\n- **新增文件**：\n  - `backend/src/repositories/` — admin / community / email-verification / recommendation / search-history / search-source / user repository\n  - `backend/src/routes/rankings.ts` / `recommend.ts` — 榜单导入与推荐接口\n ",
+        "stats": {
+          "commits": 51,
+          "filesChanged": 221,
+          "additions": null,
+          "deletions": null
+        }
+      },
+      {
+        "version": "1.4.0",
+        "tag": "v1.4.0",
+        "name": "v1.4.0",
+        "date": "2026-08-14",
+        "url": "https://github.com/Zoroaaa/Atlas/releases/tag/v1.4.0",
+        "prerelease": false,
+        "source": "release",
+        "body": "## [v1.4.0] - 2026-08-14\r\n\r\n### Added - JAV 女优搜索系统 + 数据存储管理 + 社区完善 🌟\r\n\r\n本次版本核心亮点：JAV 搜索新增独立的女优子模式（数据源 minnano-av.com），并打通女优卡片与社区分享链路；管理后台新增数据存储管理功能，搜索结果异步落库去重、多源合并；社区分享扩展至 6 大类别并完善帖子内容展示；多项稳定性与图片代理修复。\r\n\r\n---\r\n\r\n#### 核心新功能（一）：JAV 女优搜索子模式\r\n\r\n- **minnano-av 数据源接入**：JAV tab 新增女优子模式（`sub=actress`），后端抓取 minnano-av.com 搜索页（唯一匹配 302 到详情页，多匹配并发抓前 10 个详情页），解析女优资料（名字 / 假名 / 罗马音 / 别名 / 生日 / 星座 / 三围 / 出身地 / 事务所 / 出道期间 / 标签 / 封面 / 详情链接）。无需任何账号配置，minnano 无反爬\r\n- **关键词智能转换日文**：minnano 索引为日文新字体 + 假名，中文俗称无法直接搜到。映射表覆盖含假名 / 々 符号 / opencc 转错的女优，opencc 简→日新字体转换兜底纯汉字名，原文透传已输日文 / 罗马音的情况。后端返回 `normalizedKeyword` 供前端站内搜索链接使用\r\n- **女优名映射表扩充**：新增约 30 条含假名女优（天海翼 / 星奈爱 / 河合亚衣奈 / 神宫寺奈绪 / 松本一花 / 麻美由真 / 辰巳唯等），修复筱田优（筱→篠异体字 opencc 不转）。总数约 70 条，覆盖 2000s-2020s 热门女优\r\n- **排行榜女优映射补充**：抓取 minnano 三个排行榜验证，修正 5 个纯汉字名被 opencc 误转（藤森里穂 / 小早川怜子 / 音田絵凛 / 桐條紗綾 / 本澤朋美），补充 10 个含假名女优\r\n- **JavBus 作品列表补充**：女优子模式搜索成功返回数据后，自动用归一化日文名到 JavBus `/search/{keyword}` 抓取前 20 条作品，在女优资料卡下方网格展示（封面 / 番号 / 标题 / 日期），点击作品卡自动切换到番号子模式搜索\r\n- **女优卡片收藏与社区分享**：女优卡片新增收藏（Heart）与分享到社区按钮，社区分享类型扩展 `actress` 类型\r\n- **搜索历史信息补全**：JAV 搜索历史的 `saveEnrichedHistory` 加 actress fallback，补全 `title` / `cover` / `code` / `actors` / `tags` 字段\r\n\r\n#### 核心新功能（二）：JAV 子模式 URL 参数持久化\r\n\r\n- **sub 参数写入 URL**：搜索 / 切 tab / 切子模式均同步 URL（`sub=code/actress/title`），刷新 / 前进后退 / 分享链接可还原正确子模式\r\n- **闭包陷阱修复**：`handleSearch` 新增 `overrideSubMode` 参数，规避 URL 回读时 `setJavSubMode` 异步导致 code 模式番号校验误报；修复刷新后 URL `sub` 参数被错误改写为 `code` 的问题\r\n\r\n#### 核心新功能（三）：数据存储管理系统\r\n\r\n- **数据库**：新增 `data_records` + `data_record_sources` 两张表，`UNIQUE(record_type, dedup_key)` 去重，触发器自动维护 `source_count`，支持 JAV / 动漫 / 影视 / 漫画 / 小说 / 女优 全类型\r\n- **后端**：`persistDataRecord` 异步落库（`waitUntil` 不阻塞搜索响应延迟），多源合并；`/admin/data-storage` 路由提供 stats / records CRUD / status / cleanup，管理员鉴权\r\n- **集成**：`search.ts` 异步采集首条 + 有详情结果，`jav.ts` 详情页补充 `detail_completed` 标记\r\n- **前端**：`DataStorageTab` 提供统计概览 + 数据浏览 + 详情 Modal，已注册到 AdminPanelLayout 与 App.tsx\r\n- **共享类型**：`packages/shared` 与 frontend types 统一类型定义\r\n- **匿名设计**：仅保留数据本身，不保存用户个人信息\r\n\r\n#### 核心新功能（四）：社区分享完善\r\n\r\n- **分享类别扩展至 6 类**：统一 `PostType` 在 6 处定义（jav / anime / movie / manga / novel / actress），打通共享类型、后端校验、DB schema、前端 UI 全链路，为小说搜索面板补全分享按钮\r\n- **帖子内容展示完善**：重写 `PostDetail` 的 6 个 `contentData` renderer 按真实数据结构渲染（anime / movie / manga / novel / actress 原缺失或不匹配）；`PostCard` 按类型展示关键信息徽章；统一 `ResourceItem` 组件合并 `MagnetLinkItem`\r\n- **标签显示改进**：标签显示 id 改为显示名称，`ShareToCommunityModal` 存 `tagName`，后端 tag 统计和删除检查改用 `tag_name`\r\n\r\n### Improved - 性能与稳定性 ⚡\r\n\r\n- **安娜搜索上限提升**：搜索上限 10 → 50，取第一页全部结果；描述抓取并发 5 → 10 适配\r\n- **客户端分页**：前端按 10 条 / 页客户端分页，移除加载更多避免触发第二页抓取\r\n- **图片代理白名单补齐**：Anna Archive 6 域名 + 奇书网 + z-lib 封面 CDN（`covers.z-lib.sk`）+ `www.minnano-av.com`，修复 `ERR_BLOCKED_BY_ORB`\r\n\r\n### Fixed - 问题修复 🔧\r\n\r\n- **认证**：修复忘记密码验证码校验必失败（`verifyCode` 用带随机 salt 的 `hashPassword` 重新计算 hash 去匹配数据库，PBKDF2 每次结果不同导致 WHERE 永远查不到；改用确定性 SHA-256 的 `hashToken`，与 `user_sessions.token_hash` 一致）。顺带修复 `getPendingVerification` 重发冷却失效、`recordFailedAttempt` `max_attempts` 锁定失效两个隐性 bug\r\n- **JAV 女优资料解析**：原解析用全文 `getText` 后正则匹配，页面噪音导致大量字段丢失；改用 `<span>label</span><p>value</p>` 相邻标签结构精确定位字段，`タグ` 字段匹配 `tagarea` div 内的 a 标签列表\r\n- **图片代理 ORB**：女优封面改走后端 `/api/jav/proxy-image`（`getProxyImageUrl`），避免浏览器对前缀式 `convertToProxyUrl` 的图片资源触发 `net::ERR_BLOCKED_BY_ORB`\r\n- **女优搜索并行展示**：actress 子模式不再短路返回，改为同时抓取女优数据 + 查用户启用的 jav 源生成多源跳转 URL，前端女优面板与多源卡片上下并行渲染，保留原有搜索体验\r\n- **数据存储容错**：磁力链接改为复制按钮（`magnet:` 协议浏览器无法直接打开）；JAV 封面落库时补全 javbus 域名（原存相对路径 `/pics/cover/xxx.jpg` 导致 404）；影视 / 动漫明细 `contentData` 存完整首条对象（含 overview / backdrop 等），磁力资源写入 sources 表（原完全丢弃）；Anna 403 时 fallback 到奇书网结果\r\n- **小说源 typecheck**：移除未使用的 `onPageChange` prop 修复 typecheck\r\n\r\n### Changed - 行为变更 ⚠️\r\n\r\n- **禁用 nyaa 源**：因部署环境（Cloudflare Workers 出站 IP）无法解决 nyaa.si 的 bot 验证，RSS / HTML 均被拦截，先取消爬这个源。`fetchNyaa` 保留导出便于后续恢复；nyaa 禁用后前端不显示任何提示（`errors.nyaa` 改为 `null`，`nyaaList` 为空时所有 nyaa UI 自动隐藏）\r\n\r\n### Technical Details\r\n\r\n- **新增文件**：\r\n  - `backend/src/services/actress-search.ts` — 女优搜索业务逻辑（minnano-av 抓取与解析）\r\n  - `backend/src/services/actress-name-map.ts` — 女优名映射表（约 70 条 + opencc 转换兜底）\r\n  - `backend/src/services/data-storage.ts` — 数据存储异步落库服务\r\n  - `backend/src/routes/",
+        "stats": null
+      },
+      {
+        "version": "1.3.0",
+        "tag": "v1.3.0",
+        "name": "v1.3.0",
+        "date": "2026-08-12",
+        "url": "https://github.com/Zoroaaa/Atlas/releases/tag/v1.3.0",
+        "prerelease": false,
+        "source": "release",
+        "body": "## [v1.3.0] - 2026-08-12\r\n\r\n### Added - 小说搜索 + 聚合视图 + 观测体系 + 多项增强 📚\r\n\r\n本次版本核心亮点：新增小说搜索类别（第五大类），作品级资源归组聚合视图，Google OAuth 登录，前端错误监控自建观测系统，JAV 子搜索模式与女优推荐，播放器重构，安全限流升级。\r\n\r\n---\r\n\r\n#### 核心新功能（一）：小说搜索系统\r\n\r\n- **Anna's Archive 集成**：接入 Anna's Archive 作为小说主数据源，支持图书元数据搜索\r\n- **奇书网数据源**：新增奇书网搜索源，TXT 直链资源置顶展示\r\n- **多域名故障转移**：搜索源支持多域名自动切换，提升可用性\r\n- **图书描述**：搜索结果展示图书简介/描述信息\r\n- **前端 NovelSearchResultPanel 组件**：独立的小说搜索结果面板\r\n\r\n#### 核心新功能（二）：作品级资源归组聚合视图\r\n\r\n- **作品维度归组**：搜索结果按作品（标题）维度归组聚合，同一作品的多源资源合并展示\r\n- **聚合视图卡片**：简介整合到聚合视图卡片中，统一展示\r\n- **Title Grouping 优化**：标题归组正则优化，移除不必要的转义字符\r\n\r\n#### 核心新功能（三）：Google OAuth 登录\r\n\r\n- **Google OAuth 登录**：支持 Google 账号一键登录，自动创建/关联账号\r\n- **State Cookie 修复**：修复 Set-Cookie 合并导致 state cookie 未设置的问题\r\n\r\n#### 核心新功能（四）：前端错误监控观测系统\r\n\r\n- **自建观测系统**：前端错误监控自建观测体系，无需第三方依赖\r\n- **系统错误列表**：管理后台新增系统错误列表（修复 prefer-const 与 any 类型）\r\n\r\n#### 核心新功能（五）：JAV 搜索增强\r\n\r\n- **子搜索模式**：JAV 搜索增加子搜索模式，支持更精准的搜索\r\n- **番号格式校验**：输入番号格式校验，错误提示仅在输入框未聚焦时显示避免与搜索建议冲突\r\n- **推荐女优栏目**：新增推荐女优栏目，支持爬取女优列表及详情番号\r\n- **女优详情弹窗**：优化女优详情弹窗和搜索体验\r\n\r\n#### 核心新功能（六）：播放器重构\r\n\r\n- **WebTor 在线播放**：移除内嵌播放和 BTorrent，仅保留 WebTor 在线播放\r\n- **PikPak 推荐提示**：弹窗增加 PikPak 推荐提示\r\n- **复制磁力链接**：点击播放时弹窗提示并支持复制磁力链接\r\n\r\n#### 核心新功能（七）：安全与限流升级\r\n\r\n- **D1 持久化限流**：改用 D1 持久化限流，支持多级限制\r\n- **邮箱注册白名单**：增强邮箱注册白名单校验\r\n- **搜索限流提示**：修复搜索限流错误提示，直接显示后端异常信息\r\n\r\n#### 核心新功能（八）：品牌与 SEO 统一\r\n\r\n- **品牌统一**：统一品牌名称为 Atlas 并优化 SEO 配置\r\n- **PNG Favicon**：添加 PNG 格式 favicon 提升搜索引擎兼容性\r\n- **Bing 站长工具**：添加 Bing 站长工具验证标签\r\n- **域名统一**：清除 pages.dev 域名和旧域名 codeseek.pp.ua，统一替换为 atlas.wort.uk\r\n\r\n#### 核心新功能（九）：搜索体验优化\r\n\r\n- **搜索缓存层**：添加缓存层，修复 manga 建议接口超时\r\n- **搜索建议简化**：简化搜索建议逻辑，删除子类选择功能\r\n- **历史 Fallback**：Provider 返回空数组时 fallback 到数据库历史\r\n- **建议下拉框修复**：提升搜索建议下拉框层级并恢复不透明背景，修复下层内容穿透\r\n- **JavProvider 建议**：恢复 JavProvider suggestions/trending，为 MangaProvider 补充 suggestions\r\n\r\n#### 核心新功能（十）：UI 布局优化\r\n\r\n- **公告横幅独立置顶**：公告通知独立为全局顶栏，跨所有标签页可见\r\n- **快捷入口面板**：右栏接入快捷入口（搜索源管理、系统设置、社区、管理后台）\r\n- **导航栏精简**：去掉\"更多\"菜单，sources 入口移至快捷入口\r\n\r\n### Improved - 性能与稳定性 ⚡\r\n\r\n- **搜索缓存**：减少重复请求，提升响应速度\r\n- **多域名故障转移**：搜索源可用性提升\r\n- **限流持久化**：D1 持久化限流，多级精细控制\r\n\r\n### Fixed - 问题修复 🔧\r\n\r\n- 修复 JAV 搜索崩溃问题 - 移除错误的面板兜底逻辑\r\n- 修复漫画搜索崩溃 - 移除错误的历史记录字段写入并隔离错误影响\r\n- 修复会话设备始终显示 Mozilla/5.0 的问题\r\n- 修复 Google OAuth Set-Cookie 合并导致 state cookie 未设置\r\n- 修复 /public 端点未登录访问首页 401 的问题\r\n- 修复管理后台系统错误列表的 prefer-const 与 any 类型\r\n- 修复搜索建议下拉框背景穿透问题\r\n\r\n### Technical Details\r\n\r\n- **新增文件**：\r\n  - `frontend/src/components/search/NovelSearchResultPanel.tsx` — 小说搜索结果面板\r\n  - `frontend/src/components/search/AnnouncementBar.tsx` — 公告横幅组件\r\n  - `frontend/src/components/search/QuickActionsPanel.tsx` — 快捷入口面板\r\n  - `backend/src/providers/novel-provider.ts` — 小说 Provider\r\n  - `backend/src/services/novel-search.ts` — 小说搜索业务逻辑\r\n  - `backend/src/routes/github-oauth.ts` — GitHub OAuth 路由\r\n  - `backend/src/routes/google-oauth.ts` — Google OAuth 路由\r\n- **修改文件**：\r\n  - `frontend/src/pages/MainSearchPage.tsx` — 公告横幅置顶、快捷入口面板\r\n  - `frontend/src/components/layout/UnifiedNavBar.tsx` — 导航栏精简\r\n  - `frontend/src/config/tabs.ts` — 新增小说类别\r\n  - `frontend/src/config/resultPanels.tsx` — 小说结果面板配置\r\n  - `backend/src/index.ts` — 注册 novel Provider\r\n  - `backend/src/routes/search.ts` — 支持 novel category\r\n  - `backend/src/utils/rate-limit.ts` — D1 持久化限流\r\n  - `backend/src/utils/security.ts` — 邮箱白名单校验\r\n  - `backend/src/middleware/auth.ts` — /public 端点修复\r\n\r\n---\r\n",
+        "stats": null
+      },
+      {
+        "version": "1.2.0",
+        "tag": "v1.2.0",
+        "name": "v1.2.0",
+        "date": "2026-07-17",
+        "url": "https://github.com/Zoroaaa/Atlas/releases/tag/v1.2.0",
+        "prerelease": false,
+        "source": "release",
+        "body": "## [v1.2.0] - 2026-07-17\r\n\r\n### Added - 漫画搜索 + 架构优化 🎨\r\n\r\n本次版本核心亮点：新增漫画搜索类别，架构全面优化为可扩展模式。\r\n\r\n---\r\n\r\n#### 核心新功能（一）：漫画搜索系统\r\n\r\n- **漫画元数据搜索**：\r\n  - MangaDex API 集成：标题、封面、评分、标签、作者、状态\r\n  - 13个搜索源聚合：MangaDex、MangaFire、MangaReader、MangaHere 等\r\n  - 前端 MangaSearchResultPanel 组件（~400行）\r\n  - 收藏/复制链接/外链跳转\r\n\r\n#### 核心新功能（二）：架构可扩展性改造\r\n\r\n- **单一数据源模式**：\r\n  - 多数据源并行查询改为单一主数据源 + 多搜索源辅助\r\n  - 数据一致性保证、性能提升、缓存策略简化\r\n\r\n- **Pinned 机制**：\r\n  - 用户可标记常用搜索源\r\n  - 搜索源列表顶部显示固定源（带📌标记）\r\n  - 一键固定/取消固定（仅登录用户）\r\n  - 固定状态持久化\r\n\r\n- **查表式渲染**：\r\n  - 搜索结果渲染从硬编码改为配置驱动\r\n  - 新增类别只需添加配置项，无需修改渲染逻辑\r\n\r\n#### 核心新功能（三）：图片代理统一\r\n\r\n- 所有外部图片统一通过后端代理\r\n- 漫画封面新增 `category=manga` 参数\r\n- 缓存策略优化（按类别区分）\r\n- 防盗链绕过统一处理\r\n\r\n#### 核心新功能（四）：导航栏自适应布局\r\n\r\n- **桌面端**：顶部固定导航栏（Logo + 四大类别 + 搜索 + 用户）\r\n- **移动端**：底部固定导航栏（首页 + 四大类别 + 更多）\r\n- **自适应**：根据屏幕宽度自动切换布局\r\n- **新增入口**：漫画搜索入口（桌面端顶部、移动端底部）\r\n\r\n#### 核心新功能（五）：数据库整理\r\n\r\n- 新增高频查询索引（15个）\r\n- 所有时间字段统一为 `INTEGER` (Unix 时间戳)\r\n- 所有状态字段统一为 `TEXT` (枚举值)\r\n- 所有 JSON 字段增加 `DEFAULT '{}'`\r\n\r\n### Improved - 性能与稳定性 ⚡\r\n\r\n- **MangaDex API 优化**：限额控制（每分钟 5 次）\r\n- **搜索源超时保护**：100ms ~ 5000ms 响应时间控制\r\n- **索引性能提升**：25 个高频查询索引\r\n\r\n### Technical Details\r\n\r\n- **新增文件**：\r\n  - `frontend/src/components/search/MangaSearchResultPanel.tsx` — 漫画搜索结果面板\r\n  - `frontend/src/types/manga.ts` — 漫画相关类型定义\r\n  - `backend/src/providers/manga-provider.ts` — 漫画 Provider（2 个分类）\r\n  - `backend/src/services/manga-search.ts` — 漫画搜索业务逻辑\r\n  - `backend/src/routes/manga.ts` — 漫画相关路由\r\n- **修改文件**：\r\n  - `frontend/src/pages/SearchPage.tsx` — 增加 manga category、导航栏优化\r\n  - `frontend/src/components/search/SearchForm.tsx` — 支持漫画搜索\r\n  - `frontend/src/components/layout/MainLayout.tsx` — 导航栏自适应布局\r\n  - `frontend/src/components/layout/MobileBottomNav.tsx` — 移动端底部导航栏新增漫画入口\r\n  - `frontend/src/services/api/search.ts` — 漫画搜索 API\r\n  - `frontend/src/utils/image-proxy.ts` — 图片代理统一\r\n  - `backend/src/index.ts` — 注册 manga Provider\r\n  - `backend/src/routes/search.ts` — 支持 manga category\r\n  - `backend/src/routes/sources.ts` — 支持 pinned 过滤、固定/取消固定接口\r\n  - `backend/src/services/search-sources-service.ts` — pinned 机制实现\r\n  - `backend/src/services/image-proxy.ts` — 漫画封面代理支持\r\n\r\n---\r\n",
+        "stats": null
+      },
+      {
+        "version": "1.1.0",
+        "tag": "v1.1.0",
+        "name": "v1.1.0",
+        "date": "2026-06-17",
+        "url": "https://github.com/Zoroaaa/Atlas/releases/tag/v1.1.0",
+        "prerelease": false,
+        "source": "release",
+        "body": "# Changelog v1.1.0 — 动漫 & 影视搜索 + 架构升级\r\n\r\n> **发布日期**: 2026-06-17\r\n>\r\n> **版本类型**: Major (Breaking Changes)\r\n>\r\n> **升级提示**: 本版本包含搜索架构的重大重构，新增 `category` / `classification` 必填参数，旧版搜索接口调用方式需要调整。\r\n\r\n---\r\n\r\n## 概述\r\n\r\nCodeSeek v1.1.0 是迄今为止最大的功能更新，将系统从单一的 JAV 搜索引擎升级为**三大类别聚合搜索引擎**。核心变化：\r\n\r\n1. **新增动漫搜索** — Bangumi + Mikan + Nyaa + ShowRSS 全链路\r\n2. **新增影视搜索** — TMDB + YTS + EZTV + TPB 全链路\r\n3. **三层搜索架构重构** — Category → Classification → Source\r\n4. **Provider 注册模式** — 新增搜索类别只需一行代码\r\n\r\n---\r\n\r\n## 新增功能\r\n\r\n### 1. 动漫搜索系统 (`category=anime`)\r\n\r\n完整的动漫番剧搜索与资源发现管线。\r\n\r\n#### 数据源\r\n\r\n| 分类 | 数据源 | 能力 |\r\n|------|--------|------|\r\n| `bangumi` | Bangumi API | 番剧元数据：评分、标签、放送日期、收藏统计 |\r\n| `mikan` | Mikan Project | 字幕组信息：订阅数、更新状态、磁力链接 |\r\n| `nyaa` | Nyaa.si | 动漫种子：做种/下载量、可信标记、分类筛选 |\r\n| `showrss` | ShowRSS | RSS 订阅源：自动更新、资源推送 |\r\n\r\n#### 前端组件\r\n\r\n- [AnimeSearchResultPanel](frontend/src/components/search/AnimeSearchResultPanel.tsx)\r\n  - Bangumi 信息卡（封面、评分、标签云）\r\n  - Mikan 字幕组列表\r\n  - Nyaa 磁力卡片（可信标记、HD 标记、做种数颜色编码）\r\n  - 收藏/复制磁力/外链跳转\r\n\r\n#### 后端实现\r\n\r\n- [anime-provider.ts](backend/src/providers/anime-provider.ts) — Provider 定义与分类注册\r\n- [anime-search.ts](backend/src/services/anime-search.ts) — 各分类的搜索逻辑\r\n\r\n---\r\n\r\n### 2. 影视搜索系统 (`category=movie`)\r\n\r\n电影和电视剧的元数据聚合与种子资源发现。\r\n\r\n#### 数据源\r\n\r\n| 分类 | 数据源 | 能力 |\r\n|------|--------|------|\r\n| `tmdb` | TMDB API v3 | 影视元数据：海报、评分、简介、类型 |\r\n| `yts` | YTS (YIFY) | 电影种子：720p/1080p/4K 多画质 |\r\n| `eztv` | EZTV | 剧集种子：季/集信息定位 |\r\n| `tpb` | The Pirate Bay | 兜底磁力源 |\r\n\r\n#### 前端组件\r\n\r\n- [MovieSearchResultPanel](frontend/src/components/search/MovieSearchResultPanel.tsx)\r\n  - TMDB 海报卡片（评分、上映日期、简介）\r\n  - 资源列表（来源徽章 YTS/EZTV/TPB、画质标签、网盘/直链标识）\r\n  - 季/集选择器（仅剧集）\r\n\r\n#### 后端实现\r\n\r\n- [movie-provider.ts](backend/src/providers/movie-provider.ts) — Provider 定义与分类注册\r\n- [movie-search.ts](backend/src/services/movie-search.ts) — 各分类的搜索逻辑\r\n\r\n---\r\n\r\n### 3. 三层搜索架构\r\n\r\n将原有的扁平搜索结构重构为三层模型：\r\n\r\n```\r\nBefore (早期迭代):                    After (v1.1.0):\r\nSearch → JAV metadata/magnet       Search → { category, classification, keyword }\r\n                                   → ProviderRegistry.get(category)\r\n                                   → provider.search(classification, keyword)\r\n```\r\n\r\n**层级定义：**\r\n\r\n| 层级 | 字段名 | 说明 | 示例 |\r\n|------|--------|------|------|\r\n| Layer 1 | `category` | 搜索大类 | `anime`, `movie`, `jav` |\r\n| Layer 2 | `classification` | 搜索分类 | `bangumi`, `tmdb`, `metadata` |\r\n| Layer 3 | `source` | 具体源实例 | `Bangumi API`, `TMDB API`, `DMM/FANZA` |\r\n\r\n**核心优势：**\r\n- 新增类别只需创建 Provider + 注册一行代码\r\n- 分类间搜索逻辑完全隔离，互不影响\r\n- 源管理通过数据库动态控制，无需发版\r\n\r\n---\r\n\r\n### 4. Provider 注册模式\r\n\r\n新增可扩展的 Provider 架构：\r\n\r\n```typescript\r\n// backend/src/index.ts — 所有 Provider 在此注册\r\nimport { providerRegistry } from '@/services/search-provider';\r\nimport { animeProvider } from '@/providers/anime-provider';\r\nimport { movieProvider } from '@/providers/movie-provider';\r\nimport { javProvider } from '@/providers/jav-provider';\r\n\r\nproviderRegistry.register(animeProvider);   // 一行注册新类别\r\nproviderRegistry.register(movieProvider);\r\nproviderRegistry.register(javProvider);\r\n```\r\n\r\n**Provider 接口：**\r\n\r\n```typescript\r\ninterface SearchProvider {\r\n  category: string;                          // 'anime' | 'movie' | 'jav'\r\n  name: string;                              // 显示名称\r\n  classifications: SearchClassification[];   // 该类别支持的分类列表\r\n  search(classification: string, params: SearchParams): Promise<SearchResult>;\r\n}\r\n```\r\n\r\n---\r\n\r\n## 架构改进\r\n\r\n### 数据库变更\r\n\r\n#### `search_sources` 表扩展\r\n\r\n```sql\r\n-- 新增字段\r\nALTER TABLE search_sources ADD COLUMN category TEXT NOT NULL DEFAULT 'jav';\r\nALTER TABLE search_sources ADD COLUMN classification TEXT NOT NULL;\r\n```\r\n\r\n| 字段 | 类型 | 说明 |\r\n|------|------|------|\r\n| `category` | TEXT | 搜索大类 (anime/movie/jav) |\r\n| `classification` | TEXT | 搜索分类 (bangumi/tmdb/...) |\r\n\r\n#### `history` 表扩展\r\n\r\n```sql\r\n-- 新增字段\r\nALTER TABLE history ADD COLUMN category TEXT NOT NULL DEFAULT 'jav';\r\nALTER TABLE history ADD COLUMN cover_image TEXT;\r\n```\r\n\r\n| 字段 | 类型 | 说明 |\r\n|------|------|------|\r\n| `category` | TEXT | 搜索类别 (支持 anime/movie/jav) |\r\n| `cover_image` | TEXT | 封面图 URL（历史列表展示用） |\r\n\r\n#### 种子数据更新\r\n\r\n[06_data_search_sources.sql](databa",
+        "stats": null
+      },
+      {
+        "version": "1.0.0",
+        "tag": "v1.0.0",
+        "name": "v1.0.0",
+        "date": "2026-03-15",
+        "url": "https://github.com/Zoroaaa/Atlas/releases/tag/v1.0.0",
+        "prerelease": false,
+        "source": "release",
+        "body": "## [v1.0.0] - 2026-03-15\n\n### Added - 首个公开发布：架构重构 + 技术栈升级 🚀\n\n首个公开发布版本，从原生 ES6 架构重构为 React + TypeScript 现代化技术栈，并保留 JAV 搜索、用户系统、管理后台与 Cloudflare 全栈部署能力。\n\n---\n\n#### 核心新功能（一）：前端技术栈升级\n\n- **React 18.3.1 + TypeScript 5.5.3**：组件化架构\n- **Vite 5.4.1**：现代化构建工具\n- **Tailwind CSS 3.4.11**：原子化样式\n- **Zustand 4.5.5**：状态管理\n- **React Router 6.26.2**：路由管理\n\n#### 核心新功能（二）：后端技术栈升级\n\n- **Hono 4.6.0 + TypeScript 5.5.3**：框架升级\n- **JWT (jose 5.9.0)**：标准化认证\n- **Resend**：邮件服务\n\n#### 核心新功能（三）：安全增强\n\n- **邮箱验证机制**：6 位验证码\n- **登录失败锁定**：连续失败 5 次自动锁定 15 分钟\n- **GitHub OAuth**：第三方登录\n- **用户反馈系统**：问题反馈、优化建议\n\n#### 基础能力\n\n- **JAV 搜索**：DMM/FANZA 元数据聚合 + JavBus/JavDB 磁力搜索\n- **用户系统**：注册、登录、收藏、历史记录\n- **管理后台**：用户管理、搜索源管理、系统配置\n- **Cloudflare 全栈部署**：Workers + D1 + Pages\n\n### Technical Details\n\n- **变更统计**：35 个文件修改，+1666 行 / -596 行\n- **数据库优化**：8 个文件整合为 7 个\n- **预置搜索源**：从 ~20 个增加到 50+",
+        "stats": null
+      }
+    ]
+  }
+}

@@ -1,0 +1,78 @@
+---
+interface Props {
+  files: {
+    license: boolean;
+    ci: boolean;
+    tests: boolean;
+    changelog: boolean;
+    dockerfile: boolean;
+    envExample: boolean;
+    wrangler: boolean;
+  } | null;
+  pushedAt: string | null;
+}
+
+const { files, pushedAt } = Astro.props;
+
+const days = pushedAt ? Math.floor((Date.now() - new Date(pushedAt).getTime()) / 86400000) : null;
+
+const checks = files
+  ? [
+      { label: '有 License', pass: files.license },
+      { label: '有 CI', pass: files.ci },
+      { label: '有测试目录', pass: files.tests },
+      { label: '有 CHANGELOG', pass: files.changelog },
+      { label: '有 .env.example', pass: files.envExample },
+      { label: '近 90 天有提交', pass: days !== null && days <= 90 },
+    ]
+  : [];
+---
+
+{
+  checks.length > 0 && (
+    <ul class="checks">
+      {checks.map((check) => (
+        <li class={check.pass ? 'check check--pass' : 'check check--fail'}>
+          <span aria-hidden="true">{check.pass ? '✓' : '✗'}</span>
+          <span>{check.label}</span>
+          <span class="sr-only">{check.pass ? '满足' : '不满足'}</span>
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+<style>
+  .checks {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 10px 24px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .check {
+    display: flex;
+    gap: 8px;
+    color: var(--ink-muted);
+    font-size: 14px;
+  }
+
+  .check--pass span:first-child {
+    color: var(--accent);
+  }
+
+  .check--fail span:first-child {
+    color: var(--ink-faint);
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+</style>

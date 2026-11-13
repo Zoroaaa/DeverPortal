@@ -9,7 +9,7 @@
     "build": "astro check && astro build",
     "preview": "astro preview",
     "deploy": "wrangler deploy",
-    "sync:github": "node scripts/sync-github.mjs",
+    "sync:github": "tsx scripts/sync-github.ts",
     "new:drafts": "node scripts/scaffold-projects.mjs"
   },
   "dependencies": {
@@ -20,6 +20,9 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.12",
+    "@resvg/resvg-js": "^2.6.2",
+    "satori": "^0.63.2",
+    "tsx": "^4.23.15",
     "typescript": "^5.9.3",
     "wrangler": "4.160.0"
   },

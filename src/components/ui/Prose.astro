@@ -64,6 +64,30 @@
     color: var(--ink-muted);
   }
 
+  .prose :global(details.evidence) {
+    margin-top: var(--space-3);
+  }
+
+  .prose :global(details.evidence summary) {
+    display: inline-block;
+    color: var(--ink-faint);
+    font-size: 13px;
+    cursor: pointer;
+  }
+
+  .prose :global(details.evidence summary:hover) {
+    color: var(--accent-ink);
+  }
+
+  .prose :global(details.evidence .evidence-body) {
+    margin-top: var(--space-2);
+    padding-left: var(--space-4);
+    border-left: 2px solid var(--line-strong);
+    color: var(--ink-faint);
+    font-size: 14px;
+    line-height: 1.75;
+  }
+
   .prose :global(code) {
     padding: 0.12em 0.4em;
     border-radius: 6px;

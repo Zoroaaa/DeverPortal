@@ -13,7 +13,7 @@
 |---|---|
 | 数据源 | GitHub REST API（JSON），构建期抓取；**站内无任何运行时 GitHub 请求** |
 | 触发方式 | CI 每日定时 + 手动触发，同步结果走 PR，人工审 diff 后合并 |
-| 产物 | `src/data/github/*.json` 快照进 Git；构建时只读，不联网、不依赖 token |
+| 产物 | `src/data/facts/*.json` 快照进 Git；构建时只读，不联网、不依赖 token |
 | 策展 | **显式白名单**（`src/data/curated.json`），一个仓库要进站必须被人写进去 |
 | 覆盖机制 | **分文件、分字段所有权**：机器只写 `github/*.json` 的自动字段，人只写 `content/projects/*/index.mdx` 的手写字段；同名字段出现在错误一侧 → 构建失败 |
 | 版本 | GitHub Releases > tags > 无；缺 release 不造假版本，页面显式显示"仅仓库代码" |
@@ -129,8 +129,8 @@
 
 ```text
 src/content/projects/atlas/index.mdx     ← 人写，只有手写字段
-src/data/github/atlas.json               ← 机器写，只有自动字段（文件头标注 GENERATED）
-src/data/github/atlas.releases.json      ← 机器写，Release/tag 快照
+src/data/facts/atlas.json               ← 机器写，只有自动字段（文件头标注 GENERATED）
+src/data/facts/atlas.releases.json      ← 机器写，Release/tag 快照
 ```
 
 | 自动（机器所有） | 手写（人所有） |
@@ -150,7 +150,7 @@ src/data/github/atlas.releases.json      ← 机器写，Release/tag 快照
 
 **不是"先同步再让手写覆盖"**——那种做法下，手写内容随时可能被同步任务写坏。这里的所有权是**物理隔离**的：
 
-1. 同步脚本只允许写 `src/data/github/*.json`，**代码层面不打开 `src/content/**` 的写句柄**。
+1. 同步脚本只允许写 `src/data/facts/*.json`，**代码层面不打开 `src/content/**` 的写句柄**。
 2. 构建期由 `src/lib/projects.ts` 读取两侧，投影成一个只读对象：
 
 ```ts
@@ -276,7 +276,7 @@ sync-github.yml
   on: schedule(每日) + workflow_dispatch
   steps:
     1. checkout
-    2. node scripts/sync-github.mjs        # 读 curated.json，写 src/data/github/*.json
+    2. node scripts/sync-github.ts        # 读 curated.json，写 src/data/facts/*.json
     3. 若无变更 → 结束（不产生空提交）
     4. 有变更 → 提交 → `git pull --rebase origin main` → 直接推送 main
     5. 推送失败即步骤失败，工作流标红，不会静默成功
@@ -316,7 +316,7 @@ src/
 ├── lib/projects.ts                  # 合并两侧 → ProjectView（唯一读取入口）
 └── lib/github-snapshot.ts           # JSON 校验与 stale 计算
 scripts/
-└── sync-github.mjs                  # 同步脚本（--dry-run / --only <slug>）
+└── sync-github.ts                  # 同步脚本（--dry-run / --only <slug>）
 .github/workflows/sync-github.yml    # 每日定时 + PR
 ```
 

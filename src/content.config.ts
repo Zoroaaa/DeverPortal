@@ -2,6 +2,40 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
+// 判断层的证据引用：构建期只校验 file 是否存在，其余三种只做结构约束。
+const evidenceRef = z.union([
+  z.object({ file: z.string() }).strict(),
+  z.object({ release: z.string() }).strict(),
+  z.object({ url: z.string().url() }).strict(),
+]);
+
+const capabilitySchema = z
+  .object({
+    id: z.string(),
+    title: z.string(),
+    desc: z.string().default(''),
+    state: z.enum(['done', 'partial', 'planned']),
+    evidence: z.array(evidenceRef).default([]),
+  })
+  .strict();
+
+const limitationSchema = z
+  .object({
+    text: z.string(),
+    impact: z.enum(['low', 'med', 'high']),
+    evidence: z.array(evidenceRef).default([]),
+  })
+  .strict();
+
+const decisionSchema = z
+  .object({
+    title: z.string(),
+    why: z.string(),
+    cost: z.string(),
+    alternatives: z.array(z.string()).default([]),
+  })
+  .strict();
+
 export const products = defineCollection({
   loader: glob({ pattern: '*/index.mdx', base: './src/content/products' }),
   schema: z.object({
@@ -23,7 +57,13 @@ export const products = defineCollection({
     }),
     cover: z.string().optional(),
     gallery: z.array(z.object({ src: z.string(), alt: z.string() })).default([]),
-    limitations: z.array(z.string()).default([]), // 已知限制，服务"做到什么程度"
+    limitations: z.array(limitationSchema).default([]),
+    capabilities: z.array(capabilitySchema).default([]),
+    audience: z
+      .object({ for: z.array(z.string()).default([]), notFor: z.array(z.string()).default([]) })
+      .optional(),
+    decisions: z.array(decisionSchema).default([]),
+    evidence: z.array(evidenceRef).default([]),
     seo: z.object({
       title: z.string().optional(),
       description: z.string().optional(),

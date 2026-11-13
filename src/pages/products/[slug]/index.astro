@@ -9,7 +9,13 @@ import ReleaseList from '../../../components/release/ReleaseList.astro';
 import SectionHeader from '../../../components/ui/SectionHeader.astro';
 import Tag from '../../../components/ui/Tag.astro';
 import Prose from '../../../components/ui/Prose.astro';
+import TOC from '../../../components/docs/TOC.astro';
+import ActivityChart from '../../../components/product/ActivityChart.astro';
+import LanguageBar from '../../../components/product/LanguageBar.astro';
+import StackDiagram from '../../../components/product/StackDiagram.astro';
+import MaintenanceChecks from '../../../components/product/MaintenanceChecks.astro';
 import { loadContentGraph, docPathOf, type ProductView } from '../../../lib/content-graph';
+import { formatDate } from '../../../lib/format';
 
 export async function getStaticPaths() {
   const { products } = await loadContentGraph();
@@ -26,17 +32,44 @@ interface Props {
 
 const { product } = Astro.props;
 const { entry, latestRelease, releaseViews, docs, snapshot } = product;
-const { Content } = await render(entry);
+const { Content, headings } = await render(entry);
 const firstDoc = docs[0];
 const repoUrl = entry.data.links.repo ?? snapshot?.data?.url ?? null;
 const stale = snapshot?.stale || snapshot?.missing || snapshot?.releasesStale;
+
+// 事实条：全部来自 GitHub 快照，不手写。
+const repo = snapshot?.data ?? null;
+const updated = latestRelease?.date ?? (repo?.pushedAt ? new Date(repo.pushedAt) : null);
+const facts = [
+  repo?.stars != null ? `★ ${repo.stars}` : null,
+  repo?.forks != null ? `fork ${repo.forks}` : null,
+  repo?.openIssues != null ? `issue ${repo.openIssues}` : null,
+  latestRelease ? `v${latestRelease.version}` : null,
+  repo?.createdAt ? `建于 ${repo.createdAt.slice(0, 7)}` : null,
+  updated ? `最近提交 ${formatDate(updated)}` : null,
+].filter((fact): fact is string => Boolean(fact));
+
+const tocHeadings = [
+  ...headings,
+  ...(entry.data.capabilities.length > 0 ? [{ depth: 2, slug: 'capabilities', text: '能力' }] : []),
+  ...(snapshot?.data?.cloudflare || product.tech.length > 0
+    ? [{ depth: 2, slug: 'stack', text: '技术栈与架构' }]
+    : []),
+  ...(snapshot?.activity?.length ? [{ depth: 2, slug: 'activity', text: '活动' }] : []),
+  ...(snapshot?.data?.files ? [{ depth: 2, slug: 'checks', text: '维护检查' }] : []),
+  { depth: 2, slug: 'limitations', text: '现状与已知限制' },
+  ...(entry.data.decisions.length > 0 ? [{ depth: 2, slug: 'decisions', text: '决策记录' }] : []),
+  ...(releaseViews.length > 0 ? [{ depth: 2, slug: 'releases', text: '最近版本' }] : []),
+];
+
+const stateMark = { done: '✓', partial: '◐', planned: '○' } as const;
 
 ---
 
 <BaseLayout
   title={entry.data.seo?.title ?? entry.data.name}
   description={entry.data.seo?.description ?? entry.data.summary}
-  ogImage={entry.data.seo?.ogImage}
+  ogImage={entry.data.seo?.ogImage ?? `/og/${product.slug}.png`}
   type="website"
 >
   <div class="container page">
@@ -56,6 +89,12 @@ const stale = snapshot?.stale || snapshot?.missing || snapshot?.releasesStale;
         </div>
         <p class="tagline">{entry.data.tagline}</p>
         <p class="summary">{entry.data.summary}</p>
+
+        {facts.length > 0 && (
+          <p class="facts">
+            {facts.map((fact) => <span class="fact">{fact}</span>)}
+          </p>
+        )}
 
         <div class="actions">
           {entry.data.links.demo && (
@@ -96,18 +135,125 @@ const stale = snapshot?.stale || snapshot?.missing || snapshot?.releasesStale;
       />
     </header>
 
+    {
+      entry.data.audience &&
+        (entry.data.audience.for.length > 0 || entry.data.audience.notFor.length > 0) && (
+          <section class="fit">
+            <div class="fit-col">
+              <h2>适合谁</h2>
+              <ul>
+                {entry.data.audience.for.map((item) => <li>{item}</li>)}
+              </ul>
+            </div>
+            <div class="fit-col fit-col--muted">
+              <h2>不适合谁</h2>
+              <ul>
+                {entry.data.audience.notFor.map((item) => <li>{item}</li>)}
+              </ul>
+            </div>
+          </section>
+        )
+    }
+
+    {
+      entry.data.capabilities.length > 0 && (
+        <section class="section" id="capabilities">
+          <SectionHeader title="能力" description="✓ 已完成 · ◐ 部分完成 · ○ 计划中" />
+          <ul class="caps">
+            {entry.data.capabilities.map((capability) => (
+              <li class={`cap cap--${capability.state}`}>
+                <span class="cap-mark" aria-hidden="true">
+                  {stateMark[capability.state]}
+                </span>
+                <div>
+                  <p class="cap-title">{capability.title}</p>
+                  {capability.desc && <p class="cap-desc">{capability.desc}</p>}
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    {
+      (snapshot?.data?.cloudflare || product.tech.length > 0) && (
+        <section class="section" id="stack">
+          <SectionHeader title="技术栈与架构" description="依赖来自 package.json，云资源来自 wrangler 配置，均为自动推导。" />
+          <StackDiagram
+            cloudflare={snapshot?.data?.cloudflare ?? null}
+            tech={product.tech}
+            languages={snapshot?.data?.languages ?? []}
+          />
+        </section>
+      )
+    }
+
+    {
+      (snapshot?.activity?.length || snapshot?.data?.languages?.length) && (
+        <section class="section" id="activity">
+          <SectionHeader title="活动" />
+          <ActivityChart weeks={snapshot?.activity ?? []} />
+          <div class="langs">
+            <LanguageBar languages={snapshot?.data?.languages ?? []} />
+          </div>
+        </section>
+      )
+    }
+
+    {
+      snapshot?.data?.files && (
+        <section class="section" id="checks">
+          <SectionHeader title="维护检查" description="按仓库里是否存在对应文件判断，不折算总分。" />
+          <MaintenanceChecks files={snapshot.data.files} pushedAt={snapshot.data.pushedAt} />
+        </section>
+      )
+    }
+
     <div class="body">
       <Prose>
         <Content />
       </Prose>
+      <aside class="toc-col">
+        <TOC headings={tocHeadings} />
+      </aside>
     </div>
 
-    <section class="section">
+    <section class="section" id="limitations">
       <SectionHeader title="现状与已知限制" description="当前明确没做到、或做得不够好的地方。" />
       <LimitationsList items={entry.data.limitations} />
     </section>
 
-    <section class="section">
+    {
+      entry.data.decisions.length > 0 && (
+        <section class="section" id="decisions">
+          <SectionHeader title="决策记录" description="当时为什么这么选，代价是什么。" />
+          {entry.data.decisions.map((decision) => (
+            <details class="decision">
+              <summary>{decision.title}</summary>
+              <div class="decision-body">
+                <p>
+                  <strong>为什么：</strong>
+                  {decision.why}
+                </p>
+                <p>
+                  <strong>代价：</strong>
+                  {decision.cost}
+                </p>
+                {decision.alternatives.length > 0 && (
+                  <p>
+                    <strong>备选：</strong>
+                    {decision.alternatives.join('、')}
+                  </p>
+                )}
+              </div>
+            </details>
+          ))}
+        </section>
+      )
+    }
+
+    <section class="section" id="releases">
       <SectionHeader
         title="最近版本"
         href={releaseViews.length > 3 ? `/products/${product.slug}/releases` : undefined}
@@ -122,26 +268,28 @@ const stale = snapshot?.stale || snapshot?.missing || snapshot?.releasesStale;
       }
     </section>
 
-    <section class="section">
-      <SectionHeader title="快速开始" />
-      {
-        firstDoc ? (
+    {
+      firstDoc && (
+        <section class="section" id="start">
+          <SectionHeader title="快速开始" />
           <p class="muted">
             从 <a href={`/docs/${product.slug}/${docPathOf(firstDoc)}`}>{firstDoc.data.title}</a> 开始，
             按最短路径把它跑起来。
           </p>
-        ) : (
-          <p class="muted">文档还在整理中。</p>
-        )
-      }
-    </section>
+        </section>
+      )
+    }
 
     {
-      (entry.data.topics.length > 0 || entry.data.tech.length > 0) && (
+      (entry.data.topics.length > 0 || product.tech.length > 0) && (
         <section class="section">
           <div class="tags">
             {entry.data.topics.map((topic) => <Tag label={topic} />)}
-            {entry.data.tech.map((tech) => <Tag label={tech} />)}
+            {product.tech.map((tech) => (
+              <a class="tech-link" href={`/tech/${tech.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}/`}>
+                <Tag label={tech} />
+              </a>
+            ))}
           </div>
         </section>
       )
@@ -233,7 +381,37 @@ const stale = snapshot?.stale || snapshot?.missing || snapshot?.releasesStale;
   }
 
   .body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 200px;
+    gap: clamp(32px, 5vw, 72px);
+    align-items: start;
     padding-top: clamp(48px, 7vw, 88px);
+  }
+
+  .toc-col {
+    min-width: 0;
+    padding-top: 6px;
+  }
+
+  .facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 14px;
+    margin-top: var(--space-4);
+    color: var(--ink-faint);
+    font-size: 13px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .fact + .fact {
+    position: relative;
+  }
+
+  .fact + .fact::before {
+    content: '·';
+    position: absolute;
+    left: -9px;
+    color: var(--line-strong);
   }
 
   .section {
@@ -261,6 +439,132 @@ const stale = snapshot?.stale || snapshot?.missing || snapshot?.releasesStale;
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-2);
+  }
+
+  .tech-link {
+    display: inline-flex;
+  }
+
+  .langs {
+    margin-top: var(--space-5);
+  }
+
+  .fit {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(24px, 4vw, 56px);
+    margin-top: clamp(48px, 7vw, 88px);
+    padding: var(--space-6) 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .fit h2 {
+    margin-bottom: var(--space-3);
+    color: var(--ink-faint);
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .fit ul {
+    display: grid;
+    gap: 6px;
+    margin: 0;
+    padding-left: 1.1em;
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  .fit-col--muted ul {
+    color: var(--ink-muted);
+  }
+
+  .caps {
+    display: grid;
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .cap {
+    display: grid;
+    grid-template-columns: 24px minmax(0, 1fr);
+    gap: var(--space-3);
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .cap:last-child {
+    border-bottom: 0;
+  }
+
+  .cap-mark {
+    color: var(--accent);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .cap--partial .cap-mark,
+  .cap--planned .cap-mark {
+    color: var(--ink-faint);
+  }
+
+  .cap-title {
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.6;
+  }
+
+  .cap-desc {
+    margin-top: 2px;
+    color: var(--ink-muted);
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .decision {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .decision summary {
+    padding: 14px 0;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .decision-body {
+    padding: 0 0 16px;
+    color: var(--ink-muted);
+    font-size: 14px;
+    line-height: 1.8;
+  }
+
+  .decision-body p + p {
+    margin-top: 6px;
+  }
+
+  .decision-body strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  @media (max-width: 799px) {
+    .fit {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  @media (max-width: 1023px) {
+    .body {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .toc-col {
+      display: none;
+    }
   }
 
   @media (max-width: 799px) {

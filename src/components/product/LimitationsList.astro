@@ -1,50 +1,79 @@
 ---
-import EmptyState from '../ui/EmptyState.astro';
+interface Item {
+  text: string;
+  impact: 'low' | 'med' | 'high';
+  evidence: unknown[];
+}
 
 interface Props {
-  items: string[];
+  items: Item[];
 }
 
 const { items } = Astro.props;
+const weight: Record<Item['impact'], number> = { high: 0, med: 1, low: 2 };
+const label: Record<Item['impact'], string> = { high: '高', med: '中', low: '低' };
+const sorted = [...items].sort((a, b) => weight[a.impact] - weight[b.impact]);
 ---
 
-{
-  items.length > 0 ? (
-    <ul class="limits">
-      {items.map((item) => (
-        <li>{item}</li>
-      ))}
-    </ul>
-  ) : (
-    <EmptyState title="暂无已知限制" description="该产品还没有补充限制说明。" />
-  )
-}
+<ul class="limits">
+  {
+    sorted.map((item) => (
+      <li class={`limit limit--${item.impact}`}>
+        <span class="impact" aria-label={`影响程度：${label[item.impact]}`}>
+          {label[item.impact]}
+        </span>
+        <span class="text">{item.text}</span>
+      </li>
+    ))
+  }
+</ul>
 
 <style>
   .limits {
+    display: grid;
+    gap: 2px;
     margin: 0;
     padding: 0;
     list-style: none;
-    border-top: 1px solid var(--line);
   }
 
-  li {
-    position: relative;
-    padding: 14px 0 14px 22px;
+  .limit {
+    display: grid;
+    grid-template-columns: 28px minmax(0, 1fr);
+    gap: var(--space-4);
+    padding: 16px 0;
     border-bottom: 1px solid var(--line);
-    color: var(--ink-muted);
-    font-size: 16px;
-    line-height: 1.65;
+    font-size: 15px;
+    line-height: 1.75;
   }
 
-  li::before {
-    content: '';
-    position: absolute;
-    top: 1.35em;
-    left: 2px;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--accent);
+  .limit:last-child {
+    border-bottom: 0;
+  }
+
+  .impact {
+    align-self: start;
+    padding-top: 1px;
+    color: var(--ink-faint);
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .limit--high .impact {
+    color: var(--danger);
+  }
+
+  .limit--med .impact {
+    color: var(--accent-ink);
+  }
+
+  .text {
+    min-width: 0;
+    color: var(--ink-muted);
+    overflow-wrap: anywhere;
+  }
+
+  .limit--high .text {
+    color: var(--ink);
   }
 </style>

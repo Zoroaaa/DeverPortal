@@ -1,0 +1,345 @@
+{
+  "schemaVersion": 1,
+  "slug": "personal-blog",
+  "owner": "Zoroaaa",
+  "repo": "personal-blog",
+  "fetchedAt": "2026-11-13T06:53:16.075Z",
+  "etag": null,
+  "readmeEtag": "\"18735e5af2fd527f12f5460ebe0f642b978b917a\"",
+  "stale": false,
+  "error": null,
+  "missing": false,
+  "data": {
+    "id": null,
+    "fullName": "Zoroaaa/personal-blog",
+    "url": "https://github.com/Zoroaaa/personal-blog",
+    "description": "使用cloudflare workers+pages+kv+d1+r2、resend 搭建的轻量化个人博客网站，功能丰富，页面美观。",
+    "homepage": "https://blog.wort.uk",
+    "stars": 54,
+    "forks": 19,
+    "openIssues": 0,
+    "openPRs": 0,
+    "language": "TypeScript",
+    "license": "MIT",
+    "createdAt": "2026-02-02",
+    "pushedAt": "2026-11-13",
+    "archived": false,
+    "fork": false,
+    "topics": [
+      "blog",
+      "cloudflare",
+      "serverless",
+      "resend"
+    ],
+    "defaultBranch": "main",
+    "readmeExcerpt": "Personal Blog 一个基于 Cloudflare 全栈技术构建的现代化个人博客系统。 --- 🔗 快速访问 | 资源类型 | 链接 | 备注 | |---------|------|------| | 📖 项目文档 | 👉 完整介绍 | 详细的项目说明和使用指南 | | 🚀 在线体验 | 👉 https://blog.wort.uk | 体验完整功能 | 效果图 --- 项目概述 这是一个功能丰富、性能卓越的个人博客系统，采用前后端分离架构，基于 Cloudflare 边缘计算平台构建。系统支持 Markdown 写作、代码高亮、评论…",
+    "commitCount": 545,
+    "languages": [
+      {
+        "name": "TypeScript",
+        "bytes": 1389915
+      },
+      {
+        "name": "CSS",
+        "bytes": 18586
+      },
+      {
+        "name": "Shell",
+        "bytes": 4595
+      },
+      {
+        "name": "JavaScript",
+        "bytes": 4512
+      },
+      {
+        "name": "HTML",
+        "bytes": 293
+      }
+    ],
+    "techDeps": [
+      {
+        "name": "@cloudflare/workers-types",
+        "scope": "dev"
+      },
+      {
+        "name": "@types/bcryptjs",
+        "scope": "dev"
+      },
+      {
+        "name": "@types/react",
+        "scope": "dev"
+      },
+      {
+        "name": "@types/react-dom",
+        "scope": "dev"
+      },
+      {
+        "name": "@typescript-eslint/eslint-plugin",
+        "scope": "dev"
+      },
+      {
+        "name": "@typescript-eslint/parser",
+        "scope": "dev"
+      },
+      {
+        "name": "@vitejs/plugin-react",
+        "scope": "dev"
+      },
+      {
+        "name": "autoprefixer",
+        "scope": "dev"
+      },
+      {
+        "name": "bcryptjs",
+        "scope": "prod"
+      },
+      {
+        "name": "date-fns",
+        "scope": "prod"
+      },
+      {
+        "name": "dompurify",
+        "scope": "prod"
+      },
+      {
+        "name": "eslint",
+        "scope": "dev"
+      },
+      {
+        "name": "framer-motion",
+        "scope": "prod"
+      },
+      {
+        "name": "hono",
+        "scope": "prod"
+      },
+      {
+        "name": "mammoth",
+        "scope": "prod"
+      },
+      {
+        "name": "postcss",
+        "scope": "dev"
+      },
+      {
+        "name": "prettier",
+        "scope": "dev"
+      },
+      {
+        "name": "react",
+        "scope": "prod"
+      },
+      {
+        "name": "react-dom",
+        "scope": "prod"
+      },
+      {
+        "name": "react-markdown",
+        "scope": "prod"
+      },
+      {
+        "name": "react-router-dom",
+        "scope": "prod"
+      },
+      {
+        "name": "rehype-highlight",
+        "scope": "prod"
+      },
+      {
+        "name": "remark-gfm",
+        "scope": "prod"
+      },
+      {
+        "name": "tailwindcss",
+        "scope": "dev"
+      },
+      {
+        "name": "typescript",
+        "scope": "dev"
+      },
+      {
+        "name": "vite",
+        "scope": "dev"
+      },
+      {
+        "name": "wrangler",
+        "scope": "dev"
+      },
+      {
+        "name": "zustand",
+        "scope": "prod"
+      }
+    ],
+    "envKeys": [
+      "GITHUB_CLIENT_ID",
+      "GITHUB_CLIENT_SECRET",
+      "JWT_SECRET",
+      "POST_PASSWORD_SECRET",
+      "RESEND_API_KEY",
+      "VITE_DEBUG"
+    ],
+    "files": {
+      "license": true,
+      "ci": true,
+      "tests": false,
+      "changelog": false,
+      "dockerfile": false,
+      "envExample": true,
+      "wrangler": true
+    },
+    "cloudflare": {
+      "d1": true,
+      "kv": true,
+      "r2": true,
+      "vectorize": false,
+      "ai": false,
+      "queues": false,
+      "durableObjects": true
+    }
+  },
+  "activity": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    189,
+    189,
+    128,
+    0,
+    0,
+    2,
+    0,
+    3,
+    5,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    12,
+    0,
+    0,
+    1,
+    1,
+    4
+  ],
+  "evidence": {
+    ".github/workflows/deploy.yml": true,
+    "backend/package.json": true,
+    "backend/src/services/postService.ts": true,
+    "backend/wrangler.toml": true,
+    "database/schema-v1.1-base.sql": true,
+    "docs/QUICKSTART.md": true,
+    "frontend/.env.example": true,
+    "frontend/package.json": true,
+    "package.json": true,
+    "scripts/migrate.sh": true
+  },
+  "releases": {
+    "fetchedAt": "2026-11-13T06:53:16.075Z",
+    "etag": null,
+    "stale": false,
+    "error": null,
+    "source": "releases",
+    "items": [
+      {
+        "version": "1.4.0",
+        "tag": "blog_v1.4.0",
+        "name": "v1.4.0",
+        "date": "2026-02-17",
+        "url": "https://github.com/Zoroaaa/personal-blog/releases/tag/blog_v1.4.0",
+        "prerelease": false,
+        "source": "release",
+        "body": "v1.4.0 版本是一个重要的功能更新版本，主要聚焦于用户体验优化和功能增强。本版本新增了热门文章排行、文章置顶、上下篇导航、推荐文章等功能，同时对主题系统进行了全面升级，支持自定义主色调和字体大小调节。个人中心页面也进行了重构，优化了用户交互体验。",
+        "stats": {
+          "commits": 41,
+          "filesChanged": 88,
+          "additions": null,
+          "deletions": null
+        }
+      },
+      {
+        "version": "1.3.3",
+        "tag": "blog_v1.3.3",
+        "name": "v1.3.3",
+        "date": "2026-02-15",
+        "url": "https://github.com/Zoroaaa/personal-blog/releases/tag/blog_v1.3.3",
+        "prerelease": false,
+        "source": "release",
+        "body": "通知中心与私信功能整体优化完成",
+        "stats": {
+          "commits": 82,
+          "filesChanged": 66,
+          "additions": null,
+          "deletions": null
+        }
+      },
+      {
+        "version": "1.3.1",
+        "tag": "blog_v1.3.1",
+        "name": "v1.3.1",
+        "date": "2026-02-13",
+        "url": "https://github.com/Zoroaaa/personal-blog/releases/tag/blog_v1.3.1",
+        "prerelease": false,
+        "source": "release",
+        "body": null,
+        "stats": {
+          "commits": 106,
+          "filesChanged": 112,
+          "additions": null,
+          "deletions": null
+        }
+      },
+      {
+        "version": "1.2.0",
+        "tag": "blog_v1.2.0",
+        "name": "v1.2.0",
+        "date": "2026-02-10",
+        "url": "https://github.com/Zoroaaa/personal-blog/releases/tag/blog_v1.2.0",
+        "prerelease": false,
+        "source": "release",
+        "body": "增强文章编辑功能，优化阅读体验，增设专栏功能，更多优化请阅[CHANGELOG_v1.2.0](https://github.com/Zoroaaa/personal-blog/blob/main/CHANGELOG_v1.2.0.md)",
+        "stats": null
+      },
+      {
+        "version": "1.1.0",
+        "tag": "blog_v1.1.0",
+        "name": "v1.1.0",
+        "date": "2026-02-09",
+        "url": "https://github.com/Zoroaaa/personal-blog/releases/tag/blog_v1.1.0",
+        "prerelease": false,
+        "source": "release",
+        "body": "第一版发布，经过多轮测试，功能完整、响应迅速、UI美观",
+        "stats": null
+      }
+    ]
+  }
+}

@@ -18,7 +18,7 @@
 | 推荐架构 | **Astro 5（静态输出）+ 仓库内 MDX 内容集合 + 构建期 GitHub 快照 + Cloudflare Pages** |
 | 实际实现 | 零客户端框架、零 Tailwind、零运行时接口；视觉为 B「工程蓝图」；构建不联网、不依赖 token |
 | 内容来源 | 仓库即内容（Git 为唯一事实源），构建期 Zod 校验；不保留自建后台 |
-| GitHub 数据 | `curated.json` 白名单 + `scripts/sync-github.mjs` 抓公开 API → `src/data/github/*.json` 快照进 Git；构建只读快照 |
+| GitHub 数据 | `curated.json` 白名单 + `scripts/sync-github.ts` 抓公开 API → `src/data/facts/*.json` 快照进 Git；构建只读快照 |
 | 保留的后端 | **无**。站点无运行时 API、无 KV/D1；只有 GitHub Actions 每日同步并开 PR |
 | 工作量 | 工程 23–31 人日（含 15% 缓冲 26–36）；内容撰写另计 6–9 人日 |
 
@@ -257,7 +257,7 @@ src/content/
 
 产品目录名即 slug（`omnibox` → `/products/omnibox`）；发布与文档的归属由**目录位置**决定，不由 frontmatter 决定，避免手写 slug 不一致。
 
-`slug` 与 GitHub 仓库名解耦：对应关系写在 `src/data/curated.json`（如 `OmniBox → omnibox`），仓库改名不影响站内 URL。自动字段（star / 语言 / license / 版本 / 日期）不进 frontmatter，由 `src/data/github/*.json` 快照提供。
+`slug` 与 GitHub 仓库名解耦：对应关系写在 `src/data/curated.json`（如 `OmniBox → omnibox`），仓库改名不影响站内 URL。自动字段（star / 语言 / license / 版本 / 日期）不进 frontmatter，由 `src/data/facts/*.json` 快照提供。
 
 ### 4.3 Schema（构建期强校验）
 
@@ -417,10 +417,10 @@ export const posts = defineCollection({
 
 ```text
                  PR / push main                   每日 02:00 UTC（或手动）
-GitHub ─────────────────────────────► GitHub Actions ──────────────► scripts/sync-github.mjs
+GitHub ─────────────────────────────► GitHub Actions ──────────────► scripts/sync-github.ts
         │                               │ astro check                    │ GitHub REST API（公开数据）
         │                               │ 内容断言 / 快照校验             ▼
-        │                               ▼                          src/data/github/*.json
+        │                               ▼                          src/data/facts/*.json
         │                          astro build → dist/                   │
         │                               │                               │ 变更开 PR，人工合并
         │                               ▼                               │
@@ -428,7 +428,7 @@ GitHub ────────────────────────�
         │                               │
         └── 访客 ──── HTML/CSS ─────────┘
 
-内容事实源：src/content/**（手写） + src/data/github/**（自动快照）
+内容事实源：src/content/**（手写） + src/data/facts/**（自动快照）
 运行时数据库 / 接口：无
 构建期网络依赖：无（只读仓库内快照，不需要 token）
 ```
@@ -441,12 +441,12 @@ GitHub ────────────────────────�
 | 产品列表筛选 | 不做客户端筛选 | 静态列表；条目增多时再评估纯 CSS/`<details>` 方案 |
 | 文档目录 / TOC / 上下篇 | 构建期 | 由集合排序生成 |
 | 站内搜索 | 暂不做 | 内容达到一定规模后接 Pagefind（仍是构建期索引） |
-| 产品自动字段（star / 语言 / license / 版本 / 日期） | 构建期 | 读 `src/data/github/*.json` 快照，与手写 MDX 合并；**运行时不请求 GitHub** |
+| 产品自动字段（star / 语言 / license / 版本 / 日期） | 构建期 | 读 `src/data/facts/*.json` 快照，与手写 MDX 合并；**运行时不请求 GitHub** |
 | 阅读量 / 浏览量 | 不做 | 需要时用 Cloudflare Web Analytics（无 cookie） |
 
 ### 5.4 运行时接口（已取消）
 
-**没有运行时接口。** 原 `/api/github` 代理随 `functions/` 一起删除；GitHub 数据在构建期由 `scripts/sync-github.mjs` 抓取并落快照，站点只读本地 JSON。详见 [github-projects-sync-plan.md](./github-projects-sync-plan.md)。
+**没有运行时接口。** 原 `/api/github` 代理随 `functions/` 一起删除；GitHub 数据在构建期由 `scripts/sync-github.ts` 抓取并落快照，站点只读本地 JSON。详见 [github-projects-sync-plan.md](./github-projects-sync-plan.md)。
 
 ### 5.5 多语言
 
@@ -640,7 +640,7 @@ v1 只有明亮一套。tokens 全部语义化，`html[data-theme]` 预留但不
 │   └── visual-drafts/
 ├── .github/workflows/sync-github.yml
 └── scripts/
-    ├── sync-github.mjs              # GitHub 公开 API → 快照
+    ├── sync-github.ts              # GitHub 公开 API → 快照
     ├── scaffold-projects.mjs        # 生成草稿 MDX 骨架
     └── check-content.mjs            # 构建前内容与快照校验
 ```
@@ -648,7 +648,7 @@ v1 只有明亮一套。tokens 全部语义化，`html[data-theme]` 预留但不
 ### 7.2 状态与数据层
 
 - 不引入全局状态库，也没有客户端框架；页面全部在构建期渲染成 HTML。
-- 自动字段（star / 语言 / license / 版本 / 日期 / 链接）来自 `src/data/github/*.json` 快照，手写字段来自 `src/content/**`；两侧物理隔离，同名冲突即构建失败。
+- 自动字段（star / 语言 / license / 版本 / 日期 / 链接）来自 `src/data/facts/*.json` 快照，手写字段来自 `src/content/**`；两侧物理隔离，同名冲突即构建失败。
 - **运行时不请求 GitHub**；快照由 GitHub Actions 每日同步，变更走 PR，人工合并后部署。
 - 删除 `useKVData` 的"本地缓存优先 + 后台覆盖"逻辑：KV 不再参与任何读写。
 
@@ -884,14 +884,14 @@ GitHub Actions（main 合并）
 
 ## 11. 附录
 
-### A. GitHub 同步脚本职责（`scripts/sync-github.mjs` / `scripts/scaffold-projects.mjs`）
+### A. GitHub 同步脚本职责（`scripts/sync-github.ts` / `scripts/scaffold-projects.mjs`）
 
 > 原 `scripts/migrate-kv.mjs` 已随 KV 方案一起删除，职责由下面两个脚本取代。
 
-`sync-github.mjs`
-1. 只读 `src/data/curated.json` 与 `src/data/github/*.json` 旧快照。
+`sync-github.ts`
+1. 只读 `src/data/curated.json` 与 `src/data/facts/*.json` 旧快照。
 2. 调 GitHub 公开 REST API 拉仓库事实、Release / tag、README 首段；带 ETag 条件请求。
-3. 只写 `src/data/github/*.json`，**不碰 `src/content/**`**。
+3. 只写 `src/data/facts/*.json`，**不碰 `src/content/**`**。
 4. 失败/限流时保留旧快照并标 `stale`；`--dry-run` 只打印变更。
 5. 输出同步报告（写入、未变化、stale、404、未收录仓库），供 CI PR 描述使用。
 

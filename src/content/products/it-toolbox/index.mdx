@@ -17,11 +17,64 @@ links:
   demo: "https://ittool.wort.uk"
   repo: "https://github.com/Zoroaaa/it-toolbox"
 limitations:
-  - "WHOIS 依赖 rdap.org，部分小众后缀没有 RDAP 记录；SSL 检测依赖 crt.sh，取不到证书详情时只显示连接状态，不再推断证书是否有效。"
-  - "12 个 AI 工具只能走 Cloudflare Workers AI，本地开发要配 `[ai]` binding；模型候选写死在 `functions/api/routes/ai.ts` 的 `AI_MODELS` 里，共 3 个，失败时按顺序回退。"
-  - "没有账号体系。收藏、历史、最近使用和主题都存在浏览器 localStorage，换设备不同步。"
-  - "英文界面只翻译了外壳，工具内部文案仍是中文；`docs/planning/v1.7.0.md` 把这条写成明确边界，不承诺工具级英文。"
-  - "PWA 只预缓存应用外壳：`vite.config.ts` 的 Workbox 配置把 `tools/**` 排除在外，工具页首次打开仍要联网。"
+  - text: "WHOIS 依赖 rdap.org，部分小众后缀没有 RDAP 记录；SSL 检测依赖 crt.sh，取不到证书详情时只显示连接状态，不再推断证书是否有效。"
+    impact: med
+    evidence: []
+  - text: "12 个 AI 工具只能走 Cloudflare Workers AI，本地开发要配 `[ai]` binding；模型候选写死在 `functions/api/routes/ai.ts` 的 `AI_MODELS` 里，共 3 个，失败时按顺序回退。"
+    impact: med
+    evidence: []
+  - text: "没有账号体系。收藏、历史、最近使用和主题都存在浏览器 localStorage，换设备不同步。"
+    impact: med
+    evidence: []
+  - text: "英文界面只翻译了外壳，工具内部文案仍是中文；`docs/planning/v1.7.0.md` 把这条写成明确边界，不承诺工具级英文。"
+    impact: med
+    evidence: []
+  - text: "PWA 只预缓存应用外壳：`vite.config.ts` 的 Workbox 配置把 `tools/**` 排除在外，工具页首次打开仍要联网。"
+    impact: med
+    evidence: []
+capabilities:
+  - id: "cap-1"
+    title: "148 个工具，12 个分类；新增工具只需要建目录、写 `meta.ts` 和 "
+    desc: ""
+    state: done
+    evidence: []
+  - id: "cap-2"
+    title: "多数工具在浏览器本地算"
+    desc: "格式化、编码、哈希、AES/RSA、JWT、图片压缩和转换、颜色计算这类不经过服务器。"
+    state: done
+    evidence: []
+  - id: "cap-3"
+    title: "需要出网的查询走 Pages Functions，结果进 KV 缓存"
+    desc: "IP 归属地、DNS、HTTP 头、SSL 证书、RDAP/WHOIS、汇率；缓存键按「业务前缀 + 规范化参数」拼，DNS 只缓存 300 秒，其余多为 3600 秒，RDAP 引导表缓存 86400 秒。"
+    state: done
+    evidence: []
+  - id: "cap-4"
+    title: "收藏、历史、最近使用、亮/暗/跟随系统三种主题；搜索用 Fuse.js 做模糊匹"
+    desc: ""
+    state: done
+    evidence: []
+  - id: "cap-5"
+    title: "另有批量处理和工具对比两个工具，用来跨工具操作；PWA 可安装，能离线打开外壳。"
+    desc: ""
+    state: done
+    evidence: []
+  - id: "cap-6"
+    title: "AI 增强 12 个工具，覆盖代码解释、正则/SQL/Shell 生成、翻译、提"
+    desc: ""
+    state: done
+    evidence: []
+evidence:
+  - file: "README.md"
+  - file: "docs/ARCHITECTURE.md"
+  - file: "docs/changelog/v1.6.0.md"
+  - file: "docs/planning/v1.7.0.md"
+  - file: "vite.config.ts"
+  - file: "src/registry.ts"
+  - file: "src/lib/tool-loader.ts"
+  - file: "functions/app.ts"
+  - file: "functions/lib/ssrf.ts"
+  - file: "package.json"
+  - file: "wrangler.toml"
 ---
 
 {/* 自动抓取事实（只读参考，删除也不影响页面）：
@@ -108,7 +161,7 @@ pnpm pages:dev    # 终端 2：Wrangler，http://localhost:8788
 本地要用网络查询和 AI，需要复制配置模板并打开对应的 binding：
 
 ```bash
-cp wrangler.example.toml wrangler.toml
+cp wrangler.toml wrangler.toml
 # 取消注释 [[kv_namespaces]] 的 CACHE，填 KV 命名空间 id
 # 取消注释 [ai] 的 AI
 ```
@@ -122,6 +175,6 @@ pnpm deploy
 
 `pnpm deploy` 会先跑 `pnpm check`（typecheck、lint、test、元数据审计、图标检查）和 `vite build`，再用 `wrangler pages deploy dist --project-name=it-toolbox` 上传，所以本机要先 `wrangler login`。
 
-有两个门槛要提前知道。第一，`README` 的 Fork 须知写的是绑定 KV、R2、AI，但 `docs/ARCHITECTURE.md` 4.4 的能力表里 R2 标的是未用，`wrangler.example.toml` 也只留了 `CACHE` 和 `AI` 两项；按模板配这两项即可。第二，不配 binding 时纯前端工具照常；AI 工具需要 `AI`，网络查询的缓存需要 `CACHE`。
+有两个门槛要提前知道。第一，`README` 的 Fork 须知写的是绑定 KV、R2、AI，但 `docs/ARCHITECTURE.md` 4.4 的能力表里 R2 标的是未用，`wrangler.toml` 也只留了 `CACHE` 和 `AI` 两项；按模板配这两项即可。第二，不配 binding 时纯前端工具照常；AI 工具需要 `AI`，网络查询的缓存需要 `CACHE`。
 
-> 证据：`README.md`「快速开始 › 环境要求 / 安装与运行 / 常用命令」「部署 › Fork 用户部署须知」；`package.json` 的 `dev`、`pages:dev`、`deploy` 脚本；`wrangler.example.toml`（KV 与 AI 均被注释）；`docs/ARCHITECTURE.md` 4.4、12.4。
+> 证据：`README.md`「快速开始 › 环境要求 / 安装与运行 / 常用命令」「部署 › Fork 用户部署须知」；`package.json` 的 `dev`、`pages:dev`、`deploy` 脚本；`wrangler.toml`（KV 与 AI 均被注释）；`docs/ARCHITECTURE.md` 4.4、12.4。

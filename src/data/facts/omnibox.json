@@ -1,0 +1,164 @@
+{
+  "schemaVersion": 1,
+  "slug": "omnibox",
+  "owner": "Zoroaaa",
+  "repo": "OmniBox",
+  "fetchedAt": "2026-11-13T06:51:41.866Z",
+  "etag": null,
+  "readmeEtag": "\"de84f9db14c1dd547c04c5759e55c2fb58ac7b02\"",
+  "stale": false,
+  "error": null,
+  "missing": false,
+  "data": {
+    "id": null,
+    "fullName": "Zoroaaa/OmniBox",
+    "url": "https://github.com/Zoroaaa/OmniBox",
+    "description": "一个基于 Cloudflare Workers 构建的高性能、功能完善的 Web 代理服务",
+    "homepage": "https://omnibox.pp.ua",
+    "stars": 64,
+    "forks": 34,
+    "openIssues": 0,
+    "openPRs": 0,
+    "language": "TypeScript",
+    "license": "MIT",
+    "createdAt": "2026-03-06",
+    "pushedAt": "2026-03-22",
+    "archived": false,
+    "fork": false,
+    "topics": [
+      "cloudflare",
+      "proxy",
+      "web"
+    ],
+    "defaultBranch": "main",
+    "readmeExcerpt": "🌐 OmniBox Universal Web Proxy Service 一个基于 Cloudflare Workers 构建的高性能、功能完善的 Web 代理服务 快速开始 · 功能特性 · API 文档 --- 🔗 快速访问 | 资源类型 | 链接 | 备注 | |---------|------|------| | 📖 项目文档 | 👉 完整介绍 | 详细的项目说明和使用指南 | | 🚀 在线体验 | 👉 https://omnibox.pp.ua | 体验完整功能 | 📖 目录 - 项目简介 - 功能特性 - 技术架构 - 快速开…",
+    "commitCount": 40,
+    "languages": [
+      {
+        "name": "TypeScript",
+        "bytes": 97230
+      },
+      {
+        "name": "JavaScript",
+        "bytes": 2110
+      }
+    ],
+    "techDeps": [
+      {
+        "name": "@cloudflare/workers-types",
+        "scope": "dev"
+      },
+      {
+        "name": "@eslint/js",
+        "scope": "dev"
+      },
+      {
+        "name": "@typescript-eslint/eslint-plugin",
+        "scope": "dev"
+      },
+      {
+        "name": "@typescript-eslint/parser",
+        "scope": "dev"
+      },
+      {
+        "name": "eslint",
+        "scope": "dev"
+      },
+      {
+        "name": "jiti",
+        "scope": "dev"
+      },
+      {
+        "name": "typescript",
+        "scope": "dev"
+      },
+      {
+        "name": "typescript-eslint",
+        "scope": "dev"
+      },
+      {
+        "name": "wrangler",
+        "scope": "dev"
+      }
+    ],
+    "envKeys": [],
+    "files": {
+      "license": true,
+      "ci": true,
+      "tests": false,
+      "changelog": false,
+      "dockerfile": false,
+      "envExample": false,
+      "wrangler": true
+    },
+    "cloudflare": null
+  },
+  "activity": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    35,
+    2,
+    0,
+    3,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "evidence": {
+    "README.md": true,
+    "src/injector.ts": true,
+    "src/proxy.ts": true,
+    "wrangler.toml": true
+  },
+  "releases": {
+    "fetchedAt": "2026-11-13T06:51:41.866Z",
+    "etag": null,
+    "stale": false,
+    "error": null,
+    "source": "tags",
+    "items": []
+  }
+}

@@ -15,9 +15,48 @@ links:
   demo: "https://zoroaaa.github.io/cf-bestip/"
   repo: "https://github.com/Zoroaaa/cf-bestip"
 limitations:
-  - "`config.py` 里 `PROXY_CHECK_API_URL` 和 `PROXY_CHECK_API_TOKEN` 是占位值（`xxx/check`、`your_token_here`）；要跑通代理验证，得自己提供检测 API 和 token。"
-  - "产出完全依赖四个第三方免费代理源（Proxifly、ProxyDaily、Tomcat1235、Monosans），源站改结构或限流会直接反映到结果里。"
-  - "默认每地区最多输出 6 个 IP / 6 个代理，总采样 720 个、延迟上限 1300ms；覆盖面和精度都被这几组参数固定，要更多得改配置。"
+  - text: "`config.py` 里 `PROXY_CHECK_API_URL` 和 `PROXY_CHECK_API_TOKEN` 是占位值（`xxx/check`、`your_token_here`）；要跑通代理验证，得自己提供检测 API 和 token。"
+    impact: med
+    evidence: []
+  - text: "产出完全依赖四个第三方免费代理源（Proxifly、ProxyDaily、Tomcat1235、Monosans），源站改结构或限流会直接反映到结果里。"
+    impact: med
+    evidence: []
+  - text: "默认每地区最多输出 6 个 IP / 6 个代理，总采样 720 个、延迟上限 1300ms；覆盖面和精度都被这几组参数固定，要更多得改配置。"
+    impact: med
+    evidence: []
+capabilities:
+  - id: "cap-1"
+    title: "四个代理源"
+    desc: "Proxifly（JSON / TXT）、ProxyDaily（DataTables API）、Tomcat1235（HTML 表格）、Monosans（GitHub 上的 SOCKS5 列表）。"
+    state: done
+    evidence: []
+  - id: "cap-2"
+    title: "代理验证"
+    desc: "延迟测量、HTTPS 可用性、地理位置识别，支持带用户名密码的认证代理。"
+    state: done
+    evidence: []
+  - id: "cap-3"
+    title: "12 个地区（US、CA、GB、DE、FR、NL、IT、RU、JP、SG、HK、"
+    desc: ""
+    state: done
+    evidence: []
+  - id: "cap-4"
+    title: "协议"
+    desc: "HTTPS 与 SOCKS5，另有直连测试作对照。"
+    state: done
+    evidence: []
+  - id: "cap-5"
+    title: "输出格式"
+    desc: "TXT 按 `IP:端口#地区-分数` 排序，JSON 保留候选明细，HTML 用人看的表格。"
+    state: done
+    evidence: []
+  - id: "cap-6"
+    title: "自动化"
+    desc: "GitHub Actions 每日触发，产物直接部署 Pages。"
+    state: done
+    evidence: []
+evidence:
+  - file: "README.md"
 ---
 
 {/* 自动抓取事实（只读参考，删除也不影响页面）：

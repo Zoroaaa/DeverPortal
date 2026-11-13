@@ -22,6 +22,48 @@ const hasPosts = hasMdx('src/content/posts');
 
 const emptyPaths = [!hasDocs && '/docs/', !hasPosts && '/writing/'].filter(Boolean);
 
+// 正文末尾的 `> 证据：…` 行改为默认折叠的 details，正文只看叙事。
+function textOf(node) {
+  if (node.type === 'text') return node.value;
+  if (!Array.isArray(node.children)) return '';
+  return node.children.map(textOf).join('');
+}
+
+function rehypeEvidenceDetails() {
+  return (tree) => {
+    const walk = (node) => {
+      if (!Array.isArray(node.children)) return;
+      node.children = node.children.map((child) => {
+        const isEvidence = child.type === 'element' && child.tagName === 'blockquote' && textOf(child).trim().startsWith('证据');
+        if (isEvidence) {
+          return {
+            type: 'element',
+            tagName: 'details',
+            properties: { className: ['evidence'] },
+            children: [
+              {
+                type: 'element',
+                tagName: 'summary',
+                properties: {},
+                children: [{ type: 'text', value: '证据来源' }],
+              },
+              {
+                type: 'element',
+                tagName: 'div',
+                properties: { className: ['evidence-body'] },
+                children: child.children,
+              },
+            ],
+          };
+        }
+        walk(child);
+        return child;
+      });
+    };
+    walk(tree);
+  };
+}
+
 export default defineConfig({
   site: 'https://wort.uk',
   output: 'static',
@@ -32,5 +74,6 @@ export default defineConfig({
   ],
   markdown: {
     shikiConfig: { theme: 'github-light' },
+    rehypePlugins: [rehypeEvidenceDetails],
   },
 });

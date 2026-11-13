@@ -1,7 +1,21 @@
 // 构建期把「自动字段」（GitHub 快照）与「手写字段」（MDX）投影成只读视图。
-// 数据所有权是物理隔离的：本文件只读 src/data/github/*.json 与 curated.json，不写任何文件。
+// 数据所有权是物理隔离的：本文件只读 src/data/facts/*.json 与 curated.json，不写任何文件。
 import curatedFile from '../data/curated.json';
+import techMapFile from '../data/tech-map.json';
+import { factsSchema } from './facts-schema';
 import { compareVersions } from './versions';
+
+const TECH_MAP = techMapFile as Record<string, string | null>;
+
+/** 依赖 → 展示名。只认 tech-map.json 里登记过的依赖，未登记的直接忽略，不猜。 */
+export function deriveTech(deps: { name: string }[]): string[] {
+  const out = new Set<string>();
+  for (const dep of deps) {
+    const label = TECH_MAP[dep.name];
+    if (label) out.add(label);
+  }
+  return [...out];
+}
 
 export interface CuratedItem {
   repo: string;
@@ -15,25 +29,8 @@ export interface CuratedFile {
   items: CuratedItem[];
 }
 
-export interface GithubRepoFacts {
-  id: number | null;
-  fullName: string | null;
-  url: string | null;
-  description: string | null;
-  homepage: string | null;
-  stars: number | null;
-  forks: number | null;
-  openIssues: number | null;
-  language: string | null;
-  license: string | null;
-  createdAt: string | null;
-  pushedAt: string | null;
-  archived: boolean;
-  fork: boolean;
-  topics: string[];
-  defaultBranch: string | null;
-  readmeExcerpt: string | null;
-}
+// 事实字段形状来自 facts-schema.ts，这里只做类型别名，不重复声明。
+export type GithubRepoFacts = import('./facts-schema').FactsData;
 
 export interface SnapshotRelease {
   version: string;
@@ -53,6 +50,8 @@ export interface GithubSnapshot {
   error: string | null;
   missing: boolean;
   data: GithubRepoFacts | null;
+  activity: number[];
+  evidence: Record<string, boolean> | null;
   releases: SnapshotRelease[];
   releasesFetchedAt: string | null;
   releasesStale: boolean;
@@ -83,115 +82,38 @@ export interface ManualReleaseInput {
   channel: 'stable' | 'beta';
 }
 
-// 手写字段清单：出现在快照里即视为同步脚本越权，直接失败。
-const MANUAL_FIELDS = [
-  'tagline',
-  'summary',
-  'why',
-  'capabilities',
-  'boundaries',
-  'limitations',
-  'status',
-  'featured',
-  'startedAt',
-];
-
-type JsonObject = Record<string, unknown>;
-
-const factsModules = import.meta.glob<JsonObject>('../data/github/*.json', {
-  eager: true,
-  import: 'default',
-});
-const releaseModules = import.meta.glob<JsonObject>('../data/github/*.releases.json', {
+// 事实层的形状由 facts-schema.ts 唯一定义：同步脚本写入前校验，这里读取时再校验一次。
+const factsModules = import.meta.glob<unknown>('../data/facts/*.json', {
   eager: true,
   import: 'default',
 });
 
-function basename(file: string): string {
-  return file.split('/').pop() ?? file;
-}
-
-function isObject(value: unknown): value is JsonObject {
-  return typeof value === 'object' && value !== null && !Array.isArray(value);
-}
-
-function asString(value: unknown): string | null {
-  return typeof value === 'string' && value.length > 0 ? value : null;
-}
-
-function asNumber(value: unknown): number | null {
-  return typeof value === 'number' && Number.isFinite(value) ? value : null;
-}
-
-function assertNoManualFields(raw: JsonObject, label: string): void {
-  for (const field of MANUAL_FIELDS) {
-    if (field in raw) {
-      throw new Error(
-        `${label} 出现手写字段 "${field}"：同步快照只能包含自动字段，请检查 scripts/sync-github.mjs`,
-      );
-    }
+function parseFacts(file: string, raw: unknown): GithubSnapshot {
+  const result = factsSchema.safeParse(raw);
+  if (!result.success) {
+    const detail = result.error.issues
+      .map((issue) => `${issue.path.join('.') || '(root)'}: ${issue.message}`)
+      .join('; ');
+    throw new Error(
+      `事实快照 ${file} 不符合 schema：${detail}\n` +
+        '同步脚本与构建共用 src/lib/facts-schema.ts，出现此错误说明快照被手改过或脚本版本不一致。',
+    );
   }
-}
-
-function parseFacts(slug: string, raw: JsonObject): GithubSnapshot {
-  assertNoManualFields(raw, `src/data/github/${slug}.json`);
-  const data = isObject(raw.data) ? raw.data : null;
-  if (data) assertNoManualFields(data, `src/data/github/${slug}.json#data`);
-
-  const releaseRaw = releaseModules[`../data/github/${slug}.releases.json`];
-  const releases: SnapshotRelease[] = [];
-  if (isObject(releaseRaw)) {
-    assertNoManualFields(releaseRaw, `src/data/github/${slug}.releases.json`);
-    if (Array.isArray(releaseRaw.releases)) {
-      for (const item of releaseRaw.releases) {
-        if (!isObject(item)) continue;
-        const version = asString(item.version);
-        if (!version) continue;
-        releases.push({
-          version,
-          tag: asString(item.tag),
-          name: asString(item.name),
-          date: asString(item.date),
-          url: asString(item.url),
-          prerelease: item.prerelease === true,
-          source: item.source === 'tag' ? 'tag' : 'release',
-        });
-      }
-    }
-  }
-
+  const facts = result.data;
   return {
-    slug,
-    repo: asString(raw.repo) ?? '',
-    fetchedAt: asString(raw.fetchedAt),
-    stale: raw.stale === true,
-    error: asString(raw.error),
-    missing: raw.missing === true,
-    data: data
-      ? {
-          id: asNumber(data.id),
-          fullName: asString(data.fullName),
-          url: asString(data.url),
-          description: asString(data.description),
-          homepage: asString(data.homepage),
-          stars: asNumber(data.stars),
-          forks: asNumber(data.forks),
-          openIssues: asNumber(data.openIssues),
-          language: asString(data.language),
-          license: asString(data.license),
-          createdAt: asString(data.createdAt),
-          pushedAt: asString(data.pushedAt),
-          archived: data.archived === true,
-          fork: data.fork === true,
-          topics: Array.isArray(data.topics) ? data.topics.filter((t): t is string => typeof t === 'string') : [],
-          defaultBranch: asString(data.defaultBranch),
-          readmeExcerpt: asString(data.readmeExcerpt),
-        }
-      : null,
-    releases,
-    releasesFetchedAt: isObject(releaseRaw) ? asString(releaseRaw.fetchedAt) : null,
-    releasesStale: isObject(releaseRaw) ? releaseRaw.stale === true : false,
-    releaseSource: isObject(releaseRaw) && releaseRaw.source === 'tags' ? 'tags' : 'releases',
+    slug: facts.slug,
+    repo: facts.repo,
+    fetchedAt: facts.fetchedAt,
+    stale: facts.stale,
+    error: facts.error,
+    missing: facts.missing,
+    data: facts.data,
+    activity: facts.activity,
+    evidence: facts.evidence,
+    releases: facts.releases.items,
+    releasesFetchedAt: facts.releases.fetchedAt,
+    releasesStale: facts.releases.stale,
+    releaseSource: facts.releases.source,
   };
 }
 
@@ -201,11 +123,12 @@ export function getSnapshots(): Map<string, GithubSnapshot> {
   if (snapshotCache) return snapshotCache;
   const map = new Map<string, GithubSnapshot>();
   for (const [file, raw] of Object.entries(factsModules)) {
-    const name = basename(file);
-    if (name.endsWith('.releases.json')) continue;
-    if (!isObject(raw)) continue;
-    const slug = name.replace(/\.json$/, '');
-    map.set(slug, parseFacts(slug, raw));
+    const slug = (file.split('/').pop() ?? '').replace(/\.json$/, '');
+    const snapshot = parseFacts(file, raw);
+    if (snapshot.slug !== slug) {
+      throw new Error(`事实快照 ${file} 的 slug 字段是 "${snapshot.slug}"，与文件名不一致`);
+    }
+    map.set(slug, snapshot);
   }
   snapshotCache = map;
   return map;
@@ -239,13 +162,13 @@ export function assertSnapshotCoverage(): void {
     const snapshot = snapshots.get(item.slug);
     if (!snapshot) {
       errors.push(
-        `白名单条目 ${item.repo}（${item.slug}）没有快照：先运行 npm run sync:github 生成 src/data/github/${item.slug}.json`,
+        `白名单条目 ${item.repo}（${item.slug}）没有快照：先运行 npm run sync:github 生成 src/data/facts/${item.slug}.json`,
       );
       continue;
     }
     if (!snapshot.data) {
       errors.push(
-        `快照 src/data/github/${item.slug}.json 没有仓库数据（${snapshot.error ?? '未知原因'}）：请重新运行 npm run sync:github`,
+        `快照 src/data/facts/${item.slug}.json 没有仓库数据（${snapshot.error ?? '未知原因'}）：请重新运行 npm run sync:github`,
       );
       continue;
     }

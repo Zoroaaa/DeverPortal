@@ -46,12 +46,12 @@ npm run preview      # 预览 dist/
 `src/data/curated.json` 是**人维护的白名单**：哪些仓库算作品、站内用什么 slug、排序与精选，全在这里。仓库名与 slug 解耦，GitHub 改名不影响站内 URL。
 
 ```bash
-npm run sync:github              # 抓公开 API，写 src/data/github/*.json
+npm run sync:github              # 抓公开 API，写 src/data/facts/*.json
 npm run sync:github -- --dry-run # 只看变化，不写文件
 npm run new:drafts               # 为白名单缺内容的仓库生成草稿 MDX
 ```
 
-自动字段（star / fork / language / license / 最近提交 / Release / tag / README 首段）只由同步脚本写入 `src/data/github/*.json`；手写字段只存在于 `src/content/**`。任何一侧写了对方的字段，构建都会失败。
+自动字段（star / fork / language / license / 最近提交 / Release / tag / README 首段）只由同步脚本写入 `src/data/facts/*.json`；手写字段只存在于 `src/content/**`。任何一侧写了对方的字段，构建都会失败。
 
 同步失败不会阻断构建：保留上次快照并标 `stale`，页面显示“数据同步失败，当前沿用上次快照”。白名单新增但从未抓到过快照 → 构建失败，提示先跑 `sync:github`。
 
@@ -75,7 +75,7 @@ src/
 ├── layouts/                 # Base / Docs
 └── pages/                   # 路由与 rss / robots / sitemap
 scripts/
-├── sync-github.mjs          # GitHub 公开 API → 快照（只写 data/github）
+├── sync-github.ts          # GitHub 公开 API → 快照（只写 data/github）
 └── scaffold-projects.mjs    # 生成草稿 MDX 骨架（只写 content）
 docs/
 ├── personal-site-refactor-plan.md

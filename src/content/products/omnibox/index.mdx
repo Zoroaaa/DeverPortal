@@ -15,8 +15,43 @@ links:
   demo: "https://omnibox.pp.ua"
   repo: "https://github.com/Zoroaaa/OmniBox"
 limitations:
-  - "按默认配置，单次请求 15 秒超时、响应体上限 50MB、最多 5 层重定向；大文件下载和长连接不在适用范围里。"
-  - "默认屏蔽 Bytespider、GPTBot、CCBot、SemrushBot、AhrefsBot 等爬虫 UA，要通过这些 UA 访问得自己改 `BLOCKED_UA_PATTERNS`。"
+  - text: "按默认配置，单次请求 15 秒超时、响应体上限 50MB、最多 5 层重定向；大文件下载和长连接不在适用范围里。"
+    impact: med
+    evidence: []
+  - text: "默认屏蔽 Bytespider、GPTBot、CCBot、SemrushBot、AhrefsBot 等爬虫 UA，要通过这些 UA 访问得自己改 `BLOCKED_UA_PATTERNS`。"
+    impact: med
+    evidence: []
+capabilities:
+  - id: "cap-1"
+    title: "代理任意站点，HTML、CSS、JavaScript、图片、字体走同一套重写。"
+    desc: ""
+    state: done
+    evidence: []
+  - id: "cap-2"
+    title: "运行时地址覆盖"
+    desc: "location 包装、XHR / fetch / window.open 拦截、动态 DOM 监听。"
+    state: done
+    evidence: []
+  - id: "cap-3"
+    title: "安全侧"
+    desc: "SSRF 拦截内网网段（10.0.0.0/8、172.16.0.0/12、192.168.0.0/16、127.0.0.0/8 与 IPv6 本地地址）；爬虫 UA 过滤；SHA-256 密码 + 常量时间比较；移除 CSP、HSTS、X-Frame-Options；内部 Cookie 加 HttpOnly / Secure / SameSite=Lax。"
+    state: done
+    evidence: []
+  - id: "cap-4"
+    title: "可选密码页"
+    desc: "`SHOW_PASSWORD_PAGE=false` 时不再显示输入页，没有凭据直接 403。"
+    state: done
+    evidence: []
+  - id: "cap-5"
+    title: "健康检查与服务状态 API、分级日志（error/warn/info/debug"
+    desc: ""
+    state: done
+    evidence: []
+evidence:
+  - file: "README.md"
+  - file: "src/proxy.ts"
+  - file: "src/injector.ts"
+  - file: "wrangler.toml"
 ---
 
 {/* 自动抓取事实（只读参考，删除也不影响页面）：

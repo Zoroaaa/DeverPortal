@@ -1,0 +1,209 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { loadContentGraph } from '../lib/content-graph';
+
+const graph = await loadContentGraph();
+const products = graph.products;
+
+const totalsByLanguage = new Map<string, number>();
+let commitTotal = 0;
+let starTotal = 0;
+let forkTotal = 0;
+
+const resourceCounter = { d1: 0, kv: 0, r2: 0, vectorize: 0, ai: 0, queues: 0, durableObjects: 0 };
+
+for (const product of products) {
+  const data = product.snapshot?.data;
+  commitTotal += data?.commitCount ?? 0;
+  starTotal += data?.stars ?? 0;
+  forkTotal += data?.forks ?? 0;
+  for (const language of data?.languages ?? []) {
+    totalsByLanguage.set(language.name, (totalsByLanguage.get(language.name) ?? 0) + language.bytes);
+  }
+  const cloudflare = data?.cloudflare;
+  if (cloudflare) {
+    for (const key of Object.keys(resourceCounter) as (keyof typeof resourceCounter)[]) {
+      if (cloudflare[key]) resourceCounter[key] += 1;
+    }
+  }
+}
+
+const languageTotal = [...totalsByLanguage.values()].reduce((sum, value) => sum + value, 0);
+const languages = [...totalsByLanguage.entries()]
+  .sort((a, b) => b[1] - a[1])
+  .slice(0, 6)
+  .map(([name, bytes]) => ({ name, percent: languageTotal > 0 ? (bytes / languageTotal) * 100 : 0 }));
+
+const resourceLabels: Record<string, string> = {
+  d1: 'D1',
+  kv: 'KV',
+  r2: 'R2',
+  vectorize: 'Vectorize',
+  ai: 'Workers AI',
+  queues: 'Queues',
+  durableObjects: 'Durable Objects',
+};
+const resources = Object.entries(resourceCounter).filter(([, count]) => count > 0);
+---
+
+<BaseLayout title="统计" description="本站收录作品的仓库事实汇总。">
+  <div class="wrap">
+    <h1>统计</h1>
+    <p class="lead">全部来自 GitHub 快照，随每次同步更新。</p>
+
+    <dl class="figures">
+      <div>
+        <dt>作品</dt>
+        <dd>{products.length}</dd>
+      </div>
+      <div>
+        <dt>总 star</dt>
+        <dd>{starTotal}</dd>
+      </div>
+      <div>
+        <dt>总 fork</dt>
+        <dd>{forkTotal}</dd>
+      </div>
+      <div>
+        <dt>总提交</dt>
+        <dd>{commitTotal}</dd>
+      </div>
+    </dl>
+
+    {
+      languages.length > 0 && (
+        <section>
+          <h2>语言占比</h2>
+          <ul class="bars">
+            {languages.map((language) => (
+              <li>
+                <span class="name">{language.name}</span>
+                <span class="track">
+                  <i style={`width:${Math.max(1, language.percent)}%`} />
+                </span>
+                <span class="value">{language.percent.toFixed(1)}%</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    {
+      resources.length > 0 && (
+        <section>
+          <h2>Cloudflare 资源</h2>
+          <ul class="cloud">
+            {resources.map(([key, count]) => (
+              <li>
+                <span>{resourceLabels[key]}</span>
+                <span class="count">{count} 个作品</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+  </div>
+</BaseLayout>
+
+<style>
+  .wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: clamp(40px, 6vw, 80px) var(--gutter);
+  }
+
+  h1 {
+    font-size: clamp(28px, 4vw, 40px);
+  }
+
+  h2 {
+    margin: var(--space-7) 0 var(--space-4);
+    font-size: 15px;
+    color: var(--ink-faint);
+  }
+
+  .lead {
+    margin-top: var(--space-2);
+    color: var(--ink-muted);
+  }
+
+  .figures {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1px;
+    margin: var(--space-6) 0 0;
+    background: var(--line);
+  }
+
+  .figures div {
+    padding: 20px;
+    background: var(--surface);
+  }
+
+  dt {
+    color: var(--ink-faint);
+    font-size: 12px;
+  }
+
+  dd {
+    margin: 6px 0 0;
+    font-family: var(--font-mono);
+    font-size: 24px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .bars {
+    display: grid;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .bars li {
+    display: grid;
+    grid-template-columns: 110px minmax(0, 1fr) 56px;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+  }
+
+  .track {
+    height: 6px;
+    background: var(--line);
+  }
+
+  .track i {
+    display: block;
+    height: 100%;
+    background: var(--accent);
+  }
+
+  .value {
+    text-align: right;
+    color: var(--ink-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .cloud {
+    display: grid;
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .cloud li {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 14px;
+  }
+
+  .count {
+    color: var(--ink-faint);
+  }
+</style>

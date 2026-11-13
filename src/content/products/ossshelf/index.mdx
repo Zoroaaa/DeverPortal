@@ -17,12 +17,77 @@ links:
   demo: "https://oss.wort.uk/"
   repo: "https://github.com/Zoroaaa/OSSshelf"
 limitations:
-  - "线上实例 oss.wort.uk 是作者自用环境，不开放注册；想用得自己部署一套。"
-  - "Telegram 存储单文件上限 2GB，删除只能删消息引用，文件本身还留在 Telegram；README 的常见问题还要求网络稳定。"
-  - "S3 兼容存储单文件上限 5GB，100MB 起走分片，分片 10MB、最多 3 个并发；默认每个用户配额 10GB，配额要靠管理员调。"
-  - "PWA 系统分享只覆盖 Android / Chromium，iOS 和桌面端不会出现在分享面板；Service Worker 未接管时，分享请求直连 `/api/share-target` 会返回 405。"
-  - "邮件功能要管理员自己配 Resend API Key 和发件人；没配时，管理员忘记密码只能去数据库改密码哈希。"
-  - "AI 功能不是装完就有：要配 Workers AI 或 OpenAI 兼容提供商，语义检索还要 Vectorize 索引；图片识别要选支持视觉的模型。"
+  - text: "线上实例 oss.wort.uk 是作者自用环境，不开放注册；想用得自己部署一套。"
+    impact: med
+    evidence: []
+  - text: "Telegram 存储单文件上限 2GB，删除只能删消息引用，文件本身还留在 Telegram；README 的常见问题还要求网络稳定。"
+    impact: med
+    evidence: []
+  - text: "S3 兼容存储单文件上限 5GB，100MB 起走分片，分片 10MB、最多 3 个并发；默认每个用户配额 10GB，配额要靠管理员调。"
+    impact: med
+    evidence: []
+  - text: "PWA 系统分享只覆盖 Android / Chromium，iOS 和桌面端不会出现在分享面板；Service Worker 未接管时，分享请求直连 `/api/share-target` 会返回 405。"
+    impact: med
+    evidence: []
+  - text: "邮件功能要管理员自己配 Resend API Key 和发件人；没配时，管理员忘记密码只能去数据库改密码哈希。"
+    impact: med
+    evidence: []
+  - text: "AI 功能不是装完就有：要配 Workers AI 或 OpenAI 兼容提供商，语义检索还要 Vectorize 索引；图片识别要选支持视觉的模型。"
+    impact: med
+    evidence: []
+capabilities:
+  - id: "cap-1"
+    title: "多存储"
+    desc: "R2、AWS S3、阿里云 OSS、腾讯云 COS、华为云 OBS、Backblaze B2、MinIO 走 S3 兼容协议；Telegram 走 Bot API，大文件分片后单文件最大 2GB。"
+    state: done
+    evidence: []
+  - id: "cap-2"
+    title: "文件操作"
+    desc: "拖拽上传、文件夹上传、100MB 以上分片、断点续传、秒传；图片、视频、音频、PDF、Office、代码、Markdown、EPUB、字体、ZIP、CSV 预览；文本文件有版本历史和回滚。"
+    state: done
+    evidence: []
+  - id: "cap-3"
+    title: "分享与接入"
+    desc: "公开分享可设密码、过期时间和下载次数；另有直链、公开上传链接、预签名 URL、WebDAV、RESTful v1 API、OpenAPI 文档和 API Keys。"
+    state: done
+    evidence: []
+  - id: "cap-4"
+    title: "多用户"
+    desc: "第一个注册用户自动成为管理员；支持邀请码、注册开关、JWT + bcrypt、刷新令牌、邮箱验证和密码重置；用户组、团队空间（owner/admin/member/guest 四级角色）、权限继承、时效权限、申请审批、审计日志和通知。"
+    state: done
+    evidence: []
+  - id: "cap-5"
+    title: "搜索与 AI"
+    desc: "FTS5 全文搜索，D1 不支持时回退 LIKE；语义检索走 Vectorize；AI 摘要、图片识别、批量索引/摘要/标签；v3.2 的 Agent 支持断线续传和多端同步。"
+    state: done
+    evidence: []
+  - id: "cap-6"
+    title: "PWA"
+    desc: "可安装；Android / Chromium 上支持系统分享面板和 `web+osshelf://` 协议链接。"
+    state: done
+    evidence: []
+evidence:
+  - file: "README.md"
+  - file: "package.json"
+  - file: "packages/shared/src/constants/index.ts"
+  - file: "apps/api/migrations/070_system.sql"
+  - file: "apps/api/migrations/110_ai_agents.sql"
+  - file: "apps/api/src/routes/search.ts"
+  - file: "CHANGELOG.md"
+  - file: "pnpm-workspace.yaml"
+  - file: "apps/api/package.json"
+  - file: "apps/api/src/lib/bucketResolver.ts"
+  - file: "apps/api/src/lib/s3client.ts"
+  - file: "apps/api/src/lib/telegramClient.ts"
+  - file: "apps/api/src/lib/telegramChunked.ts"
+  - file: "apps/api/src/lib/storageGC.ts"
+  - file: "apps/api/src/lib/storageAuditService.ts"
+  - file: "apps/api/src/lib/storageReconciliation.ts"
+  - file: "apps/api/wrangler.toml"
+  - file: "docs/architecture.md"
+  - file: "apps/api/src/lib/permissionResolver.ts"
+  - file: "apps/api/scripts/preflight-migrations.mjs"
+  - file: ".github/workflows/deploy-api.yml"
 ---
 
 {/* 自动抓取事实（只读参考，删除也不影响页面）：
@@ -73,7 +138,7 @@ OSSshelf 是一个自托管的多存储文件管理器。它自己不囤文件�
 - 没有内置邮件服务。要用注册验证、密码重置和通知邮件，必须自己配 Resend。
 - AI 不在本地推理，必须接 Workers AI 或 OpenAI 兼容提供商；语义检索依赖 Vectorize。
 
-> 证据：`README.md`「功能特性」「系统限制」「快速开始」「首次使用」「系统分享与协议链接（PWA）」「常见问题」；`packages/shared/src/constants/index.ts`；`apps/api/migrations/070_system.sql` 与 `110_ai_agents.sql` 的 FTS5 定义；`apps/api/src/routes/search.ts` 的 LIKE 回退；`CHANGELOG.md` v3.2.0。
+> 证据：`README.md`「功能特性」「系统限制」「快速开始」「首次使用」「系统分享与协议链接（PWA）」「常见问题」；`packages/shared/src/constants/index.ts`；`apps/api/migrations/070_system.sql` 与 `apps/api/migrations/110_ai_agents.sql` 的 FTS5 定义；`apps/api/src/routes/search.ts` 的 LIKE 回退；`CHANGELOG.md` v3.2.0。
 
 ## 实现要点
 
@@ -85,7 +150,7 @@ AI 在 v3.2 换了运行时：对话由 Cloudflare Agents SDK 的 `AIChatAgent` 
 
 权限不是简单的 owner/其他两档。`permissionResolver` 的顺序是 owner → 用户/组显式权限 → 团队显式权限 → 继承权限 → 团队角色；团队角色会给权限封顶，viewer 只读、member 读写、admin/owner 管理。
 
-> 证据：`pnpm-workspace.yaml`；`apps/api/package.json`；`apps/api/migrations/` 27 个脚本；`apps/api/src/lib/bucketResolver.ts`、`s3client.ts`、`telegramClient.ts`、`telegramChunked.ts`、`storageGC.ts`、`storageAuditService.ts`、`storageReconciliation.ts`；`apps/api/wrangler.toml.example`；commit `5d11794`；`CHANGELOG.md` v3.2.0；`docs/architecture.md`「AI 模块架构」；`apps/api/src/lib/permissionResolver.ts`。
+> 证据：`pnpm-workspace.yaml`；`apps/api/package.json`；`apps/api/migrations/` 27 个脚本；`apps/api/src/lib/bucketResolver.ts`、`apps/api/src/lib/s3client.ts`、`apps/api/src/lib/telegramClient.ts`、`apps/api/src/lib/telegramChunked.ts`、`apps/api/src/lib/storageGC.ts`、`apps/api/src/lib/storageAuditService.ts`、`apps/api/src/lib/storageReconciliation.ts`；`apps/api/wrangler.toml`；commit `5d11794`；`CHANGELOG.md` v3.2.0；`docs/architecture.md`「AI 模块架构」；`apps/api/src/lib/permissionResolver.ts`。
 
 ## 怎么用
 
@@ -102,7 +167,7 @@ wrangler login
 wrangler d1 create ossshelf-db
 wrangler kv:namespace create KV
 
-cp apps/api/wrangler.toml.example apps/api/wrangler.toml
+cp apps/api/wrangler.toml apps/api/wrangler.toml
 # 填 D1 database_id、KV id，把 CORS_ORIGINS 改成你的前端地址
 pnpm db:migrate          # 对远端 D1 执行迁移；本地库用 pnpm db:migrate:local
 pnpm dev:api             # http://localhost:8787
@@ -132,4 +197,4 @@ wrangler pages deploy apps/web/dist --project-name=ossshelf-web
 - 回收站清理靠 `[triggers]` 里 `0 3 * * *` 的 cron，不配就不会自动清。
 - 第一个注册的用户自动成为管理员；登录后先去「设置 → 存储桶」加一个桶，否则没地方上传。
 
-> 证据：`README.md`「快速开始」「部署指南」「环境变量说明」「首次使用」「常见问题」；`package.json` 的 `engines`；`apps/api/package.json` 的 `db:migrate`、`db:migrate:local`；`apps/api/wrangler.toml.example`（AI、Vectorize、DO、Queue、cron、vars）；`apps/api/scripts/preflight-migrations.mjs`；`CHANGELOG.md` v3.2.0；`.github/workflows/deploy-api.yml`（Node 22、preflight、apply migrations）。
+> 证据：`README.md`「快速开始」「部署指南」「环境变量说明」「首次使用」「常见问题」；`package.json` 的 `engines`；`apps/api/package.json` 的 `db:migrate`、`db:migrate:local`；`apps/api/wrangler.toml`（AI、Vectorize、DO、Queue、cron、vars）；`apps/api/scripts/preflight-migrations.mjs`；`CHANGELOG.md` v3.2.0；`.github/workflows/deploy-api.yml`（Node 22、preflight、apply migrations）。

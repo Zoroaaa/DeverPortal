@@ -1,0 +1,573 @@
+{
+  "schemaVersion": 1,
+  "slug": "it-toolbox",
+  "owner": "Zoroaaa",
+  "repo": "it-toolbox",
+  "fetchedAt": "2026-11-13T06:53:16.075Z",
+  "etag": null,
+  "readmeEtag": "\"43a680bffed90d3f13d49dd182d537e0197a7e2a\"",
+  "stale": false,
+  "error": null,
+  "missing": false,
+  "data": {
+    "id": null,
+    "fullName": "Zoroaaa/it-toolbox",
+    "url": "https://github.com/Zoroaaa/it-toolbox",
+    "description": "IT Toolbox 是一款基于 Cloudflare Pages Functions 全栈部署的面向开发者的在线工具箱，集成 140+ 高频开发工具，覆盖格式化、编码解码、加密哈希、网络查询、文本处理、颜色设计等多个类别。",
+    "homepage": "https://ittool.wort.uk",
+    "stars": 142,
+    "forks": 98,
+    "openIssues": 1,
+    "openPRs": 0,
+    "language": "TypeScript",
+    "license": "MIT",
+    "createdAt": "2026-02-20",
+    "pushedAt": "2026-11-11",
+    "archived": false,
+    "fork": false,
+    "topics": [
+      "cloudflare",
+      "ittool",
+      "serverless",
+      "toolbox"
+    ],
+    "defaultBranch": "main",
+    "readmeExcerpt": "IT Toolbox 开发者工具箱 — 140+ 款实用工具，基于 Cloudflare Workers 全栈部署 快速开始 · API 文档 · 部署指南 --- 🔗 快速访问 | 资源类型 | 链接 | 备注 | |---------|------|------| | 📖 项目文档 | 👉 完整介绍 | 详细的项目说明和使用指南 | | 🚀 在线体验 | 👉 https://ittool.wort.uk | 体验完整功能 | 项目简介 IT Toolbox 是一款面向开发者的在线工具箱，集成 140+ 款高频开发工具，覆盖格式化、编码解码、…",
+    "commitCount": 59,
+    "languages": [
+      {
+        "name": "TypeScript",
+        "bytes": 1678039
+      },
+      {
+        "name": "JavaScript",
+        "bytes": 35649
+      },
+      {
+        "name": "CSS",
+        "bytes": 5603
+      },
+      {
+        "name": "HTML",
+        "bytes": 2335
+      }
+    ],
+    "techDeps": [
+      {
+        "name": "@cloudflare/workers-types",
+        "scope": "dev"
+      },
+      {
+        "name": "@eslint/js",
+        "scope": "dev"
+      },
+      {
+        "name": "@faker-js/faker",
+        "scope": "prod"
+      },
+      {
+        "name": "@peculiar/x509",
+        "scope": "prod"
+      },
+      {
+        "name": "@playwright/test",
+        "scope": "dev"
+      },
+      {
+        "name": "@tanstack/react-router",
+        "scope": "prod"
+      },
+      {
+        "name": "@types/bcryptjs",
+        "scope": "dev"
+      },
+      {
+        "name": "@types/chroma-js",
+        "scope": "dev"
+      },
+      {
+        "name": "@types/colorthief",
+        "scope": "dev"
+      },
+      {
+        "name": "@types/diff",
+        "scope": "dev"
+      },
+      {
+        "name": "@types/js-yaml",
+        "scope": "dev"
+      },
+      {
+        "name": "@types/jszip",
+        "scope": "dev"
+      },
+      {
+        "name": "@types/papaparse",
+        "scope": "dev"
+      },
+      {
+        "name": "@types/punycode",
+        "scope": "dev"
+      },
+      {
+        "name": "@types/qrcode",
+        "scope": "dev"
+      },
+      {
+        "name": "@types/react",
+        "scope": "dev"
+      },
+      {
+        "name": "@types/react-dom",
+        "scope": "dev"
+      },
+      {
+        "name": "@types/semver",
+        "scope": "dev"
+      },
+      {
+        "name": "@types/ua-parser-js",
+        "scope": "dev"
+      },
+      {
+        "name": "@types/zxcvbn",
+        "scope": "dev"
+      },
+      {
+        "name": "@vitejs/plugin-react",
+        "scope": "dev"
+      },
+      {
+        "name": "@vitest/coverage-v8",
+        "scope": "dev"
+      },
+      {
+        "name": "autoprefixer",
+        "scope": "dev"
+      },
+      {
+        "name": "bcryptjs",
+        "scope": "prod"
+      },
+      {
+        "name": "browser-image-compression",
+        "scope": "prod"
+      },
+      {
+        "name": "chroma-js",
+        "scope": "prod"
+      },
+      {
+        "name": "class-variance-authority",
+        "scope": "prod"
+      },
+      {
+        "name": "clsx",
+        "scope": "prod"
+      },
+      {
+        "name": "cmdk",
+        "scope": "prod"
+      },
+      {
+        "name": "colorthief",
+        "scope": "prod"
+      },
+      {
+        "name": "cron-parser",
+        "scope": "prod"
+      },
+      {
+        "name": "cronstrue",
+        "scope": "prod"
+      },
+      {
+        "name": "dayjs",
+        "scope": "prod"
+      },
+      {
+        "name": "diff",
+        "scope": "prod"
+      },
+      {
+        "name": "dpdm",
+        "scope": "dev"
+      },
+      {
+        "name": "eslint",
+        "scope": "dev"
+      },
+      {
+        "name": "eslint-plugin-react",
+        "scope": "dev"
+      },
+      {
+        "name": "eslint-plugin-react-hooks",
+        "scope": "dev"
+      },
+      {
+        "name": "exifr",
+        "scope": "prod"
+      },
+      {
+        "name": "fuse.js",
+        "scope": "prod"
+      },
+      {
+        "name": "happy-dom",
+        "scope": "dev"
+      },
+      {
+        "name": "highlight.js",
+        "scope": "prod"
+      },
+      {
+        "name": "hono",
+        "scope": "prod"
+      },
+      {
+        "name": "i18next",
+        "scope": "prod"
+      },
+      {
+        "name": "i18next-browser-languagedetector",
+        "scope": "prod"
+      },
+      {
+        "name": "jose",
+        "scope": "prod"
+      },
+      {
+        "name": "js-yaml",
+        "scope": "prod"
+      },
+      {
+        "name": "jsbarcode",
+        "scope": "prod"
+      },
+      {
+        "name": "jsonpath-plus",
+        "scope": "prod"
+      },
+      {
+        "name": "jsqr",
+        "scope": "prod"
+      },
+      {
+        "name": "jszip",
+        "scope": "prod"
+      },
+      {
+        "name": "lucide-react",
+        "scope": "prod"
+      },
+      {
+        "name": "marked",
+        "scope": "prod"
+      },
+      {
+        "name": "marked-highlight",
+        "scope": "prod"
+      },
+      {
+        "name": "mathjs",
+        "scope": "prod"
+      },
+      {
+        "name": "nanoid",
+        "scope": "prod"
+      },
+      {
+        "name": "papaparse",
+        "scope": "prod"
+      },
+      {
+        "name": "postcss",
+        "scope": "dev"
+      },
+      {
+        "name": "prettier",
+        "scope": "prod"
+      },
+      {
+        "name": "punycode",
+        "scope": "prod"
+      },
+      {
+        "name": "qrcode",
+        "scope": "prod"
+      },
+      {
+        "name": "react",
+        "scope": "prod"
+      },
+      {
+        "name": "react-dom",
+        "scope": "prod"
+      },
+      {
+        "name": "react-i18next",
+        "scope": "prod"
+      },
+      {
+        "name": "semver",
+        "scope": "prod"
+      },
+      {
+        "name": "sharp",
+        "scope": "dev"
+      },
+      {
+        "name": "smol-toml",
+        "scope": "prod"
+      },
+      {
+        "name": "sql-formatter",
+        "scope": "prod"
+      },
+      {
+        "name": "svgo",
+        "scope": "prod"
+      },
+      {
+        "name": "tailwind-merge",
+        "scope": "prod"
+      },
+      {
+        "name": "tailwindcss",
+        "scope": "dev"
+      },
+      {
+        "name": "typescript",
+        "scope": "dev"
+      },
+      {
+        "name": "typescript-eslint",
+        "scope": "dev"
+      },
+      {
+        "name": "ua-parser-js",
+        "scope": "prod"
+      },
+      {
+        "name": "ulid",
+        "scope": "prod"
+      },
+      {
+        "name": "vite",
+        "scope": "dev"
+      },
+      {
+        "name": "vite-plugin-pwa",
+        "scope": "dev"
+      },
+      {
+        "name": "vitest",
+        "scope": "dev"
+      },
+      {
+        "name": "workbox-window",
+        "scope": "dev"
+      },
+      {
+        "name": "wrangler",
+        "scope": "dev"
+      },
+      {
+        "name": "zustand",
+        "scope": "prod"
+      },
+      {
+        "name": "zxcvbn",
+        "scope": "prod"
+      }
+    ],
+    "envKeys": [],
+    "files": {
+      "license": true,
+      "ci": true,
+      "tests": true,
+      "changelog": false,
+      "dockerfile": false,
+      "envExample": false,
+      "wrangler": true
+    },
+    "cloudflare": {
+      "d1": false,
+      "kv": true,
+      "r2": false,
+      "vectorize": false,
+      "ai": true,
+      "queues": false,
+      "durableObjects": false
+    }
+  },
+  "activity": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    2,
+    36,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    19,
+    1
+  ],
+  "evidence": {
+    "README.md": true,
+    "docs/ARCHITECTURE.md": true,
+    "docs/changelog/v1.6.0.md": true,
+    "docs/planning/v1.7.0.md": true,
+    "functions/app.ts": true,
+    "functions/lib/ssrf.ts": true,
+    "package.json": true,
+    "src/lib/tool-loader.ts": true,
+    "src/registry.ts": true,
+    "vite.config.ts": true,
+    "wrangler.toml": true
+  },
+  "releases": {
+    "fetchedAt": "2026-11-13T06:53:16.075Z",
+    "etag": null,
+    "stale": false,
+    "error": null,
+    "source": "releases",
+    "items": [
+      {
+        "version": "1.6.0",
+        "tag": "v1.6.0",
+        "name": "v1.6.0",
+        "date": "2026-11-04",
+        "url": "https://github.com/Zoroaaa/it-toolbox/releases/tag/v1.6.0",
+        "prerelease": false,
+        "source": "release",
+        "body": "# IT Toolbox v1.6.0\n\n**发布日期**：2026-11-04\n\n首个采用连续 `v1.x` 版本序列的正式版本。在保留 144 个可用工具的前提下，完成缺陷修复、性能优化、测试与工程门禁建设。\n\n## 概览\n\n- 工具：144 个（下线无后端支撑的 Webhook 测试，净减 1）\n- 首屏体积：321 KB → **169 KB**（gzip）\n- Service Worker 预缓存：187 条 / 7.9 MB → **18 条 / 1.5 MB**\n- 测试：0 → **331 条**，core 行覆盖 91.5%\n- 质量门禁：lint **0 error / 0 warning**，CI 串 typecheck → lint → test → build\n\n## 版本号方案调整\n\n旧的 `v1.0.0 / v2.x / v3.0.0` 已收敛为 `v1.0.0 → v1.6.0`，历史标签以 `archive/*` 保留。详见 [VERSION-MAP.md](./VERSION-MAP.md)。\n\n## 修复\n\n### P0（功能不可用 / 假数据）\n\n- AI 报错解释：请求字段与后端不一致，此前每次必然 400\n- JSON-RPC 测试：按代理真实响应信封解析，成功路径恢复可用\n- Webhook 测试：依赖的路由从未实现，本版本下线\n- WHOIS：改用 RDAP 查询真实注册商/注册与到期时间/NS/状态；IP 输入走归属地模式\n- AI 正则：非法 pattern 不再导致渲染崩溃，移除 `dangerouslySetInnerHTML`\n\n### P1（正确性 / 安全）\n\n- Markdown 渲染改为 DOM 白名单净化（标签/属性/协议）\n- 代理增加 SSRF 防护：内网/回环/云元数据地址拦截、最多 2 跳重定向、2 MB 上限\n- headers-check 不再破坏 URL 路径与查询参数大小写\n- SSL 检测删除硬编码签名算法，不再把「可连通」判定为证书有效\n- 时区换算按源时区墙上时间计算，支持夏令时\n- 罗马数字支持 IV/IX/XL/XC/CD/CM 并拒绝非标准写法\n- 工具对比的伪 MD5 替换为真实 MD5\n- 12 个 AI 工具统一超时、非 JSON 响应与 HTTP 错误处理\n- 修复 26 个非法图标名、19 个 meta/registry 名称不一致、4 个缺失 API 标记\n\n## 性能\n\n- 图标改为 86 个显式映射，移除 `import * as lucide-react`\n- 页面级路由懒加载；工具 chunk 输出为 `dist/tools/<id>-<hash>.js`\n- core 拆分 `format-yaml / text-diff / text-cron / generator-fake / network-ua`，49 个文件改为子路径导入\n- Service Worker 只预缓存应用壳，工具 chunk 首次访问后按需缓存\n- 新增 `vite:preloadError` 自动刷新兜底\n\n## 工程质量\n\n- 接入 Vitest + happy-dom：core 105 函数表驱动测试、Hono 路由契约测试、元数据一致性测试\n- 新增 CI、元数据审计、图标同步检查、整店订阅检查、体积报告脚本\n- 状态层改为字段级订阅（77 个文件），persist 增加版本迁移、写入节流与容量上限\n- 历史记录仅对 19 个非敏感工具开启，HistoryPage 支持查看/复制/删除\n\n## 破坏性变更\n\n- 旧 Release 标签 `v2.x` / `v3.0.0` 删除，链接会 404\n- `localStorage` 存储结构升级到 version 1，首次加载自动迁移\n- Service Worker 策略变更，首次访问新版本后会自动接管缓存\n\n## 已知限制\n\n- `whois` 依赖 `rdap.org` 可用性，部分小众后缀可能无 RDAP 记录\n- `ssl-check` 依赖 crt.sh 数据，取不到证书详情时只显示连接状态，不再推断有效性\n- AI 工具依赖 Cloudflare Workers AI 绑定，本地开发需配置 `[ai]` binding\n\n**完整对比**：`v1.5.0...v1.6.0`\n",
+        "stats": {
+          "commits": 13,
+          "filesChanged": 276,
+          "additions": null,
+          "deletions": null
+        }
+      },
+      {
+        "version": "1.5.0",
+        "tag": "v1.5.0",
+        "name": "v1.5.0",
+        "date": "2026-11-04",
+        "url": "https://github.com/Zoroaaa/it-toolbox/releases/tag/v1.5.0",
+        "prerelease": false,
+        "source": "release",
+        "body": "# Changelog - v1.5.0\r\n\r\n**发布日期**: 2026-03-27\r\n\r\nIT Toolbox v1.5.0 从 v1.4.0 的 126 个工具扩展到 135 款工具，新增 9 个实用工具（另含应用级快捷键系统），Phase 4 开发正式启动。\r\n\r\n---\r\n\r\n## 新增工具（10个）\r\n\r\n### AI 结构化提取\r\n- 非结构化文本智能提取为结构化 JSON\r\n- 支持自定义提取字段\r\n- 内置常见场景模板（简历信息、产品描述、新闻文章、订单信息）\r\n- 自动识别文本中的关键信息\r\n- 提供提取结果说明\r\n\r\n### AI 翻译\r\n- 多语言翻译支持（中文、英语、日语、韩语、法语、德语、西班牙语等）\r\n- 技术文档翻译优化\r\n- 自动检测源语言\r\n- 保留技术术语和代码片段\r\n- 提供翻译备注说明\r\n\r\n### AI 报错解释\r\n- 粘贴错误信息，AI 解释原因和修复方案\r\n- 支持添加上下文信息\r\n- 提供详细的错误原因分析\r\n- 给出多个可行的修复方案\r\n- 支持常见编程语言和框架的错误解析\r\n\r\n### AI 命名助手\r\n- 描述功能自动推荐变量/函数/类名\r\n- 支持多种命名风格：camelCase、PascalCase、snake_case、kebab-case、CONSTANT\r\n- 支持多种类型：变量、函数、类、常量\r\n- 提供 3-5 个命名建议\r\n- 每个建议附带解释说明\r\n\r\n### AI 生成 Mock 数据\r\n- 自然语言描述数据结构\r\n- AI 生成逼真的测试数据\r\n- 支持指定生成数量（1-20条）\r\n- 内置常见数据模板（用户信息、商品数据、订单信息、博客文章、公司信息）\r\n- 一键复制 JSON 数据\r\n\r\n### AI Shell 命令生成\r\n- 自然语言描述生成 Shell 命令\r\n- 同时提供 Bash 和 PowerShell 两种版本\r\n- 危险命令警告提示\r\n- 提供命令详细说明\r\n- 内置常见操作示例\r\n\r\n### 环境变量 Diff\r\n- 两段 .env 文件对比\r\n- 高亮显示差异（新增、删除、变更）\r\n- 安全脱敏显示敏感值\r\n- 支持显示/隐藏完整值\r\n- 一键复制差异结果\r\n\r\n### Changelog 生成\r\n- Git log 粘贴自动格式化\r\n- 支持 Conventional Commits 规范\r\n- 自动按类型分组（新功能、Bug修复、文档、重构等）\r\n- 支持自定义版本号和发布日期\r\n- 一键复制 Markdown 格式\r\n\r\n### JSON-RPC 测试\r\n- 构造 JSON-RPC 2.0 请求\r\n- 支持自定义端点 URL\r\n- 内置常见 RPC 方法示例\r\n- 请求历史记录\r\n- 一键复制响应结果\r\n\r\n### 快捷键系统\r\n- 全局快捷键管理\r\n- 快捷键帮助面板（Ctrl+?）\r\n- 支持自定义快捷键注册\r\n- 输入框智能忽略\r\n\r\n---\r\n\r\n## 工具统计\r\n\r\n| 分类 | v1.4.0 | v1.5.0 | 新增 |\r\n|------|--------|--------|------|\r\n| 格式化 | 15 | 15 | 0 |\r\n| 编码解码 | 11 | 11 | 0 |\r\n| 加密安全 | 11 | 11 | 0 |\r\n| 网络 HTTP | 15 | 16 | +1 |\r\n| 文本处理 | 13 | 14 | +1 |\r\n| 颜色设计 | 10 | 10 | 0 |\r\n| 时间日期 | 6 | 6 | 0 |\r\n| 生成器 | 12 | 12 | 0 |\r\n| 图片媒体 | 8 | 8 | 0 |\r\n| 开发规范 | 8 | 9 | +1 |\r\n| 单位换算 | 6 | 6 | 0 |\r\n| AI 增强 | 6 | 12 | +6 |\r\n| 数学计算 | 4 | 4 | 0 |\r\n| DevOps | 0 | 1 | +1 |\r\n| **总计** | **126** | **136** | **+10** |\r\n\r\n---\r\n\r\n## 技术亮点\r\n\r\n### AI 工具（6个）\r\n以下工具需要 Workers AI 支持：\r\n- ai-text-extract（AI结构化提取）\r\n- ai-translate（AI翻译）\r\n- ai-error-explain（AI报错解释）\r\n- ai-naming（AI命名助手）\r\n- ai-mock-data（AI生成Mock数据）\r\n- ai-shell-cmd（AI Shell命令生成）\r\n\r\n### 纯前端工具（3个）\r\n以下工具采用纯前端实现，无需后端 API 支持：\r\n- env-diff（环境变量Diff）\r\n- changelog-gen（Changelog生成）\r\n- keyboard-shortcuts（快捷键系统）\r\n\r\n### API 依赖工具（1个）\r\n以下工具需要后端 API 支持：\r\n- json-rpc-test（JSON-RPC测试）\r\n\r\n### 功能特色\r\n- AI 工具统一使用 Workers AI binding，通过 Pages Functions 调用\r\n- ai-shell-cmd 提供危险命令警告，保障操作安全\r\n- env-diff 支持敏感值脱敏，保护隐私\r\n- changelog-gen 完整支持 Conventional Commits 规范\r\n- 所有工具通过 TypeScript 严格模式检查\r\n\r\n---\r\n\r\n## 里程碑\r\n\r\n### Phase 4 启动 🚀\r\n\r\n本版本标志着 Phase 4 正式启动，首批完成 10 个工具：\r\n\r\n- ✅ AI 增强工具扩展（6个）：AI结构化提取、AI翻译、AI报错解释、AI命名助手、AI生成Mock数据、AI Shell命令生成\r\n- ✅ 效率&协作工具（4个）：快捷键系统、环境变量Diff、Changelog生成、JSON-RPC测试\r\n\r\n---\r\n\r\n## 后续规划\r\n\r\n根据开发路线图，后续版本将继续完善 Phase 4：\r\n\r\n### Phase 4 待完成工具\r\n- 效率&协作（3个）：批量处理模式、工具对比模式、Webhook测试\r\n- 前端工具扩展（7个）：CSS Grid生成器、CSS动画生成、字体搭配、图标搜索、Sitemap生成、robots.txt生成、.htaccess生成\r\n\r\n---\r\n\r\n**IT Toolbox v1.5.0** - Phase 4 启动，135 款工具！\r\n",
+        "stats": {
+          "commits": 9,
+          "filesChanged": 37,
+          "additions": null,
+          "deletions": null
+        }
+      },
+      {
+        "version": "1.4.0",
+        "tag": "v1.4.0",
+        "name": "v1.4.0",
+        "date": "2026-11-04",
+        "url": "https://github.com/Zoroaaa/it-toolbox/releases/tag/v1.4.0",
+        "prerelease": false,
+        "source": "release",
+        "body": "# Changelog - v1.4.0\r\n\r\n**发布日期**: 2026-03-25\r\n\r\nIT Toolbox v1.4.0 从 v1.3.0 的 116 个工具扩展到 126 款工具，新增 10 个实用工具，Phase 3 全部完成。\r\n\r\n---\r\n\r\n## 新增工具（10个）\r\n\r\n### 浮点数可视化\r\n- IEEE754 单精度/双精度位级展示\r\n- 可视化浮点数存储结构（符号位、阶码、尾数）\r\n- 支持十进制和二进制两种输入模式\r\n- 显示十六进制表示和实际指数\r\n- 自动识别非规格化数、无穷大、NaN\r\n\r\n### 扩展进制转换\r\n- 2-36 进制任意互转\r\n- 支持小数部分转换\r\n- 可配置小数精度（1-50位）\r\n- 实时显示常用进制结果\r\n- 支持自定义源进制和目标进制\r\n\r\n### JSON 表格视图\r\n- JSON 数组渲染为可排序表格\r\n- 支持关键词搜索过滤\r\n- 点击列头排序（升序/降序/取消）\r\n- 支持嵌套对象扁平化显示\r\n- 一键导出 CSV 文件\r\n\r\n### JSON 深度合并\r\n- 两个 JSON 对象深度合并\r\n- 4 种冲突策略可选：\r\n  - 深度合并：递归合并嵌套对象\r\n  - 源优先：冲突时使用源 JSON 值\r\n  - 目标优先：冲突时保留目标 JSON 值\r\n  - 数组合并：数组类型进行拼接\r\n- 一键交换输入源\r\n\r\n### JSON Schema 验证\r\n- 输入 JSON + Schema 实时验证\r\n- 完整的错误定位和提示\r\n- 支持常见 Schema 关键字：\r\n  - type、enum、const\r\n  - minLength、maxLength、pattern\r\n  - minimum、maximum、exclusiveMinimum、exclusiveMaximum\r\n  - minItems、maxItems、items\r\n  - required、properties、additionalProperties\r\n- 无需外部依赖，纯前端实现\r\n\r\n### CSS clip-path 生成\r\n- 可视化编辑多边形/圆形/椭圆/内边距\r\n- 支持拖拽调整多边形顶点\r\n- 内置 9 种预设形状（三角形、菱形、五边形、六边形、八边形、箭头、星形、圆形、椭圆）\r\n- 实时预览裁剪效果\r\n- 一键复制 CSS 代码\r\n\r\n### Flexbox 生成器\r\n- 可视化配置 Flexbox 属性\r\n- 支持 flex-direction、flex-wrap、justify-content、align-items、align-content、gap\r\n- 动态添加/删除子元素\r\n- 单独配置每个子元素的 flex-grow、flex-shrink、flex-basis、align-self、order\r\n- 实时预览布局效果\r\n\r\n### 条形码生成\r\n- 支持多种条码格式：EAN-13、EAN-8、UPC-A、Code 128、Code 39、ITF-14、Pharmacode\r\n- 可自定义线条颜色和背景颜色\r\n- 可调整线条宽度和条码高度\r\n- 可选显示/隐藏文本\r\n- 支持 SVG 和 PNG 两种导出格式\r\n\r\n### AI 生成 Schema\r\n- 粘贴 JSON 样本，AI 生成带注释的 JSON Schema\r\n- 自动推断字段类型和约束\r\n- 生成中文描述注释\r\n- 提供结构说明\r\n\r\n### AI 生成提交信息\r\n- 粘贴 git diff 内容，AI 生成 Conventional Commits 规范的提交信息\r\n- 自动识别变更类型（feat/fix/docs/style/refactor/perf/test/chore）\r\n- 提取变更范围和描述\r\n- 可选生成详细说明\r\n\r\n---\r\n\r\n## 工具统计\r\n\r\n| 分类 | v1.3.0 | v1.4.0 | 新增 |\r\n|------|--------|--------|------|\r\n| 格式化 | 12 | 15 | +3 |\r\n| 编码解码 | 11 | 11 | 0 |\r\n| 加密安全 | 11 | 11 | 0 |\r\n| 网络 HTTP | 15 | 15 | 0 |\r\n| 文本处理 | 13 | 13 | 0 |\r\n| 颜色设计 | 8 | 10 | +2 |\r\n| 时间日期 | 6 | 6 | 0 |\r\n| 生成器 | 11 | 12 | +1 |\r\n| 图片媒体 | 8 | 8 | 0 |\r\n| 开发规范 | 8 | 8 | 0 |\r\n| 单位换算 | 6 | 6 | 0 |\r\n| AI 增强 | 4 | 6 | +2 |\r\n| 数学计算 | 2 | 4 | +2 |\r\n| **总计** | **116** | **126** | **+10** |\r\n\r\n---\r\n\r\n## 技术亮点\r\n\r\n### 纯前端工具（8个）\r\n以下工具采用纯前端实现，无需后端 API 支持：\r\n- float-visualizer（浮点数可视化）\r\n- base-convert-ext（扩展进制转换）\r\n- json-to-table（JSON表格视图）\r\n- json-merge（JSON深度合并）\r\n- json-schema-verify（JSON Schema验证）\r\n- css-clip-path（CSS clip-path生成）\r\n- flexbox-gen（Flexbox生成器）\r\n- barcode-gen（条形码生成）\r\n\r\n### AI 工具（2个）\r\n以下工具需要 Workers AI 支持：\r\n- ai-json-schema（AI生成Schema）\r\n- ai-commit-msg（AI生成提交信息）\r\n\r\n### 功能特色\r\n- float-visualizer 完整实现 IEEE754 标准，支持单精度和双精度\r\n- json-schema-verify 无需 ajv 依赖，纯前端实现完整验证器\r\n- css-clip-path 支持拖拽编辑多边形顶点\r\n- barcode-gen 使用 JsBarcode 库，支持 7 种条码格式\r\n- 所有工具通过 TypeScript 严格模式检查\r\n\r\n### 新增依赖\r\n- jsbarcode ^3.11.6：条形码生成库\r\n\r\n---\r\n\r\n## 里程碑\r\n\r\n### Phase 3 完成 ✅\r\n\r\n本版本标志着 Phase 3 全部完成，共实现 51 个进阶工具：\r\n\r\n- ✅ 数据生成&测试（6个）：随机JSON生成、SQL测试数据生成、正则从样本生成、文件完整性校验、JWT签名验证、密码强度分析\r\n- ✅ 单位换算扩展（7个）：数字单位换算、数据存储换算、色彩空间换算、多格式时间转换、宽高比计算、CSS单位换算、罗马数字转换\r\n- ✅ 网络进阶（5个）：WHOIS查询、SSL证书检测、HTTP安全头检测、常用端口参考、邮箱格式验证\r\n- ✅ 数字&数学（4个）：质数检测、GCD/LCM计算、浮点数可视化、扩展进制转换\r\n- ✅ JSON&数据工具扩展（3个）：JSON表格视图、JSON深度合并、JSON Schema验证\r\n- ✅ HTML&CSS工具扩展（2个）：CSS clip-path生成、Flexbox生成器\r\n- ✅ 二维码&条形码（1个）：条形码生成\r\n\r\n---\r\n\r\n## 后续规划\r\n\r\n根据开发路线图，后续版本将继续完善 Phase 4：\r\n\r\n### Phase 4 待完成工具\r\n- AI 增强工具扩展（6个）：AI结构化提取、AI翻译、AI命名助手、AI报错解释、AI生成Mock数据、AI Shell命令生成\r\n- 效率&协作（7个）：批量处理模式、工具对比模式、快捷键系统、JSON-RPC测试、Webhook测试、环境变量Diff、Changelog生成\r\n- 前端工具扩展（7个）：CSS Grid生成器、CSS动画生成、字体搭配、图标搜索、Sitemap生成、robots.txt生成、.htaccess生成\r\n\r\n---\r\n\r\n**IT Toolbox v1.4.0** - Phase 3 完成，126 款工具！\r\n",
+        "stats": {
+          "commits": 14,
+          "filesChanged": 43,
+          "additions": null,
+          "deletions": null
+        }
+      },
+      {
+        "version": "1.3.0",
+        "tag": "v1.3.0",
+        "name": "v1.3.0",
+        "date": "2026-11-04",
+        "url": "https://github.com/Zoroaaa/it-toolbox/releases/tag/v1.3.0",
+        "prerelease": false,
+        "source": "release",
+        "body": "# Changelog - v1.3.0\r\n\r\n**发布日期**: 2026-03-24\r\n\r\nIT Toolbox v1.3.0 从 v1.2.0 的 106 个工具扩展到 116 款工具，新增 10 个实用工具。\r\n\r\n---\r\n\r\n## 新增工具（10个）\r\n\r\n### 宽高比计算\r\n- 输入宽度和高度自动计算宽高比\r\n- 支持简化比例显示（如 16:9）\r\n- 内置常见分辨率参考列表\r\n- 支持自定义尺寸计算\r\n- 一键复制计算结果\r\n\r\n### CSS 单位换算\r\n- 支持 px/rem/em/vw/vh/pt/pc/in/cm/mm 单位互转\r\n- 可配置根字体大小（默认 16px）\r\n- 可配置视口宽度\r\n- 实时显示全部单位换算结果\r\n- 一键复制换算结果\r\n\r\n### 罗马数字转换\r\n- 阿拉伯数字转罗马数字（支持 1-3999）\r\n- 罗马数字转阿拉伯数字\r\n- 输入验证和错误提示\r\n- 一键复制转换结果\r\n\r\n### 常用端口参考\r\n- 收录 50+ 常用服务端口\r\n- 按协议分类（HTTP/FTP/邮件/数据库/消息队列/开发工具等）\r\n- 支持关键词搜索过滤\r\n- 显示端口说明和服务名称\r\n- 一键复制端口号\r\n\r\n### 邮箱格式验证\r\n- RFC 5322 标准格式验证\r\n- 检测常见邮箱域名拼写错误\r\n- 支持批量验证（每行一个邮箱）\r\n- 显示验证结果详情\r\n- 一键复制有效邮箱列表\r\n\r\n### 质数检测\r\n- 检测单个数字是否为质数\r\n- 质因数分解功能\r\n- 生成指定范围内的质数序列\r\n- 支持大数计算\r\n- 一键复制结果\r\n\r\n### GCD/LCM 计算\r\n- 最大公约数（GCD）计算\r\n- 最小公倍数（LCM）计算\r\n- 支持多个数字同时计算\r\n- 显示计算过程\r\n- 一键复制结果\r\n\r\n### WHOIS 查询\r\n- 查询域名注册信息\r\n- 显示注册商、注册日期、过期日期\r\n- 显示域名状态\r\n- 显示 DNS 服务器\r\n- 支持常见域名后缀\r\n\r\n### SSL 证书检测\r\n- 检测域名 SSL 证书状态\r\n- 显示证书颁发机构\r\n- 显示证书有效期\r\n- 显示证书链信息\r\n- 检测证书是否过期\r\n\r\n### HTTP 安全头检测\r\n- 检测目标 URL 的安全头配置\r\n- 检测项目包括：\r\n  - Strict-Transport-Security (HSTS)\r\n  - Content-Security-Policy (CSP)\r\n  - X-Frame-Options\r\n  - X-Content-Type-Options\r\n  - X-XSS-Protection\r\n  - Referrer-Policy\r\n  - Permissions-Policy\r\n- 显示安全评分和建议\r\n\r\n---\r\n\r\n## 工具统计\r\n\r\n| 分类 | v1.2.0 | v1.3.0 | 新增 |\r\n|------|--------|--------|------|\r\n| 格式化 | 12 | 12 | 0 |\r\n| 编码解码 | 11 | 11 | 0 |\r\n| 加密安全 | 11 | 11 | 0 |\r\n| 网络 HTTP | 10 | 15 | +5 |\r\n| 文本处理 | 13 | 13 | 0 |\r\n| 颜色设计 | 8 | 8 | 0 |\r\n| 时间日期 | 6 | 6 | 0 |\r\n| 生成器 | 11 | 11 | 0 |\r\n| 图片媒体 | 8 | 8 | 0 |\r\n| 开发规范 | 8 | 8 | 0 |\r\n| 单位换算 | 4 | 6 | +2 |\r\n| AI 增强 | 4 | 4 | 0 |\r\n| 数学计算 | 0 | 2 | +2 |\r\n| **总计** | **106** | **116** | **+10** |\r\n\r\n---\r\n\r\n## 技术亮点\r\n\r\n### 纯前端工具（7个）\r\n以下工具采用纯前端实现，无需后端 API 支持：\r\n- aspect-ratio（宽高比计算）\r\n- css-unit-convert（CSS单位换算）\r\n- roman-numeral（罗马数字转换）\r\n- port-reference（常用端口参考）\r\n- email-validate（邮箱格式验证）\r\n- prime-checker（质数检测）\r\n- gcd-lcm（GCD/LCM计算）\r\n\r\n### API 依赖工具（3个）\r\n以下工具需要后端 API 支持：\r\n- whois-lookup（WHOIS查询）\r\n- ssl-checker（SSL证书检测）\r\n- headers-check（HTTP安全头检测）\r\n\r\n### 功能特色\r\n- port-reference 收录 50+ 常用端口定义，支持搜索过滤\r\n- prime-checker 支持质因数分解和质数序列生成\r\n- email-validate 支持 RFC 5322 标准验证和批量处理\r\n- 所有工具通过 TypeScript 严格模式检查\r\n\r\n---\r\n\r\n## 后续规划\r\n\r\n根据开发路线图，后续版本将继续完善：\r\n\r\n### Phase 3 待完成工具\r\n- 数字&数学（浮点数可视化、扩展进制转换）\r\n- JSON&数据工具扩展（JSON表格视图、深度合并、Schema验证）\r\n- HTML&CSS工具扩展（clip-path生成、Flexbox生成器）\r\n- 条形码生成\r\n\r\n### Phase 4 计划\r\n- AI增强工具扩展（8个AI工具）\r\n- 效率&协作（批量处理、Webhook测试、环境变量Diff等）\r\n- 前端工具扩展（CSS Grid生成器、图标搜索、Sitemap生成等）\r\n\r\n---\r\n\r\n**IT Toolbox v1.3.0** - 让开发更高效！\r\n",
+        "stats": null
+      },
+      {
+        "version": "1.2.0",
+        "tag": "v1.2.0",
+        "name": "v1.2.0",
+        "date": "2026-11-04",
+        "url": "https://github.com/Zoroaaa/it-toolbox/releases/tag/v1.2.0",
+        "prerelease": false,
+        "source": "release",
+        "body": "# Changelog - v1.2.0\r\n\r\n**发布日期**: 2026-03-24\r\n\r\nIT Toolbox v1.2.0 从 v1.1.0 的 96 个工具扩展到 106 款工具，新增 10 个实用工具。\r\n\r\n---\r\n\r\n## 新增工具（10个）\r\n\r\n### 文件完整性校验\r\n- 上传文件计算 MD5/SHA-256 哈希值\r\n- 支持批量文件上传\r\n- 输入预期哈希值进行校验对比\r\n- 实时显示校验结果（匹配/不匹配）\r\n- 使用 Web Crypto API 前端计算\r\n\r\n### JWT 签名验证\r\n- 支持 HMAC (HS256/HS384/HS512) 签名验证\r\n- 支持 RSA (RS256/RS384/RS512) 签名验证\r\n- 解析并展示 Header 和 Payload\r\n- 检测 Token 过期状态\r\n- 显示签发时间和过期时间\r\n\r\n### 密码强度分析\r\n- 使用 zxcvbn 算法分析密码强度\r\n- 实时估算多种攻击场景下的破解时间\r\n- 字符组成分析（大小写/数字/符号）\r\n- 提供改进建议\r\n- 检测常见密码模式\r\n\r\n### 随机 JSON 生成\r\n- 可视化定义 Schema 结构\r\n- 支持多种数据类型（字符串/数字/布尔/日期/邮箱/姓名/电话/地址/URL/UUID）\r\n- 批量生成多条数据\r\n- 支持下载 JSON 文件\r\n- 一键复制生成结果\r\n\r\n### SQL 测试数据生成\r\n- 可视化定义表结构\r\n- 支持多种 SQL 数据类型\r\n- 生成 INSERT 语句\r\n- 支持单条/批量 INSERT 模式\r\n- 可配置生成行数\r\n- 支持下载 SQL 文件\r\n\r\n### 正则从样本生成\r\n- 输入多个样本字符串\r\n- 自动推断匹配的正则表达式\r\n- 实时测试正则匹配结果\r\n- 支持手动编辑正则\r\n- 一键复制生成的正则\r\n\r\n### 数字单位换算\r\n- 支持 8 大类单位换算\r\n  - 长度：千米/米/厘米/毫米/英里/码/英尺/英寸/海里\r\n  - 重量：吨/千克/克/毫克/磅/盎司/斤/两\r\n  - 温度：摄氏度/华氏度/开尔文\r\n  - 速度：米每秒/千米每时/英里每时/节/马赫\r\n  - 面积：平方千米/平方米/公顷/英亩/亩\r\n  - 体积：立方米/升/毫升/加仑\r\n  - 时间：年/月/周/天/小时/分钟/秒/毫秒\r\n  - 压力：帕斯卡/千帕/兆帕/巴/psi/大气压\r\n- 实时显示全部单位换算结果\r\n- 支持单位交换\r\n\r\n### 数据存储换算\r\n- 支持 Bit/Byte/KB/MB/GB/TB/PB/EB 换算\r\n- SI 单位制（1000 进制）与二进制单位（1024 进制）切换\r\n- 自动选择最佳显示单位\r\n- 显示精确字节数\r\n- 一键复制换算结果\r\n\r\n### 色彩空间换算\r\n- 支持 RGB/HSL/HSV/HEX/CMYK 全量互转\r\n- 实时颜色预览\r\n- 滑块可视化调节\r\n- 支持颜色选择器\r\n- 一键复制各种格式\r\n\r\n### 多格式时间转换\r\n- 支持 10+ 种时间格式互转\r\n  - ISO 8601\r\n  - RFC 2822\r\n  - HTTP Date\r\n  - SQL DateTime/Timestamp\r\n  - Unix Timestamp（秒/毫秒）\r\n  - Excel Serial\r\n  - Julian Date\r\n  - 本地时间\r\n- 支持自定义格式（YYYY-MM-DD HH:mm:ss 等）\r\n- 自动解析多种输入格式\r\n- 一键复制各种格式\r\n\r\n---\r\n\r\n## 工具统计\r\n\r\n| 分类 | v1.1.0 | v1.2.0 | 新增 |\r\n|------|--------|--------|------|\r\n| 格式化 | 12 | 12 | 0 |\r\n| 编码解码 | 11 | 11 | 0 |\r\n| 加密安全 | 8 | 11 | +3 |\r\n| 网络 HTTP | 10 | 10 | 0 |\r\n| 文本处理 | 12 | 13 | +1 |\r\n| 颜色设计 | 7 | 8 | +1 |\r\n| 时间日期 | 5 | 6 | +1 |\r\n| 生成器 | 9 | 11 | +2 |\r\n| 图片媒体 | 8 | 8 | 0 |\r\n| 开发规范 | 8 | 8 | 0 |\r\n| 单位换算 | 2 | 4 | +2 |\r\n| AI 增强 | 4 | 4 | 0 |\r\n| **总计** | **96** | **106** | **+10** |\r\n\r\n---\r\n\r\n## 新增依赖\r\n\r\n| 依赖 | 版本 | 用途 |\r\n|------|------|------|\r\n| zxcvbn | ^4.4.2 | 密码强度分析 |\r\n\r\n---\r\n\r\n## 技术亮点\r\n\r\n### 纯前端实现\r\n本次新增的 10 个工具全部采用纯前端实现，无需后端 API 支持：\r\n- 文件哈希计算使用 Web Crypto API\r\n- JWT 验证使用 SubtleCrypto API\r\n- 所有计算在浏览器端完成，保护用户隐私\r\n\r\n### 性能优化\r\n- 大文件哈希计算采用流式处理\r\n- 单位换算结果实时缓存\r\n- 组件懒加载减少首屏体积\r\n\r\n### 用户体验\r\n- 统一的交互设计语言\r\n- 一键复制功能\r\n- 支持键盘快捷操作\r\n- 响应式布局适配移动端\r\n\r\n---\r\n\r\n## 后续规划\r\n\r\n根据开发路线图，后续版本将继续完善：\r\n\r\n### Phase 3 待完成工具\r\n- 单位换算扩展（宽高比计算、CSS单位换算、罗马数字）\r\n- 网络进阶（WHOIS、SSL检测、HTTP安全头、常用端口参考、邮箱验证）\r\n- 数字&数学（质数检测、GCD/LCM、浮点数可视化、扩展进制转换）\r\n- JSON&数据工具扩展（JSON表格视图、深度合并、Schema验证）\r\n- HTML&CSS工具扩展（clip-path生成、Flexbox生成器）\r\n- 条形码生成\r\n\r\n### Phase 4 计划\r\n- AI增强工具扩展（8个AI工具）\r\n- 效率&协作（批量处理、Webhook测试、环境变量Diff等）\r\n- 前端工具扩展（CSS Grid生成器、图标搜索、Sitemap生成等）\r\n\r\n---\r\n\r\n**IT Toolbox v1.2.0** - 让开发更高效！\r\n",
+        "stats": null
+      },
+      {
+        "version": "1.1.0",
+        "tag": "v1.1.0",
+        "name": "v1.1.0",
+        "date": "2026-11-04",
+        "url": "https://github.com/Zoroaaa/it-toolbox/releases/tag/v1.1.0",
+        "prerelease": false,
+        "source": "release",
+        "body": "# Changelog - v1.1.0\r\n\r\n**发布日期**: 2026-03-24\r\n\r\nIT Toolbox v1.1.0 从 v1.0.0 的 87 个工具扩展到 96 款工具，新增 9 个实用工具。\r\n\r\n---\r\n\r\n## 新增工具（9个）\r\n\r\n### 汇率换算\r\n- 实时汇率换算，支持 150+ 货币\r\n- 热门汇率展示\r\n- KV 缓存加速（1 小时）\r\n- 使用 exchangerate-api.com 数据源\r\n\r\n### HTTP API 测试\r\n- 类 Postman 界面\r\n- 支持 GET/POST/PUT/DELETE/PATCH/HEAD/OPTIONS 方法\r\n- 自定义 Headers 和 Body\r\n- 响应状态码、时间、大小展示\r\n- 后端代理解决跨域问题\r\n\r\n### 二维码识别\r\n- 上传图片识别二维码\r\n- 摄像头实时扫码\r\n- 支持拖拽上传\r\n- 使用 jsqr 前端解析\r\n\r\n### AI 代码 Review\r\n- AI 进行 Code Review\r\n- 安全漏洞、性能、可读性三维分析\r\n- 评分可视化展示\r\n- 问题与建议分离展示\r\n\r\n### JSONPath 查询\r\n- 使用 JSONPath 表达式查询 JSON 数据\r\n- 支持复杂过滤表达式\r\n- 常用表达式快捷选择\r\n- 语法参考提示\r\n\r\n### JSON 转 CSV\r\n- 将 JSON 数组转换为 CSV 格式\r\n- 支持自定义分隔符（逗号/分号/Tab/竖线）\r\n- 可选是否包含表头\r\n- 支持下载 CSV 文件\r\n\r\n### 数学表达式计算\r\n- 计算复杂数学表达式\r\n- 支持函数（sqrt、pow、sin、cos、log 等）\r\n- 支持常量（pi、e、phi）\r\n- 支持单位换算（inch to cm 等）\r\n- 使用 mathjs 库\r\n\r\n### HTML 实时预览\r\n- 实时预览 HTML/CSS/JS 代码\r\n- 支持自动刷新\r\n- 支持全屏预览\r\n- 支持在新标签页打开\r\n- iframe sandbox 安全隔离\r\n\r\n### Meta 标签生成\r\n- 生成 SEO 友好的 Meta 标签\r\n- 支持 Open Graph 标签\r\n- 支持 Twitter Card 标签\r\n- 支持页面类型选择（网站/文章/产品）\r\n- 一键复制生成的标签\r\n\r\n---\r\n\r\n## 新增 API\r\n\r\n| 接口 | 说明 |\r\n|------|------|\r\n| GET /api/exchange | 汇率查询，KV缓存1小时 |\r\n| GET /api/exchange/rates | 批量汇率查询 |\r\n| POST /api/proxy | HTTP代理，解决跨域 |\r\n| POST /api/ai/review | AI代码审查 |\r\n\r\n---\r\n\r\n## 新增依赖\r\n\r\n| 依赖 | 版本 | 用途 |\r\n|------|------|------|\r\n| jsqr | ^1.4.0 | 二维码识别 |\r\n| jsonpath-plus | ^10.4.0 | JSONPath查询 |\r\n| mathjs | ^15.1.1 | 数学表达式计算 |\r\n\r\n---\r\n\r\n## 工具统计\r\n\r\n| 分类 | v1.0.0 | v1.1.0 | 新增 |\r\n|------|--------|--------|------|\r\n| 格式化 | 9 | 12 | +3 |\r\n| 编码解码 | 11 | 11 | 0 |\r\n| 加密安全 | 8 | 8 | 0 |\r\n| 网络 HTTP | 9 | 10 | +1 |\r\n| 文本处理 | 11 | 12 | +1 |\r\n| 颜色设计 | 7 | 7 | 0 |\r\n| 时间日期 | 5 | 5 | 0 |\r\n| 生成器 | 8 | 9 | +1 |\r\n| 图片媒体 | 8 | 8 | 0 |\r\n| 开发规范 | 7 | 8 | +1 |\r\n| 单位换算 | 1 | 2 | +1 |\r\n| AI 增强 | 3 | 4 | +1 |\r\n| **总计** | **87** | **96** | **+9** |\r\n\r\n---\r\n\r\n## 后续规划\r\n\r\n根据开发路线图，后续版本将继续完善：\r\n\r\n### Phase 3 待完成工具\r\n- 单位换算扩展（数字单位、数据存储、色彩空间等）\r\n- 网络进阶（WHOIS、SSL检测、HTTP安全头等）\r\n- 数字&数学（质数检测、GCD/LCM、浮点数可视化等）\r\n- JSON&数据工具扩展（JSON表格视图、深度合并、Schema验证等）\r\n- HTML&CSS工具扩展（clip-path生成、Flexbox生成器等）\r\n- 数据生成&测试（随机JSON、SQL测试数据、正则从样本生成等）\r\n\r\n### Phase 4 计划\r\n- AI增强工具扩展（12个AI工具）\r\n- 用户账号系统（D1）\r\n- 云端数据同步\r\n- PWA 离线支持\r\n\r\n---\r\n\r\n**IT Toolbox v1.1.0** - 让开发更高效！\r\n",
+        "stats": null
+      },
+      {
+        "version": "1.0.0",
+        "tag": "v1.0.0",
+        "name": "v1.0.0",
+        "date": "2026-03-24",
+        "url": "https://github.com/Zoroaaa/it-toolbox/releases/tag/v1.0.0",
+        "prerelease": false,
+        "source": "release",
+        "body": "# Changelog - v1.0.0\r\n\r\n**发布日期**: 2026-02-20\r\n\r\nIT Toolbox v1.0.0 是首个正式发布版本，包含 87 款实用工具，覆盖开发者日常高频使用场景。\r\n\r\n---\r\n\r\n## 工具概览\r\n\r\n### 格式化工具（9款）\r\n\r\n| 工具 | 说明 |\r\n|------|------|\r\n| JSON 格式化 | JSON 数据格式化、压缩、语法校验 |\r\n| Markdown 预览 | 实时渲染 Markdown，支持 GFM、数学公式、代码高亮 |\r\n| YAML/JSON 互转 | YAML 与 JSON 格式互转 |\r\n| SQL 格式化 | SQL 语句格式化，支持多种方言 |\r\n| XML 格式化 | XML 数据格式化、压缩 |\r\n| CSS 格式化 | CSS 代码格式化、压缩 |\r\n| JS 格式化 | JavaScript/JSON 代码格式化、压缩 |\r\n| TOML/JSON 互转 | TOML 与 JSON 格式互转 |\r\n| CSV 查看器 | CSV 数据表格化展示 |\r\n\r\n### 编码解码工具（11款）\r\n\r\n| 工具 | 说明 |\r\n|------|------|\r\n| Base64 编解码 | 文本/文件 Base64 编码解码 |\r\n| URL 编解码 | URL 参数编码解码、参数解析 |\r\n| JWT 解析 | 解析 JWT Header 和 Payload |\r\n| HTML 实体编解码 | HTML 实体字符编码解码 |\r\n| Hex 编解码 | 十六进制编码解码 |\r\n| Unicode 转换 | Unicode 字符编码解码 |\r\n| 摩斯密码 | 摩斯密码编码解码 |\r\n| 二进制文本转换 | 二进制与文本互转 |\r\n| ROT13 | ROT13 凯撒密码 |\r\n| Punycode | Punycode 编码解码 |\r\n| ASCII 表 | ASCII 字符对照表 |\r\n\r\n### 加密安全工具（8款）\r\n\r\n| 工具 | 说明 |\r\n|------|------|\r\n| Hash 计算器 | MD5/SHA-1/SHA-256/SHA-384/SHA-512 |\r\n| AES 加解密 | AES 加密解密，支持多种模式 |\r\n| RSA 密钥生成 | RSA 公私钥对生成 |\r\n| HMAC 计算 | HMAC 消息认证码计算 |\r\n| Bcrypt 哈希 | Bcrypt 密码哈希生成与验证 |\r\n| SSH 密钥生成 | SSH 密钥对生成 |\r\n| JWT 生成器 | JWT Token 生成 |\r\n| 证书解析 | X.509 证书解析 |\r\n\r\n### 网络 HTTP 工具（9款）\r\n\r\n| 工具 | 说明 |\r\n|------|------|\r\n| IP 地址查询 | 获取当前 IP 信息，支持 KV 缓存 |\r\n| DNS 查询 | 多类型 DNS 记录查询 |\r\n| URL 解析 | URL 组件解析展示 |\r\n| HTTP 状态码 | HTTP 状态码速查表 |\r\n| HTTP 请求头 | 常用请求头说明 |\r\n| MIME 类型 | MIME 类型速查表 |\r\n| IP 子网计算 | IP 子网掩码计算 |\r\n| User-Agent 解析 | User-Agent 字符串解析 |\r\n| cURL 转换 | cURL 命令转换为代码 |\r\n\r\n### 文本处理工具（11款）\r\n\r\n| 工具 | 说明 |\r\n|------|------|\r\n| 命名规范转换 | camelCase/snake_case/kebab-case 等互转 |\r\n| 占位文本生成 | Lorem Ipsum / 中文乱数假文生成 |\r\n| 正则表达式测试 | 实时匹配高亮、分组提取 |\r\n| 文本统计 | 字符数、单词数、行数、字节数统计 |\r\n| 文本对比 | Diff 文本差异对比 |\r\n| 文本变换 | 大小写、反转、排序等 |\r\n| 字符串转义 | 字符串转义与反转义 |\r\n| Cron 表达式解析 | Cron 表达式解析与生成 |\r\n| 文本相似度 | 文本相似度计算 |\r\n| 行排序 | 文本行排序去重 |\r\n| JSON 转类型 | JSON 数据转 TypeScript/Go/Rust 等类型 |\r\n\r\n### 颜色设计工具（7款）\r\n\r\n| 工具 | 说明 |\r\n|------|------|\r\n| 颜色选择器 | HEX/RGB/HSL/HSV/CMYK 格式互转 |\r\n| CSS 渐变生成 | CSS 渐变背景生成器 |\r\n| 配色方案生成 | 随机配色方案生成 |\r\n| 对比度检测 | WCAG 对比度检测 |\r\n| 色盲模拟 | 色盲视觉效果模拟 |\r\n| Tailwind 色板 | Tailwind CSS 颜色参考 |\r\n| Box Shadow 生成 | CSS 盒阴影生成器 |\r\n\r\n### 时间日期工具（5款）\r\n\r\n| 工具 | 说明 |\r\n|------|------|\r\n| 时间戳转换 | Unix 时间戳与日期时间互转 |\r\n| 日期计算 | 日期加减计算 |\r\n| 时区转换 | 全球时区时间转换 |\r\n| 时长格式化 | 时间长度格式化显示 |\r\n| 日历生成 | Markdown 日历生成 |\r\n\r\n### 生成器工具（8款）\r\n\r\n| 工具 | 说明 |\r\n|------|------|\r\n| UUID 生成器 | UUID v4 批量生成 |\r\n| 密码生成器 | 可配置密码生成，强度检测 |\r\n| NanoID 生成器 | NanoID 批量生成 |\r\n| ULID 生成器 | ULID 批量生成 |\r\n| ObjectId 生成器 | MongoDB ObjectId 生成 |\r\n| 假数据生成 | Faker.js 测试数据生成 |\r\n| 二维码生成 | 二维码生成，支持多种格式 |\r\n| 占位图生成 | 占位图片生成器 |\r\n\r\n### 单位换算工具（1款）\r\n\r\n| 工具 | 说明 |\r\n|------|------|\r\n| 进制转换 | 二/八/十/十六进制互转 |\r\n\r\n### AI 增强工具（3款）\r\n\r\n| 工具 | 说明 |\r\n|------|------|\r\n| AI 代码解释 | 智能解释代码逻辑 |\r\n| AI 生成正则 | 自然语言生成正则表达式 |\r\n| AI 生成 SQL | 自然语言生成 SQL 语句 |\r\n\r\n### 图片处理工具（8款）\r\n\r\n| 工具 | 说明 |\r\n|------|------|\r\n| 图片压缩 | JPEG/PNG/WebP 图片压缩 |\r\n| 图片格式转换 | 图片格式互转 |\r\n| 图片尺寸调整 | 调整图片尺寸 |\r\n| SVG 优化 | SVG 文件优化压缩 |\r\n| SVG 转 Data URI | SVG 转换为 Data URI |\r\n| Favicon 生成 | 生成网站 Favicon |\r\n| EXIF 读取 | 读取图片 EXIF 信息 |\r\n| 颜色提取 | 从图片中提取主色调 |\r\n\r\n### 开发规范工具（7款）\r\n\r\n| 工具 | 说明 |\r\n|------|------|\r\n| .gitignore 生成 | 生成 .gitignore 文件 |\r\n| 许可证生成 | 生成开源许可证文件 |\r\n| README 生成 | 生成 README 文件 |\r\n| Commit 规范 | Conventional Commit 格式化 |\r\n| SemVer 计算 | 语义版本号计算 |\r\n| OpenAPI 查看器 | OpenAPI/Swagger 文档查看 |\r\n| JSON Schema 生成 | JSON 数据生成 Schema |\r\n\r\n---\r\n\r\n## 工具统计\r\n\r\n| 分类 | 工具数量 |\r\n|------|----------|\r\n| 格式化 | 9 |\r\n| 编码解码 | 11 |\r\n| 加密安全 | 8 |\r\n| 网络 HTTP | 9 |\r\n| 文本处理 | 11 |\r\n| 颜色设计 | 7 |\r\n| 时间日期 | 5 |\r\n| 生成器 | 8 |\r\n| 单位换算 | 1 |\r\n| AI 增强 | 3 |\r\n| 图片媒体 | 8 |\r\n| 开发规范 | 7 |\r\n| **总计** | **87** |\r\n\r\n---\r\n\r\n## 核心功能\r\n\r\n### 全局搜索\r\n- `Ctrl/Cmd + K` 快捷键打开搜索面板\r\n- Fuse.js 模糊搜索算法\r\n- 支持中英文关键词搜索\r\n- 支持标签搜索\r\n\r\n### 收藏功能\r\n- 收藏常用工具\r\n- 收藏列表持久化存储\r\n- 快速访问收藏工具\r\n\r\n### 使用历史\r\n- 自动记录工具使用历史\r\n- 保存最近 10 条输入记录\r\n- 本地持久化存储\r\n\r\n### 主题切换\r\n- 亮色主题\r\n- 深色主题\r\n- 跟随系统主题\r\n- 平滑过渡动画\r\n\r\n### 响应式设计\r\n- 完美适配桌面端\r\n- 完美适配平板端\r\n- 完美适配移动端\r\n\r\n---\r\n\r\n## 技术实现\r\n\r\n### 前端技术\r\n- React 18.3 + TypeScript 5.5\r\n- TanStack Router 1.58（类型安全路由）\r\n- Zustand 5.0（状态管理）\r\n- Tailwind CSS 3.4（样式）\r\n- Vite 6.0（构建工具）\r\n\r\n### 后端技术\r\n- Hono 4.6（Web 框架）\r\n- Cloudflare Pages Functions（边缘计算）\r\n- Cloudflare KV（缓存）\r\n-",
+        "stats": null
+      }
+    ]
+  }
+}

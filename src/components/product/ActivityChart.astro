@@ -1,0 +1,73 @@
+---
+interface Props {
+  weeks: number[];
+  label?: string;
+}
+
+const { weeks, label = '近 52 周提交' } = Astro.props;
+const values = weeks.slice(-52);
+const max = Math.max(1, ...values);
+const barWidth = 6;
+const gap = 2;
+const height = 28;
+const width = values.length * (barWidth + gap) - gap;
+const total = values.reduce((sum, value) => sum + value, 0);
+---
+
+{
+  values.length > 0 && (
+    <figure class="activity">
+      <figcaption>
+        {label} · 共 {total} 次
+      </figcaption>
+      <svg
+        viewBox={`0 0 ${width} ${height}`}
+        role="img"
+        aria-label={`${label}，每周提交数柱状图，最高 ${max} 次`}
+        preserveAspectRatio="none"
+      >
+        {values.map((value, index) => {
+          const barHeight = value === 0 ? 1 : Math.max(2, Math.round((value / max) * height));
+          return (
+            <rect
+              x={index * (barWidth + gap)}
+              y={height - barHeight}
+              width={barWidth}
+              height={barHeight}
+              class={value === 0 ? 'bar bar--empty' : 'bar'}
+            />
+          );
+        })}
+      </svg>
+    </figure>
+  )
+}
+
+<style>
+  .activity {
+    margin: 0;
+  }
+
+  figcaption {
+    margin-bottom: 8px;
+    color: var(--ink-faint);
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  svg {
+    display: block;
+    width: 100%;
+    height: 48px;
+  }
+
+  .bar {
+    fill: var(--accent);
+    opacity: 0.75;
+  }
+
+  .bar--empty {
+    fill: var(--line-strong);
+    opacity: 1;
+  }
+</style>

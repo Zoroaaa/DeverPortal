@@ -1,0 +1,68 @@
+---
+interface Props {
+  languages: { name: string; bytes: number }[];
+}
+
+const { languages } = Astro.props;
+const total = languages.reduce((sum, item) => sum + item.bytes, 0);
+const slices = total > 0 ? languages.map((item) => ({ ...item, percent: (item.bytes / total) * 100 })) : [];
+const shades = ['var(--accent)', 'var(--ink)', 'var(--ink-muted)', 'var(--ink-faint)', 'var(--line-strong)'];
+---
+
+{
+  slices.length > 0 && (
+    <figure class="languages">
+      <div class="bar" role="img" aria-label={slices.map((s) => `${s.name} ${s.percent.toFixed(1)}%`).join('，')}>
+        {slices.map((slice, index) => (
+          <span style={`width:${slice.percent}%;background:${shades[index % shades.length]}`} />
+        ))}
+      </div>
+      <figcaption>
+        {slices.slice(0, 4).map((slice) => (
+          <span class="legend">
+            <i style={`background:${shades[slices.indexOf(slice) % shades.length]}`} />
+            {slice.name} {slice.percent.toFixed(1)}%
+          </span>
+        ))}
+      </figcaption>
+    </figure>
+  )
+}
+
+<style>
+  figure {
+    margin: 0;
+  }
+
+  .bar {
+    display: flex;
+    height: 6px;
+    overflow: hidden;
+    background: var(--line);
+  }
+
+  .bar span {
+    display: block;
+  }
+
+  figcaption {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 16px;
+    margin-top: 10px;
+    color: var(--ink-faint);
+    font-size: 12px;
+  }
+
+  .legend {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  i {
+    width: 8px;
+    height: 8px;
+    display: inline-block;
+  }
+</style>

@@ -1,7 +1,7 @@
 # 把一个产品从草稿发上线：最短路径
 
 > 现状：7 个产品全部是 `draft: true`，所以站点看起来是空的——不是没拉到 GitHub 数据。
-> 数据在 `src/data/github/` 里已经是真实值，只差把内容写完并翻 `draft`。
+> 数据在 `src/data/facts/` 里已经是真实值，只差把内容写完并翻 `draft`。
 > 以 `src/content.config.ts`（schema）和 `src/lib/content-graph.ts`（构建期校验）为准，本文不引入新字段。
 
 ---
@@ -35,7 +35,7 @@ src/content/products/<slug>/index.mdx      ← 只改这个
 不要动的字段（脚手架已按真实数据填好）：
 `name`、`startedAt`、`featured`、`order`、`topics`、`platforms`、`tech`。
 
-**禁止手写**（会直接报错）：`stars`、`forks`、`language`、`license`、`repo`、`pushedAt`、`latestRelease`、`readmeExcerpt` 等自动字段——它们在 `src/data/github/<slug>.json` 里，页面自己读。
+**禁止手写**（会直接报错）：`stars`、`forks`、`language`、`license`、`repo`、`pushedAt`、`latestRelease`、`readmeExcerpt` 等自动字段——它们在 `src/data/facts/<slug>.json` 里，页面自己读。
 
 ### 1.2 正文：替换 5 个 TODO 段 + 删掉草稿提示
 
@@ -70,7 +70,7 @@ npm run preview      # 打开 http://localhost:4321/products/atlas
 只有在**快照缺失/损坏**时才需要第 5 条（正常情况不要跑，会消耗 GitHub 未认证配额 60 次/小时）：
 
 ```powershell
-npm run sync:github   # 重新抓 src/data/github/*.json
+npm run sync:github   # 重新抓 src/data/facts/*.json
 ```
 
 ---
@@ -108,13 +108,13 @@ Get-ChildItem dist -Recurse -File | Select-String -Pattern "TODO：|DRAFT / 草�
 
 | 报错（原文片段） | 原因 | 修法 |
 |---|---|---|
-| `字段 "stars" 由 GitHub 同步维护，请勿手写` | 把自动字段写进了 frontmatter | 删掉该字段；要看值就打开 `src/data/github/<slug>.json` |
+| `字段 "stars" 由 GitHub 同步维护，请勿手写` | 把自动字段写进了 frontmatter | 删掉该字段；要看值就打开 `src/data/facts/<slug>.json` |
 | `status 为 live 时必须声明 links.demo` | `status: live` 但 `links.demo` 为空 | 补 demo URL，或把 `status` 改成 `beta` / `lab` |
 | `status 为 live 时 limitations 至少需要 1 条` | `limitations: []` 但状态是 live/beta | 写至少一条真实限制；写不出来说明还不该标 live/beta |
 | `tagline` / `summary` 超长（`astro check` 报 `Too big: expected string to have <=80 characters`） | 超出 schema 上限 | 分别压到 80 / 160 字以内 |
 | `frontmatter 解析失败` | YAML 写法错，最常见是值里有 ASCII 冒号加空格却没用引号 | 整段用双引号包起来，例如 `tagline: "定位: 一句话"` |
 | `白名单条目 atlas 缺少 src/content/products/atlas/index.mdx` | 目录被删或改名 | `npm run new:drafts` 重新生成草稿骨架，或把目录名改回 slug |
-| `白名单条目 X（x）没有快照` / `快照 … 没有仓库数据` | `src/data/github/x.json` 缺失或抓取失败 | `npm run sync:github`（配额超限时等 UTC 整点后重试） |
+| `白名单条目 X（x）没有快照` / `快照 … 没有仓库数据` | `src/data/facts/x.json` 缺失或抓取失败 | `npm run sync:github`（配额超限时等 UTC 整点后重试） |
 
 `npm run build` 已包含全部检查：`astro check` 管 schema 与长度，构建期断言管关系与字段越权（白名单↔内容↔快照、自动/手写字段）。
 

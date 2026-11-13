@@ -38,7 +38,7 @@ function template(item, repo) {
   return `---
 # 草稿由 scripts/scaffold-projects.mjs 生成。
 # 补全所有 TODO 后把 draft 改为 false，并确认 status / links / limitations。
-# 自动字段（star / 语言 / license / 版本 / 日期 / 链接）由 src/data/github/${item.slug}.json 提供，
+# 自动字段（star / 语言 / license / 版本 / 日期 / 链接）由 src/data/facts/${item.slug}.json 提供，
 # 不要写进这里：构建会把手写自动字段视为错误。
 draft: true
 name: ${JSON.stringify(repo.fullName?.split('/').pop() ?? item.repo)}

@@ -35,7 +35,7 @@ jobs:
           GH_SYNC_TOKEN: ${{ secrets.GH_SYNC_TOKEN || secrets.GITHUB_TOKEN }}
         run: |
           set -o pipefail
-          node scripts/sync-github.mjs | tee "$RUNNER_TEMP/sync-report.md"
+          npm run sync:github | tee "$RUNNER_TEMP/sync-report.md"
 
       - name: 校验构建（快照只读，不联网）
         run: npm run build

@@ -6,7 +6,7 @@
 
 1. 只改 `src/content/`，不改 `src/` 下的代码。
 2. 字段以 `src/content.config.ts` 为准；本说明只是它的翻译。
-3. **不要手写 star、语言、license、版本、日期这类自动字段**——它们来自 `src/data/github/*.json` 快照，手写会让构建失败。
+3. **不要手写 star、语言、license、版本、日期这类自动字段**——它们来自 `src/data/facts/*.json` 快照，手写会让构建失败。
 4. 构建报错时先看冒号前的文件路径，再对照第 6 节。
 
 ## 1. 目录、文件名与 slug
@@ -173,7 +173,7 @@ links:
 | `status 为 beta 时 limitations 至少需要 1 条` | `live` / `beta` 没写限制 | 在 `limitations` 补至少 1 条真实限制 |
 | `产品 "xxx" 下版本 1.0.0 重复` | 同产品下 `version` 重复或不是 `x.y.z` | 每个版本号唯一，严格三段数字 |
 | `所属产品 "xxx" 不存在` / `appliesTo ... 无交集` | 目录名与引用不一致，或文档声明的版本没有对应 release | 检查 `products/` 下的目录名；`post.product` 写目录名；`appliesTo` 与已有版本对齐或删除 |
-| `字段 "stars" 由 GitHub 同步维护` | 把自动字段写进了 frontmatter | 删掉该字段；数据在 `src/data/github/<slug>.json` |
+| `字段 "stars" 由 GitHub 同步维护` | 把自动字段写进了 frontmatter | 删掉该字段；数据在 `src/data/facts/<slug>.json` |
 
 另外几条容易忘：`status: live` 必须有 `links.demo`；同一产品下文档的 `section + order` 不能完全相同；白名单条目必须有快照（先跑 `npm run sync:github`）。
 

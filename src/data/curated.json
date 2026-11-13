@@ -1,12 +1,74 @@
 {
   "owner": "Zoroaaa",
   "items": [
-    { "repo": "Atlas", "slug": "atlas", "featured": true, "order": 10 },
-    { "repo": "it-toolbox", "slug": "it-toolbox", "featured": true, "order": 20 },
-    { "repo": "OmniBox", "slug": "omnibox", "featured": true, "order": 30 },
-    { "repo": "personal-blog", "slug": "personal-blog", "featured": true, "order": 40 },
-    { "repo": "OSSshelf", "slug": "ossshelf", "featured": false, "order": 50 },
-    { "repo": "cf-bestip", "slug": "cf-bestip", "featured": false, "order": 60 },
-    { "repo": "lingbeast", "slug": "lingbeast", "featured": false, "order": 70 }
+    {
+      "repo": "Atlas",
+      "slug": "atlas",
+      "featured": true,
+      "order": 10,
+      "manifests": [
+        "package.json",
+        "backend/package.json",
+        "frontend/package.json",
+        "packages/shared/package.json",
+        "backend/wrangler.toml"
+      ]
+    },
+    {
+      "repo": "it-toolbox",
+      "slug": "it-toolbox",
+      "featured": true,
+      "order": 20,
+      "manifests": ["package.json", "wrangler.toml"]
+    },
+    {
+      "repo": "OmniBox",
+      "slug": "omnibox",
+      "featured": true,
+      "order": 30,
+      "manifests": ["package.json", "wrangler.toml"]
+    },
+    {
+      "repo": "personal-blog",
+      "slug": "personal-blog",
+      "featured": true,
+      "order": 40,
+      "manifests": [
+        "package.json",
+        "backend/package.json",
+        "frontend/package.json",
+        "backend/wrangler.toml",
+        "backend/.env.example",
+        "frontend/.env.example"
+      ]
+    },
+    {
+      "repo": "OSSshelf",
+      "slug": "ossshelf",
+      "featured": false,
+      "order": 50,
+      "manifests": [
+        "package.json",
+        "apps/api/package.json",
+        "apps/web/package.json",
+        "packages/shared/package.json",
+        "apps/api/wrangler.toml",
+        "apps/web/.env.example"
+      ]
+    },
+    {
+      "repo": "cf-bestip",
+      "slug": "cf-bestip",
+      "featured": false,
+      "order": 60,
+      "manifests": ["requirements.txt"]
+    },
+    {
+      "repo": "lingbeast",
+      "slug": "lingbeast",
+      "featured": false,
+      "order": 70,
+      "manifests": ["package.json"]
+    }
   ]
 }

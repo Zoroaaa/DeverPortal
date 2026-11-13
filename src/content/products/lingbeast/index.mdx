@@ -15,10 +15,63 @@ links:
   demo: "https://lingbeast.wort.uk/"
   repo: "https://github.com/Zoroaaa/lingbeast"
 limitations:
-  - "云存档每人只有一份：saves 表以 user_id 为主键，没有多存档槽或历史版本；单次写入上限 100 KB。"
-  - "限流是 Worker 进程内的 Map 计数，不跨 isolate 共享，实例重启后归零；同一 IP 每分钟超过 12 次仍返回 429。"
-  - "账号只有道号加密语：API 只有注册、登录、注销、读存档、写存档和健康检查，没有邮箱、找回密码或改密接口。"
-  - "未登录或接口异常时自动降级为纯本地模式，云端不参与，进度只留在当前浏览器。"
+  - text: "云存档每人只有一份：saves 表以 user_id 为主键，没有多存档槽或历史版本；单次写入上限 100 KB。"
+    impact: med
+    evidence: []
+  - text: "限流是 Worker 进程内的 Map 计数，不跨 isolate 共享，实例重启后归零；同一 IP 每分钟超过 12 次仍返回 429。"
+    impact: med
+    evidence: []
+  - text: "账号只有道号加密语：API 只有注册、登录、注销、读存档、写存档和健康检查，没有邮箱、找回密码或改密接口。"
+    impact: med
+    evidence: []
+  - text: "未登录或接口异常时自动降级为纯本地模式，云端不参与，进度只留在当前浏览器。"
+    impact: med
+    evidence: []
+capabilities:
+  - id: "cap-1"
+    title: "探索"
+    desc: "19 张地图、点击寻路、WASD / 方向键、移动端摇杆、小地图；天时和天气会改五行威力和稀有灵兽出现率。"
+    state: done
+    evidence: []
+  - id: "cap-2"
+    title: "战斗"
+    desc: "回合制按速度排序，3 只队伍可中途换人；五行相克、6 种状态、契势满 100 发动合契；13 场 Boss、4 种 AI 原型、Boss 不可结契；自动战斗和 1x / 2x / 跳过。"
+    state: done
+    evidence: []
+  - id: "cap-3"
+    title: "养成"
+    desc: "62 种灵兽、等级上限 40、4 个随等级解锁的技能、12 种灵诀、28 件灵器与 6 套套装、灵兽栏可升到 5 级。"
+    state: done
+    evidence: []
+  - id: "cap-4"
+    title: "剧情"
+    desc: "12 章主线、63 条支线、3 类悬赏、12 处抉择影响立场与声望、90 条山海志、78 处碑文、8 层山海试炼、两种结局。"
+    state: done
+    evidence: []
+  - id: "cap-5"
+    title: "经济与制作"
+    desc: "5 家商店、14 种材料、16 种道具、16 张配方。"
+    state: done
+    evidence: []
+  - id: "cap-6"
+    title: "存档"
+    desc: "本地 localStorage 优先，登录后每 2 秒防抖推云；冲突时给「本机 / 云端」双版本对比。"
+    state: done
+    evidence: []
+  - id: "cap-7"
+    title: "离线与可访问性"
+    desc: "PWA 缓存、键盘操作、`role=\"dialog\"` 与焦点恢复、大字号、减少动效。"
+    state: done
+    evidence: []
+evidence:
+  - file: "src/index.js"
+  - file: "public/js/main/main-state.js"
+  - file: "schema.sql"
+  - file: "docs/beast-art.md"
+  - file: "docs/ui-guidelines.md"
+  - file: "public/cloud.js"
+  - file: "package.json"
+  - file: "wrangler.jsonc"
 ---
 
 {/* 自动抓取事实（只读参考，删除也不影响页面）：

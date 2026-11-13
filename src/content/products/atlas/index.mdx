@@ -15,9 +15,53 @@ links:
   demo: "https://atlas.wort.uk/"
   repo: "https://github.com/Zoroaaa/Atlas"
 limitations:
-  - "动漫的 nyaa 源因部署环境限制已停用；女优资料源 minnano-av 出现反爬后，改用 JavBus 的搜索接口。"
-  - "全新部署必须按 01 → 19 顺序执行 19 个 D1 迁移脚本，跳序或漏跑会让后续脚本失败。"
-  - "邮件通知有硬配额：每人每天最多 3 封、全站每天最多 90 封，并且和关注检测共用同一个 */30 的定时触发器。"
+  - text: "动漫的 nyaa 源因部署环境限制已停用；女优资料源 minnano-av 出现反爬后，改用 JavBus 的搜索接口。"
+    impact: med
+    evidence: []
+  - text: "全新部署必须按 01 → 19 顺序执行 19 个 D1 迁移脚本，跳序或漏跑会让后续脚本失败。"
+    impact: med
+    evidence: []
+  - text: "邮件通知有硬配额：每人每天最多 3 封、全站每天最多 90 封，并且和关注检测共用同一个 */30 的定时触发器。"
+    impact: med
+    evidence: []
+capabilities:
+  - id: "cap-1"
+    title: "五个类别各自独立接入来源"
+    desc: "JAV（DMM/FANZA + JavBus + JavDB）、动漫（Bangumi / Mikan / ShowRSS）、影视（TMDB / YTS / EZTV / TPB）、漫画（MangaDex + 13 个搜索源）、小说（Anna's Archive / 奇书网 / 知轩藏书）。"
+    state: done
+    evidence: []
+  - id: "cap-2"
+    title: "JAV 有三个子模式"
+    desc: "番号、女优、标题。女优模式会解析资料页，并把中文昵称转成日文再搜。"
+    state: done
+    evidence: []
+  - id: "cap-3"
+    title: "来源本身可在后台管理"
+    desc: "启用/停用、调优先级、看可用性；用户也可以固定常用来源，缓存键会把被停用的来源算进去。"
+    state: done
+    evidence: []
+  - id: "cap-4"
+    title: "社区内容分六类（含女优），必须先过审核才展示。"
+    desc: ""
+    state: done
+    evidence: []
+  - id: "cap-5"
+    title: "PWA"
+    desc: "可安装、有离线兜底、更新要用户确认后才生效。"
+    state: done
+    evidence: []
+  - id: "cap-6"
+    title: "JAV 详情页有「在线播放平台选择」入口（独立一行，不占详情头部；commit "
+    desc: ""
+    state: done
+    evidence: []
+evidence:
+  - file: "README.md"
+  - file: "docs/CHANGELOG.md"
+  - file: "docs/config.md"
+  - file: "docs/deploy.md"
+  - file: "backend/wrangler.toml"
+  - file: "README.zh-CN.md"
 ---
 
 ## 是什么
