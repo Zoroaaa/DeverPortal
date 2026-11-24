@@ -3,7 +3,7 @@
   "slug": "atlas",
   "owner": "Zoroaaa",
   "repo": "Atlas",
-  "fetchedAt": "2026-11-24T03:25:59.836Z",
+  "fetchedAt": "2026-11-24T11:57:09.494Z",
   "etag": null,
   "readmeEtag": "\"6010c05eed95c1b4d3e2ee04e4399ed6bad2fd58\"",
   "stale": false,
@@ -16,7 +16,7 @@
     "description": "Atlas 将多个资源站点的结果按 JAV、动漫、影视、漫画、小说五类整理。登录后，搜索历史、收藏、关注与通知都保存在同一个账号里。",
     "homepage": "https://atlas.wort.uk/",
     "stars": 139,
-    "forks": 27,
+    "forks": 28,
     "openIssues": 0,
     "openPRs": 0,
     "language": "TypeScript",
@@ -338,7 +338,7 @@
     "docs/deploy.md": true
   },
   "releases": {
-    "fetchedAt": "2026-11-24T03:25:59.836Z",
+    "fetchedAt": "2026-11-24T11:57:09.494Z",
     "etag": null,
     "stale": false,
     "error": null,

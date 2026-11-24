@@ -3,7 +3,7 @@
   "slug": "ossshelf",
   "owner": "Zoroaaa",
   "repo": "OSSshelf",
-  "fetchedAt": "2026-11-24T03:25:59.836Z",
+  "fetchedAt": "2026-11-24T11:57:09.494Z",
   "etag": null,
   "readmeEtag": "\"42397cb02bb1821441ed5b24ff3cf5449e25147a\"",
   "stale": false,
@@ -36,15 +36,15 @@
     ],
     "defaultBranch": "main",
     "readmeExcerpt": "🗄️ OSSshelf 基于 Cloudflare 的智能文件管理平台 文件管理 · AI 智能助手 · 多存储支持 · 在线预览 · 文件分享 · WebDAV · 权限管理 功能特性 • 快速开始 • 部署指南 • API文档 --- 🔗 快速访问 | 资源类型 | 链接 | 备注 | | ----------- | ------------------------------------------------ | ------------------------ | | 📖 项目文档 | 👉 完整介绍 | 详细的项目说明和使用指南 | |…",
-    "commitCount": 93,
+    "commitCount": 96,
     "languages": [
       {
         "name": "TypeScript",
-        "bytes": 4114485
+        "bytes": 4425292
       },
       {
         "name": "JavaScript",
-        "bytes": 1312128
+        "bytes": 1312413
       },
       {
         "name": "CSS",
@@ -375,12 +375,12 @@
     0,
     0,
     0,
+    1,
+    4,
     3,
-    3,
-    7,
-    3,
-    3,
-    0,
+    6,
+    4,
+    1,
     0,
     0,
     0,
@@ -388,6 +388,7 @@
     0,
     0,
     3,
+    0,
     0,
     1,
     0,
@@ -407,11 +408,10 @@
     0,
     0,
     0,
-    20,
+    26,
+    14,
     7,
-    20,
-    2,
-    21
+    26
   ],
   "evidence": {
     ".github/workflows/deploy-api.yml": true,
@@ -437,7 +437,7 @@
     "pnpm-workspace.yaml": true
   },
   "releases": {
-    "fetchedAt": "2026-11-24T03:25:59.836Z",
+    "fetchedAt": "2026-11-24T11:57:09.494Z",
     "etag": null,
     "stale": false,
     "error": null,
