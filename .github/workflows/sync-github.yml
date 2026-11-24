@@ -24,7 +24,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version-file: .nvmrc
           cache: npm
 
       - run: npm ci
@@ -43,12 +43,12 @@ jobs:
       - name: 无变更则结束
         id: diff
         run: |
-          if git diff --quiet -- src/data/github; then
+          if git diff --quiet -- src/data/facts; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
             echo "快照无变化，不提交。"
           else
             echo "changed=true" >> "$GITHUB_OUTPUT"
-            git diff --stat -- src/data/github
+            git diff --stat -- src/data/facts
           fi
 
       - name: 提交并推送 main
@@ -58,7 +58,7 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add src/data/github
+          git add src/data/facts
           git commit -m "chore: 同步 GitHub 项目数据"
           # 先 rebase 到最新 main，避免和人工提交撞车；冲突会让本步骤失败而不是静默跳过
           git pull --rebase origin main
