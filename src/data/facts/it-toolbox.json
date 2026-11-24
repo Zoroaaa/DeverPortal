@@ -3,7 +3,7 @@
   "slug": "it-toolbox",
   "owner": "Zoroaaa",
   "repo": "it-toolbox",
-  "fetchedAt": "2026-11-13T06:53:16.075Z",
+  "fetchedAt": "2026-11-24T03:25:59.836Z",
   "etag": null,
   "readmeEtag": "\"43a680bffed90d3f13d49dd182d537e0197a7e2a\"",
   "stale": false,
@@ -15,8 +15,8 @@
     "url": "https://github.com/Zoroaaa/it-toolbox",
     "description": "IT Toolbox 是一款基于 Cloudflare Pages Functions 全栈部署的面向开发者的在线工具箱，集成 140+ 高频开发工具，覆盖格式化、编码解码、加密哈希、网络查询、文本处理、颜色设计等多个类别。",
     "homepage": "https://ittool.wort.uk",
-    "stars": 142,
-    "forks": 98,
+    "stars": 146,
+    "forks": 99,
     "openIssues": 1,
     "openPRs": 0,
     "language": "TypeScript",
@@ -418,8 +418,6 @@
     0,
     0,
     0,
-    0,
-    0,
     2,
     36,
     1,
@@ -454,7 +452,9 @@
     0,
     0,
     19,
-    1
+    1,
+    0,
+    0
   ],
   "evidence": {
     "README.md": true,
@@ -470,7 +470,7 @@
     "wrangler.toml": true
   },
   "releases": {
-    "fetchedAt": "2026-11-13T06:53:16.075Z",
+    "fetchedAt": "2026-11-24T03:25:59.836Z",
     "etag": null,
     "stale": false,
     "error": null,

@@ -3,9 +3,9 @@
   "slug": "ossshelf",
   "owner": "Zoroaaa",
   "repo": "OSSshelf",
-  "fetchedAt": "2026-11-13T06:53:16.075Z",
+  "fetchedAt": "2026-11-24T03:25:59.836Z",
   "etag": null,
-  "readmeEtag": "\"5f1097c1d8fbdec28e6b298823a19aa4256735e8\"",
+  "readmeEtag": "\"42397cb02bb1821441ed5b24ff3cf5449e25147a\"",
   "stale": false,
   "error": null,
   "missing": false,
@@ -15,14 +15,14 @@
     "url": "https://github.com/Zoroaaa/OSSshelf",
     "description": "基于 Cloudflare 的智能文件管理平台。支持：文件管理 · AI 智能助手 · 多存储支持 · 在线预览 · 文件分享 · WebDAV · 权限管理",
     "homepage": "",
-    "stars": 7,
-    "forks": 6,
+    "stars": 8,
+    "forks": 7,
     "openIssues": 0,
     "openPRs": 0,
     "language": "TypeScript",
     "license": "MIT",
     "createdAt": "2026-03-15",
-    "pushedAt": "2026-11-12",
+    "pushedAt": "2026-11-24",
     "archived": false,
     "fork": false,
     "topics": [
@@ -36,23 +36,23 @@
     ],
     "defaultBranch": "main",
     "readmeExcerpt": "🗄️ OSSshelf 基于 Cloudflare 的智能文件管理平台 文件管理 · AI 智能助手 · 多存储支持 · 在线预览 · 文件分享 · WebDAV · 权限管理 功能特性 • 快速开始 • 部署指南 • API文档 --- 🔗 快速访问 | 资源类型 | 链接 | 备注 | | ----------- | ------------------------------------------------ | ------------------------ | | 📖 项目文档 | 👉 完整介绍 | 详细的项目说明和使用指南 | |…",
-    "commitCount": 589,
+    "commitCount": 93,
     "languages": [
       {
         "name": "TypeScript",
-        "bytes": 3949800
+        "bytes": 4114485
       },
       {
         "name": "JavaScript",
-        "bytes": 1279980
+        "bytes": 1312128
       },
       {
         "name": "CSS",
-        "bytes": 9011
+        "bytes": 9955
       },
       {
         "name": "HTML",
-        "bytes": 4021
+        "bytes": 5541
       }
     ],
     "techDeps": [
@@ -78,6 +78,10 @@
       },
       {
         "name": "@cloudflare/workers-types",
+        "scope": "dev"
+      },
+      {
+        "name": "@eslint/js",
         "scope": "dev"
       },
       {
@@ -117,6 +121,14 @@
         "scope": "prod"
       },
       {
+        "name": "@testing-library/dom",
+        "scope": "dev"
+      },
+      {
+        "name": "@testing-library/react",
+        "scope": "dev"
+      },
+      {
         "name": "@types/node",
         "scope": "dev"
       },
@@ -130,14 +142,6 @@
       },
       {
         "name": "@types/react-dom",
-        "scope": "dev"
-      },
-      {
-        "name": "@typescript-eslint/eslint-plugin",
-        "scope": "dev"
-      },
-      {
-        "name": "@typescript-eslint/parser",
         "scope": "dev"
       },
       {
@@ -193,15 +197,15 @@
         "scope": "dev"
       },
       {
-        "name": "eslint-plugin-prettier",
-        "scope": "dev"
-      },
-      {
         "name": "eslint-plugin-react-hooks",
         "scope": "dev"
       },
       {
-        "name": "eslint-plugin-react-refresh",
+        "name": "exceljs",
+        "scope": "prod"
+      },
+      {
+        "name": "globals",
         "scope": "dev"
       },
       {
@@ -211,6 +215,10 @@
       {
         "name": "hono",
         "scope": "prod"
+      },
+      {
+        "name": "jsdom",
+        "scope": "dev"
       },
       {
         "name": "jszip",
@@ -305,6 +313,10 @@
         "scope": "dev"
       },
       {
+        "name": "typescript-eslint",
+        "scope": "dev"
+      },
+      {
         "name": "vite",
         "scope": "dev"
       },
@@ -315,14 +327,6 @@
       {
         "name": "wrangler",
         "scope": "dev"
-      },
-      {
-        "name": "x-data-spreadsheet",
-        "scope": "prod"
-      },
-      {
-        "name": "xlsx",
-        "scope": "prod"
       },
       {
         "name": "zod",
@@ -371,21 +375,19 @@
     0,
     0,
     0,
-    0,
-    0,
-    169,
-    57,
-    107,
-    104,
-    77,
-    0,
+    3,
+    3,
+    7,
+    3,
+    3,
     0,
     0,
     0,
     0,
     0,
-    8,
-    19,
+    0,
+    0,
+    3,
     0,
     1,
     0,
@@ -406,8 +408,10 @@
     0,
     0,
     20,
-    9,
-    17
+    7,
+    20,
+    2,
+    21
   ],
   "evidence": {
     ".github/workflows/deploy-api.yml": true,
@@ -433,7 +437,7 @@
     "pnpm-workspace.yaml": true
   },
   "releases": {
-    "fetchedAt": "2026-11-13T06:53:16.075Z",
+    "fetchedAt": "2026-11-24T03:25:59.836Z",
     "etag": null,
     "stale": false,
     "error": null,
@@ -449,7 +453,7 @@
         "source": "release",
         "body": "### Added - Cloudflare Agents SDK 运行时 🧠\n\n- **Agent 运行时迁移**：AI 会话改由 `@cloudflare/ai-chat` 的 `AIChatAgent`（Durable Object）承载，支持断线续传、多端同步与审批后同轮继续；旧 AgentEngine、RAG 引擎、SSE 链路、熔断器与工具选择器全部移除\n- **模型调用层统一**：新增 `lib/ai/modelRuntime.ts`，Agent 与后台功能统一走 AI SDK provider（Workers AI / OpenAI 兼容 / Anthropic）；Workers AI 视觉模型改走原生 `{ image, prompt }` 输入\n- **供应商连接重构**：接入 models.dev 运行时模型快照，供应商连接支持自定义视觉模型能力筛选\n- **真实用量与配额**：每次调用写入 `ai_usage_events`，新增日配额与分钟限流（`ai.quota.*`、`ai.rate.*`），会话头部支持模型切换\n- **检索增强**：分块正文落 `file_chunks`，新增 FTS5 关键词召回、可选 rerank 与 `search_content` 工具\n- **任务队列**：移除 KV 并发锁，改由 Queue `max_concurrency`；`ai_task_items` 提供逐文件幂等与真续跑；`agent_batch` 走 fileService\n- **配置迁移**：功能级模型配置从 KV 迁入 `ai_feature_config`（首次读取自动迁移）\n- **前端**：`useOssShelfChat`（`useAgent` + `useAgentChat`）、`agentMessages` 映射、用量统计 Tab\n\n#### Fixed（运行时相关）\n\n- **视觉模型返回空**：Workers AI 视觉调用改为原生 image/prompt，视觉调用直接使用已配置模型，能力字段仅用于 UI 筛选\n- **无效模型 ID 与目录截断**：修正 models.dev 快照解析，避免模型目录截断导致不可用\n- **Vectorize 限流**：写入增加退避重试，放宽队列重试\n- **D1 绑定参数上限**：任务项、文件分块与批量删除按批拆分，修复 `too many SQL variables`\n- **文件夹路径与会话文件引用**：修正文件夹路径解析，`@` 引用文件优先处理\n- **长请求超时**：客户端超时提升至 150 秒\n\n### Changed - 工程与部署\n\n- CI 部署改用 Node 22 匹配 Wrangler 4；移除自动 D1 迁移，生产 schema 变更改为人工执行\n- 修复迁移脚本 `060` 缺少 `category` 非空字段，以及 `d1 migrations apply` 不支持 `--yes` 的问题\n- WebSocket 使用 `VITE_API_URL` 域名，并开启 Agent 路由 CORS\n- 统一 LF 行尾并应用 Prettier；清理各模块未引用代码与死导出\n- 团队空间文件夹赋权与存储统计优化\n\n### Fixed - AI 会话链路全面修复 🛠️\n\n本次修复聚焦 Agents SDK 迁移后遗留的协议断层：旧确认/计划/来源/中断/上下文链路仍在 UI 与工具定义中，但新运行时不再产生或消费，导致\"看起来有功能、实际不生效\"。\n\n#### Critical（功能失效）\n\n- **写操作审批缺口**：`WRITE_TOOLS` 中的 `create_share` / `update_share` / `write_note` 与实际工具名不一致，导致 `create_share_link` / `update_share_settings` / `add_note` 绕过确认直接执行；已重写集合并补充契约测试\n- **草稿创建死循环**：`draft_and_create_file` 先走 `needsApproval`，执行时又因缺少 `_confirmed` 返回\"待确认\"，文件永远无法创建；已移除旧确认分支\n- **`_confirmed` 参数冲突**：删除文件/批量删除/撤销权限/撤销直链/恢复版本的 schema 仍要求 `_confirmed`，模型漏传即校验失败；已在工具适配层统一剥离，并在系统提示词中移除相关说明\n- **`@` 文件引用 / 文件夹上下文无效**：`contextFileIds` / `contextFolderId` 此前只写入审计表；现已注入 system prompt，引用文件优先处理\n- **错误全静默**：连接、换票、模型、工具错误均无 UI；现新增错误条与重试入口，并暴露连接/恢复状态\n- **消息时间失真**：每条消息渲染时重新 `new Date()`；服务端现写入 `metadata.createdAt`，前端读取\n- **中断状态丢失**：`aborted` 标记未写入；现由服务端写入 metadata，UI 显示\"输出已中断 + 重新生成\"\n- **历史工具卡片丢失**：审计种子只恢复 reasoning+text，且助手审计使用随机 id；现复用 DO message.id 并以 upsert 镜像，历史恢复包含工具调用\n- **删除会话残留**：删除只清 D1，Durable Object 仍保留消息；现先调用 `resetConversation()` 清理\n- **无上下文 Token 预算**：`ai.agent.max_context_tokens` 配置未生效；现按预算裁剪历史消息\n\n#### Added（补齐已宣称能力）\n\n- **跨会话记忆**：对话开始时召回相关记忆注入 system；完成后节流提取（每 4 条消息一次）\n- **执行计划**：新增 `update_plan` 工具，复杂任务先出计划，前端渲染进度条\n- **来源引用**：从搜索类工具结果派生\"参考文件\"chips\n- **Diff 预览**：审批前由前端复算 edit/append/find_replace 的变更预览\n- **对话导出**：`GET /api/ai-chat/sessions/:id/export` 导出 Markdown\n- **自动标题**：首轮完成后 `POST /api/ai-chat/sessions/:id/title` 生成 8-24 字标题\n- **模型切换**：会话头部选择模型，随消息 body 下发\n- **工具裁剪**：分享/权限/存储/系统管理类工具按关键词注入，降低 schema token 与误选\n\n#### Changed（UI / 交互）\n\n- AI 会话页按全站 design token 重构：移除大面积渐变与重阴影，工具调用降噪为单行活动卡\n- 安装 `tailwindcss-animate`，修复此前全部失效的 `animate-in` / `slide-in-from-*` 动画\n- 引入 `highlight.js/styles/github-dark.css`，聊天与预览的代码高亮生效\n- 移动端：头部/输入区安全区适配、会话抽屉、长按引用\n- `@` 下拉补齐键盘导航、300ms 防抖、空查询不请求\n- 流式期间输入框可编辑；新增\"回到最新\"按钮；代码块复制修复\n- 删除会话增加二次确认；会话列表支持搜索与日期分组\n\n#### Docs\n\n- README / AI_FEATURES 修正\"PDF 导出\"、SSE 计划推送、`_confirmed` 等与实现不符的描述",
         "stats": {
-          "commits": 36,
+          "commits": 29,
           "filesChanged": 193,
           "additions": null,
           "deletions": null
@@ -465,7 +469,7 @@
         "source": "release",
         "body": "### Added - 团队共享工作空间 🖥️\n\n本次版本核心亮点：团队协作从「资源挂载」模式升级为**完整的共享工作空间（Workspace）**，新增邀请机制、活动流、团队自有文件、存储配额等能力。\n\n---\n\n#### 核心新功能（一）：团队邀请机制\n\n- **邀请链接系统**：\n  - 管理员可创建邀请链接，支持设置角色（member/guest）、有效期（1-30天）、欢迎语\n  - 支持指定邮箱邀请（可追踪受邀人）\n  - 生成短码分享链接（如 `/invite/code/ABC123`）\n  - 邀请状态管理：pending → accepted / expired / revoked\n  - 邀请接受页面（`/accept-invite`），未登录用户也可查看邀请详情\n\n- **邀请记录查看**：\n  - 新增 `GET /api/teams/:id/invites/all` 端点，支持 `?status=` 状态筛选\n  - 所有团队成员可查看邀请记录（含接受者信息、时间等详情）\n  - TeamInviteRecords 组件：状态 Tab 切换 / 统计信息 / 管理员可撤销待定邀请\n  - 集成至团队详情页「邀请记录」Tab\n\n- **邀请 API（9 个端点）**：\n\n| 方法   | 路径                                   | 功能               |\n| ------ | -------------------------------------- | ------------------ |\n| GET    | `/api/invite/:token`                   | 查询邀请详情       |\n| GET    | `/api/invite/code/:code`               | 通过短码查询       |\n| POST   | `/api/invite/:token/accept`            | 接受邀请（需登录） |\n| POST   | `/api/teams/:id/invites`               | 创建邀请链接       |\n| GET    | `/api/teams/:id/invites`               | 列出待定邀请       |\n| DELETE | `/api/teams/:id/invites/:inviteId`     | 撤销邀请           |\n| POST   | `/api/teams/:id/invites/:token/accept` | API内接受邀请      |\n\n#### 核心新功能（二）：团队工作区文件系统\n\n- **团队自有文件**：\n  - `files` 表新增 `team_id` 字段，支持文件直接归属团队\n  - 工作区内可直接新建文件夹、上传文件\n  - 文件路径前缀 `/teams/{teamId}/`，与个人文件隔离\n\n- **挂载资源增强**：\n  - `team_resources` 表新增 `target_folder_id`，支持将资源挂载到指定子目录\n  - 挂载时自动创建团队级 `file_permissions`（默认 read）\n  - 卸载时同步清理关联权限记录\n\n- **工作区文件浏览 API**：\n\n| 方法 | 路径                                 | 功能                      |\n| ---- | ------------------------------------ | ------------------------- |\n| GET  | `/api/teams/:id/workspace/files`     | 获取挂载资源文件列表      |\n| GET  | `/api/teams/:id/workspace/all-files` | 获取全部文件（挂载+自有） |\n| POST | `/api/teams/:id/workspace/folder`    | 在工作区新建文件夹        |\n\n#### 核心新功能（三）：团队活动流\n\n- **活动记录系统**：\n  - 新增 `team_activities` 表，记录团队内所有关键操作\n  - 自动记录：团队创建/设置变更、成员加入/离开/角色变更、文件挂载/卸载/上传\n  - 活动时间线 API：支持分页、按团队/用户/动作类型筛选\n\n| 方法 | 路径                        | 功能               |\n| ---- | --------------------------- | ------------------ |\n| GET  | `/api/teams/:id/activities` | 获取团队活动时间线 |\n\n#### 核心新功能（四）：团队存储配额\n\n- **存储管理**：\n  - `teams` 表新增 `storage_quota`（默认 5GB）和 `storage_used` 字段\n  - 创建团队时可配置存储配额（50MB ~ 1TB）\n  - 支持 `default_member_role` 配置新成员默认角色\n  - 存储统计 API：聚合团队自有文件 + 挂载资源大小\n\n| 方法 | 路径                     | 功能             |\n| ---- | ------------------------ | ---------------- |\n| GET  | `/api/teams/:id/storage` | 获取团队存储统计 |\n\n#### 核心新功能（五）：前端工作区完整 UI\n\n- **TeamWorkspace 组件重构**（+900 行）：\n  - 双视图模式：列表视图 / 网格视图切换\n  - 文件排序：按名称/大小/日期升降序\n  - 分页浏览：可配置每页数量\n  - 权限标识：每个文件显示当前用户的权限级别 Badge\n  - 挂载区分：挂载资源显示「挂载」标签（琥珀色）\n  - 上传进度条：实时显示多文件上传进度\n  - 右键菜单：预览/下载/重命名/卸载（挂载资源）/删除（自有文件）\n  - 双击文件夹进入、双击文件预览\n  - 多选批量操作：全选/批量下载/批量删除\n  - Tab 切换：「文件」|「活动」\n\n- **TeamInviteDialog**：邀请创建对话框（角色/邮箱/有效期/消息配置）\n- **TeamInviteRecords**：邀请记录管理组件（状态筛选/详情展示/撤销操作）\n- **TeamActivityFeed**：活动流时间线展示组件\n- **TeamStorageBar**：团队存储空间使用量可视化条\n- **AcceptInvite 页面**：独立的邀请接受落地页（支持路由懒加载）\n\n### Improved - 权限系统增强 🔐\n\n- **缓存粒度优化**\n  - 缓存 Key 从 `perm:{fileId}:{userId}` 升级为 `perm:{fileId}:{userId}:{requiredLevel}`\n  - 不同权限级别独立缓存，避免权限升级后旧缓存返回错误结果\n\n- **KV 缓存清理分页**\n  - `invalidatePermissionCacheForUser()` 支持 KV list 分页遍历\n  - 解决大量权限缓存时单次 list 无法删除完全的问题\n\n- **安全边界加固**\n  - `batchGrantPermissions` / `batchRevokePermissions` 增加操作者所有者校验\n  - `grantWithRoleTemplate` 增加所有者验证，防止非所有者越权授权\n  - 成员/组移除时自动失效目标用户权限缓存\n  - 团队删除时级联清理 team 维度权限记录并失效缓存\n\n- **Bug 修复**\n  - `setFolderAccessLevel` 修复未写入 `access_level` 字段的 bug\n  - `inheritParentPermissions` 补充 `teamId` 字段传递\n  - `checkFilePermission` 移除冗余的 fallback 分支，统一走 `resolveEffectivePermission`\n  - `listPermissionRequests` 返回准确的 `total` 计数值（替代 items.length）\n\n### Changed - AI 模块优化 🤖\n\n- **工具集精简**\n  - 移除 `copy_file` 工具（与 v2.6.0 移除复制功能保持一致）\n  - 新增 `batch_move` / `batch_delete` 到 WRITE_TOOLS 集合\n  - `grant_permission` 工具支持通过 `targetEmail` 参数查找用户授权\n\n- **代码质量提升**\n  - `estimateTokens()` 从 agentEngine.ts / ragEngine.ts 提取至 `ai/utils.ts` 统一导出\n  - WorkersAI adapter 修复 tools 参数格式（stripNestedObjectArrays 处理）\n  - `generateImageTags()` 增加 mimeType 校验，防止非图片文件被错误处理\n  - `extractThink",
         "stats": {
-          "commits": 12,
+          "commits": 1,
           "filesChanged": 106,
           "additions": null,
           "deletions": null
@@ -481,7 +485,7 @@
         "source": "release",
         "body": "### Added - 团队协作能力全面升级 🏆\n\n本次版本为 **重大架构升级**，核心亮点是权限管理系统从「个人中心」模式升级为「团队协作」模式，同时整合了 v2.7.0 以来所有中间版本的优化更新。\n\n---\n\n#### 核心新功能（一）：团队空间（Team Workspace）\n\n- **新增团队实体**：创建独立的工作空间，作为团队协作的组织单元\n  - 团队 CRUD：创建、查看、更新、删除\n  - 自动角色分配：创建者成为 `owner`，可邀请成员并分配角色\n\n- **团队成员管理**：\n  - 四级角色体系：`owner`（全部管理权）→ `admin`（成员/资源/权限管理）→ `member`（访问资源）→ `guest`（仅被授权资源）\n  - 成员添加/移除/角色变更，含完整的权限校验\n  - 防止误操作：不能移除 owner、admin 不能移除 admin、用户可自行退出\n\n- **团队资源挂载**：\n  - 将个人文件/文件夹挂载到团队空间，使团队成员可基于团队权限访问\n  - 挂载/卸载操作，含文件存在性和权限校验\n  - 防重复挂载机制\n\n#### 核心新功能（二）：角色模板与快速授权\n\n- **内置三种角色模板**：\n\n  | 模板      | 权限  | 说明                       |\n  | --------- | ----- | -------------------------- |\n  | `viewer`  | read  | 可查看和下载               |\n  | `editor`  | write | 可上传、修改、删除、重命名 |\n  | `manager` | admin | 可管理权限并可再授权       |\n\n- 授权时选择角色模板替代手动设置 read/write/admin，一键完成授权\n- 权限对话框 UI 重构为三卡片选择器，直观展示各模板能力范围\n\n#### 核心新功能（三）：权限申请与审批工作流\n\n- **申请端**：成员对无权访问的文件发起访问申请\n  - 选择申请的权限级别（只读/读写/管理）\n  - 填写申请原因（可选）\n  - 指定目标团队（可选）\n- **审批端**：文件所有者或团队 admin 收到待审批列表\n  - 批准 → 自动授予权限 + 通知申请人\n  - 拒绝 → 记录拒绝原因 + 通知申请人\n  - 防重复申请（同一文件 pending 状态不重复创建）\n- **查询端**：「我的申请」+「待审批」双视图\n\n#### 核心新功能（四）：批量权限操作\n\n- 支持对多个文件一次性授权给用户/组/团队角色\n- 支持批量撤销权限\n- 返回成功/失败统计，便于排查问题\n- 前端支持多选文件时的批量操作模式\n\n#### 核心新功能（五）：权限解析器 Team 维度扩展\n\n- 解析链升级为 **8 级优先级**：\n  ```\n  owner > explicit(user) > explicit(group) > explicit(team)\n    > inherited(user) > inherited(group) > inherited(team) > no access\n  ```\n- 新增 `resolveTeamDefaultPermission()` — 基于团队成员角色的默认访问权限映射\n- 缓存机制兼容 team 维度，成员变更时自动失效相关缓存\n\n---\n\n### Added - 标签统一管理系统 🏷️\n\n**v2.7.0 ~ v3.0.0 中间版本累积更新**\n\n- **全局标签管理页面** (`/tags`)\n  - 标签列表展示（名称、使用次数、关联文件数）\n  - 标签合并：将重复或相似的标签合并为一个\n  - 标签重命名：批量修改标签名称\n  - 标签批量删除\n  - 标签搜索与筛选\n\n- **标签功能增强**\n  - AI 设置页面集成标签管理入口\n  - 文件详情面板标签展示优化\n  - 标签 API 扩展（合并/重命名/统计）\n\n### Added - 存储审计系统 📊\n\n- **存储审计功能**\n  - 存储使用量趋势分析\n  - 大文件排行 Top N\n  - 文件类型分布统计\n  - 用户配额使用情况\n  - 审计日志记录关键操作\n\n### Changed - 分页系统增强 📄\n\n- **页码分页功能**\n  - 文件列表支持页码分页（替代原有无限滚动）\n  - 分页参数标准化（page, limit）\n  - 后端 SQL 层分页，消除 D1 1000 行截断问题\n  - 前端分页组件统一\n\n### Improved - 架构与工程优化 ⚡\n\n- **API 服务层重构**\n  - `api.ts` 拆分为模块化服务（`core.ts`, `storage.ts`, `admin.ts`, `ai.ts`, `collab.ts`）\n  - API Client 统一封装，类型安全增强\n  - 错误处理和重试机制完善\n\n- **前端服务层扩展**\n  - `collab.ts` 大幅扩展（+422 行），覆盖分享、权限、群组、团队、角色模板、权限申请等全量协作 API\n  - 新增 `api-client.ts` 统一 HTTP 客户端\n  - 新增 `api-keys.ts` API 密钥管理服务\n  - `presignUpload.ts` 预签名上传优化\n\n- **AI 服务层增强**\n  - `ai.ts` 服务层重构（+609 行），AI 对话流程优化\n  - 流式输出稳定性提升（中断恢复、内容保留）\n  - AI 设置页面功能扩展（记忆管理等）\n\n- **文档更新**\n  - `architecture.md` 新增架构说明\n  - `AI_FEATURES.md` / `API_AI.md` / `api.md` 同步更新至最新\n  - 移除过时的 `osshelf-ai-enhancement-plan.md`\n\n---\n\n### Database Changes\n\n**新增迁移文件 `100_team_collaboration.sql`：**\n\n| 表名                    | 用途              | 关键字段                                       |\n| ----------------------- | ----------------- | ---------------------------------------------- |\n| `teams`                 | 团队实体          | id, owner_id, name, description, settings      |\n| `team_members`          | 团队成员          | id, team_id, user_id, role, added_by           |\n| `team_resources`        | 团队资源挂载      | id, team_id, file_id, mounted_by               |\n| `permission_requests`   | 权限申请          | id, file_id, requester_id, status, reviewed_by |\n| `role_templates`        | 角色模板          | id, name, slug, permissions, is_builtin        |\n| `file_permissions` 扩展 | 新增 team_id 字段 | 支持 subjectType='team' 的权限记录             |\n\n**内置角色模板数据：**\n\n- `rt-viewer` (查看者): [\"read\"]\n- `rt-editor` (编辑者): [\"read\", \"write\"]\n- `rt-manager` (管理者): [\"read\", \"write\", \"admin\"]\n\n---\n\n### New Files\n\n**后端（12 个新文件）：**\n\n```\napps/api/\n├── migrations/100_team_collaboration.sql          # 数据库迁移\n└── src/\n    ├── lib/teamService.ts                           # 团队管理服务（CRUD + 成员 + 资源挂载）\n    └── routes/teams.ts                              # 团队 API 路由（12 个端点）\n```\n\n**前端（11 个新文件）：**\n\n```\napps/web/src/\n├── pages/Teams.tsx                                  # 团队管理页面\n├── components/teams/                                # 团队组件（6 个文件）\n│   ├── index.ts\n│   ├── TeamList.tsx\n│   ├── TeamCreateDialog.tsx\n│   ├── TeamDetail.tsx\n│   ├── TeamMemberDialog.tsx\n│   └── TeamResourceMountDialog.tsx\n├── compon",
         "stats": {
-          "commits": 37,
+          "commits": 1,
           "filesChanged": 128,
           "additions": null,
           "deletions": null

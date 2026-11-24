@@ -3,9 +3,9 @@
   "slug": "atlas",
   "owner": "Zoroaaa",
   "repo": "Atlas",
-  "fetchedAt": "2026-11-13T06:51:41.866Z",
+  "fetchedAt": "2026-11-24T03:25:59.836Z",
   "etag": null,
-  "readmeEtag": "\"62627f6f6c491cf8bf84df5de4eb706e010b7ba9\"",
+  "readmeEtag": "\"6010c05eed95c1b4d3e2ee04e4399ed6bad2fd58\"",
   "stale": false,
   "error": null,
   "missing": false,
@@ -13,16 +13,16 @@
     "id": null,
     "fullName": "Zoroaaa/Atlas",
     "url": "https://github.com/Zoroaaa/Atlas",
-    "description": "开源聚合搜索引擎 — JAV / 动漫 / 影视 / 漫画/小说，一站式搜索",
+    "description": "Atlas 将多个资源站点的结果按 JAV、动漫、影视、漫画、小说五类整理。登录后，搜索历史、收藏、关注与通知都保存在同一个账号里。",
     "homepage": "https://atlas.wort.uk/",
-    "stars": 92,
-    "forks": 17,
+    "stars": 139,
+    "forks": 27,
     "openIssues": 0,
     "openPRs": 0,
     "language": "TypeScript",
     "license": "MIT",
     "createdAt": "2025-08-11",
-    "pushedAt": "2026-11-13",
+    "pushedAt": "2026-11-24",
     "archived": false,
     "fork": false,
     "topics": [
@@ -38,26 +38,54 @@
     ],
     "defaultBranch": "main",
     "readmeExcerpt": "Atlas An open-source search engine that aggregates content across categories — JAV, anime, movies, comics, and novels, all in one place. This repository contains both English and Chinese documentation. English — this file is the English README. 中文（简体） — 查看中文 README Table of Conte…",
-    "commitCount": 477,
+    "commitCount": 134,
     "languages": [
       {
         "name": "TypeScript",
-        "bytes": 2985543
-      },
-      {
-        "name": "CSS",
-        "bytes": 34931
+        "bytes": 3831647
       },
       {
         "name": "JavaScript",
-        "bytes": 31659
+        "bytes": 89787
+      },
+      {
+        "name": "CSS",
+        "bytes": 36482
       },
       {
         "name": "HTML",
-        "bytes": 24384
+        "bytes": 27863
+      },
+      {
+        "name": "PowerShell",
+        "bytes": 2655
       }
     ],
     "techDeps": [
+      {
+        "name": "@capacitor/app",
+        "scope": "prod"
+      },
+      {
+        "name": "@capacitor/browser",
+        "scope": "prod"
+      },
+      {
+        "name": "@capacitor/core",
+        "scope": "prod"
+      },
+      {
+        "name": "@capacitor/haptics",
+        "scope": "prod"
+      },
+      {
+        "name": "@capacitor/splash-screen",
+        "scope": "prod"
+      },
+      {
+        "name": "@capacitor/status-bar",
+        "scope": "prod"
+      },
       {
         "name": "@cloudflare/workers-types",
         "scope": "dev"
@@ -69,6 +97,14 @@
       {
         "name": "@eslint/js",
         "scope": "dev"
+      },
+      {
+        "name": "@fontsource-variable/plus-jakarta-sans",
+        "scope": "prod"
+      },
+      {
+        "name": "@fontsource-variable/sora",
+        "scope": "prod"
       },
       {
         "name": "@tailwindcss/vite",
@@ -232,7 +268,7 @@
     "cloudflare": {
       "d1": true,
       "kv": false,
-      "r2": false,
+      "r2": true,
       "vectorize": false,
       "ai": true,
       "queues": false,
@@ -255,43 +291,43 @@
     0,
     0,
     0,
+    1,
     0,
-    135,
-    9,
-    0,
-    7,
+    1,
     0,
     0,
     0,
     0,
     0,
-    35,
+    1,
     0,
+    0,
+    1,
+    3,
+    3,
+    0,
+    1,
+    0,
+    2,
+    5,
     1,
     2,
-    26,
-    45,
-    4,
-    3,
-    4,
-    15,
-    21,
-    4,
-    13,
-    32,
     7,
+    1,
     0,
     0,
     0,
     1,
     0,
     0,
-    14,
-    5,
+    2,
     0,
-    4,
-    28,
-    61
+    0,
+    2,
+    5,
+    39,
+    49,
+    7
   ],
   "evidence": {
     "README.md": true,
@@ -302,12 +338,39 @@
     "docs/deploy.md": true
   },
   "releases": {
-    "fetchedAt": "2026-11-13T06:51:41.866Z",
+    "fetchedAt": "2026-11-24T03:25:59.836Z",
     "etag": null,
     "stale": false,
     "error": null,
     "source": "releases",
     "items": [
+      {
+        "version": "1.9.0",
+        "tag": "v1.9.0",
+        "name": "Atlas v1.9.0",
+        "date": "2026-11-17",
+        "url": "https://github.com/Zoroaaa/Atlas/releases/tag/v1.9.0",
+        "prerelease": false,
+        "source": "release",
+        "body": "## Atlas v1.9.0\n\n覆盖 v1.8.0 以来 26 个提交，核心变化：\n\n- **移动端首页精简**：搜索页只保留搜索、账户入口与发现入口，完整列表下沉独立页面，首页从约 7 屏压缩到 1.5 屏\n- **PC 全局左侧栏**：搜索、发现、个人中心、社区、管理看板统一收进手风琴侧栏，头像菜单只保留账户与偏好\n- **发现内容页面化**：推荐 / 最近热播 / TOP250 / 标签 / 女优各自独立页面，统一页面头与卡片\n- **本地库优先的影片点击**：有磁力直接看详情，没有则提示并可去搜索或回源 JavBus\n- **搜索历史对齐收藏**：补齐封面、点击查看详情，移除多余搜索按钮\n- **榜单与补全治理**：TOP250 与榜单归档，历史快照按天保留；30 天重试按东八区自然日错峰\n\n完整变更记录见 [docs/CHANGELOG.md](https://github.com/Zoroaaa/Atlas/blob/main/docs/CHANGELOG.md)。",
+        "stats": null
+      },
+      {
+        "version": "1.8.0",
+        "tag": "v1.8.0",
+        "name": "Atlas v1.8.0",
+        "date": "2026-11-14",
+        "url": "https://github.com/Zoroaaa/Atlas/releases/tag/v1.8.0",
+        "prerelease": false,
+        "source": "release",
+        "body": "本次版本覆盖 v1.7.0 以来的全部变更。升级前请先执行 `database/32`–`database/36` 五个迁移脚本。\n\n## 面向用户的功能\n\n- **跨语言搜索**：中文、日文、英文与罗马音标题会解析到同一作品，各源站按自身索引语言取词，用你熟悉的语言就能搜到结果。\n- **关注任意实体**：除女优外，导演、制作商、发行商、系列与标签都可关注；关注动态可按关注对象筛选，也能跨所有关注对象做关键词搜索。\n- **JAV 详情实体浏览**：详情卡上的导演、制作商、发行商、系列与标签可直接点击查看作品，返回的列表会写回本地库。\n- **本地库详情卡片**：搜索历史与收藏条目点击即打开本地库详情卡，磁力、导演等信息直接可见。\n- **全站封面放大**：所有封面支持点击或键盘放大，Esc 关闭。\n- **PWA 连续更新**：一次点击即可连续应用所有待更新版本，并带防死循环保护。\n- **搜索源可用性**：动漫订阅源切到 DMHY 并修复 AnimeTosho；奇书网接入新域名；漫画新增 MangaUpdates 补充元数据；影视补上做种数与磁力归属。\n\n## 面向管理的功能\n\n- **别名管理**：新增 `/admin-panel/aliases`，支持批量灌入别名与 AI 候选审核（默认关闭）。\n- **数据存储控制台**：新增「暂时失败」与「是否还会重试」筛选、重试暂时失败、单条补详情、重置源站缺失次数；批次统一为每分钟 5 条。\n- **重试节奏**：30 天重试按日限额 60 条，超出自动顺延，避免集中放量。\n\n## 修复\n\n- 榜单导入改为纯新增，不再把补全过的封面改回旧链接；修复大榜单导入的绑定变量超限 500。\n- 源站「暂无磁力」不再被误判为接口不可用，误判存量会自动恢复重试。\n- TPB / EZTV 部分请求失败不再误报整源错误，TPB 查询词会清洗厂牌前缀与消歧后缀。\n- 修复删号失败、无封面帖子无法分享、配置导入类型报错、无 URL 收藏报错等问题。\n- 修复手机端收藏行高与平板下关注筛选条溢出。\n\n## 部署与基础设施\n\n- 新增迁移 32–36：别名表、关注实体扩展、磁力误判恢复、补全批次归一、第二轮查询索引。\n- CI 改用固定 SHA 的 javdb-cli fork；后端补齐共享包 tsconfig paths。\n- README、CHANGELOG、部署与配置文档校准到 v1.8.0。\n\n## 性能\n\n- 管理面板轮询改为轻量接口，统计合并为单趟查询，统计与榜单快照加缓存，失败列表与榜单取数改走索引；生产 D1 读取量显著下降。\n## 客户端安装包\n\n- **Windows**：`Atlas-Setup-1.8.0.exe`（Electron，x64，约 116 MB）。未做代码签名，首次运行会出现 SmartScreen「未知发布者」提示。\n- **Android**：`Atlas-Android-1.8.0.apk`（通用架构，约 5 MB）。已使用 release 密钥签名（APK Signature Scheme v2/v3），可直接覆盖升级。\n- 客户端首次打开需要登录一次，之后站点更新无需重新安装。打包与签名说明见 `docs/app-packaging.md`。",
+        "stats": {
+          "commits": 30,
+          "filesChanged": 144,
+          "additions": null,
+          "deletions": null
+        }
+      },
       {
         "version": "1.7.0",
         "tag": "v1.7.0",
@@ -333,12 +396,7 @@
         "prerelease": false,
         "source": "release",
         "body": "## [v1.6.0] - 2026-11-08\r\n\r\n本次版本覆盖 v1.5.0 以来的全部功能与审计修复，核心变化：新增帮助中心与统一通知收件箱；邮箱验证/邮件通知/后台邮件运维形成完整闭环；社区帖子浏览量按 24 小时去重；前端与共享包改为 TS paths + Vite alias 解析；数据库迁移扩展到 `17` / `18` / `19`。\r\n\r\n### 新增\r\n\r\n- **帮助中心 `/help`**：覆盖快速上手、为你推荐、JAV榜单、热门女优、搜索基础与各 Tab 差异、五类搜索、详情页、社区、关注女优、通知与邮件、账号安全、通用注意事项与 FAQ；每类统一为「功能介绍 + 使用步骤 + 注意事项」，并新增独立的通用注意事项章节\r\n- **统一通知收件箱**：`notifications` 表（`(user_id, dedup_key)` 唯一，重复触发幂等）+ 按类型偏好表；`/api/notifications` 提供收件箱分页、未读数、标记已读、删除、偏好读写；顶栏通知铃铛的未读数随 `sync-state` 返回，不增加首屏请求\r\n- **站点公告并入收件箱**：公告不复制进 `notifications`，读取时与站内公告合并，仅用 `user_announcement_reads` 记录每个用户的已读/删除状态；新增 `database/17_schema_announcement_reads.sql`\r\n- **关注女优**：`/api/follows`（关注上限 100，名字精确匹配才允许关注）；`actress_watch` 全局一份，多人关注同一位只检查一次；关注时立即建立基线，首次检查不产生通知\r\n- **新作检测**：新增 `*/30 * * * *` 触发器，每轮最多检查 20 位，按番号集合对比，失败指数退避；新作通知按每人每轮每位女优合并为一条\r\n- **关注动态与关注管理**：主页「关注动态」面板（新作 / 即将发售、服务端分页、未读标记）；控制台新增我的关注、关注动态、通知三个页面；热门女优与搜索结果、影片详情演员旁均可直接关注\r\n- **邮件通知渠道**：新作与社区互动通知可选邮件；通知进入 `email_queue`，`*/15` 任务按用户合并发送（最早一条攒够 10 分钟、每人每天最多 3 封、全站每天最多 90 封）；失败按 30 分钟 × 2ⁿ 退避，连续 5 次放弃该批；发送前复核邮箱验证与偏好\r\n- **邮箱验证补入口**：通知偏好页可直接发送并校验邮箱验证码，无需跳转到账号设置\r\n- **邮件隐私与退订**：邮件主题保持中性、不含封面；支持「隐藏邮件详情」；每封通知邮件带 HMAC 签名的一键退订链接与 `List-Unsubscribe` 头，GET 仅展示确认页，POST 才执行\r\n- **后台邮件日志与队列**：`email_send_logs` 记录类型、状态、用户、IP、限流键与错误信息；`email_queue` 可按 pending / sent / skipped / failed 查看摘要任务；后台新增对应管理页与接口 `GET /api/config/email/logs`、`GET /api/config/email/queue`\r\n- **公告邮件**：发布公告时入队邮件，删除公告时清理待发送任务；用户之后开启公告邮件时，将最近 7 天内最多 20 条有效公告补发入队（按用户去重）\r\n- **社区帖子浏览去重**：同一用户对同一帖子 24 小时内只计一次 `view_count`，作者本人访问不计数；新增 `database/19_schema_community_post_views.sql`\r\n- **邮件相关迁移**：新增 `database/16_email_notifications.sql`（`email_send_logs` / `email_queue` / 退订令牌 / 通知偏好）\r\n- **历史通知补写**：新增 `database/18_backfill_community_notifications.sql`，把历史社区互动补写为通知\r\n\r\n### 修改\r\n\r\n- **社区通知 Tab 下线**：社区页不再有独立通知 Tab，原 `/api/community/notifications` 等旧接口删除；点赞、评论、收藏、举报处理结果统一进入 `/dashboard/notifications`\r\n- **女优收藏并入关注**：搜索结果与详情页不再提供女优收藏爱心，只保留「+ 关注」；后端拒绝新的 `actress:` 收藏并返回 `USE_FOLLOW`；`database/15_migrate_actress_favorites_to_follows.sql` 负责迁移存量数据\r\n- **热门女优与推荐口径调整**：热门女优得分改为「四个榜单上榜作品数 × 5 + 被关注人数 × 2」；为你推荐只使用标签 + 发行商（4:1），女优收藏不再计入画像\r\n- **统一邮件发送器**：事务邮件（验证码 / 找回密码 / 改邮箱 / 反馈回复）与通知邮件走同一发送器；事务邮件不受通知偏好和退订控制\r\n- **共享包解析方式**：前端不再依赖 `node_modules` 软链接，改为 `frontend/tsconfig.json` 的 `paths` + `frontend/vite.config.ts` 的 `alias` 直接指向 `packages/shared/src`；后端仍由 npm workspaces 链接 + 包 `exports` 解析\r\n- **全站命名统一**：所有 UI、文案、导航、帮助中心与三语文案中的「JAV番号搜索」统一改为「JAV搜索」\r\n- **榜单与缓存**：榜单增加名次变化（↑ / ↓ / NEW），后端榜单与女优缓存调整为 6 小时\r\n- **收藏与历史**：改为服务端分页并返回总数，控制台统计改为服务端聚合；新增 `sync-state` 跨设备缓存校验\r\n- **公告读取方式**：公告由「复制进通知表」改为「读取时合并」，避免公告更新后收件箱内容不一致\r\n- **数据库迁移顺序**：全新库需按 `01 → 19` 执行；`08` / `12` 修复幂等性，`17` / `18` / `19` 为 v1.6.0 新增\r\n- **版本号**：统一升级到 `1.6.0`（根与各 workspace 包、`APP_VERSION`、前后端版本常量、README 徽章、文档）\r\n\r\n### 修复\r\n\r\n- **登录失败锁定**：`security_lockouts` 写入补全 `identifier_hash`，统一使用 `hashToken` 生成，所有查询/清理路径按该字段匹配，避免 NOT NULL 约束异常被吞导致锁定失效\r\n- **迁移脚本幂等性**：`08` 不再引用不存在的表/列，`12` 不再重复加列，`10` 修复依赖顺序；全新库与已升级库均可安全重复执行\r\n- **用户配置越权**：`/user-configs/:userId`、`/export-user-configs/:userId` 校验请求者是资源所有者或管理员，复用 `/with-user-config` 的权限判断\r\n- **社区异常吞没**：发帖 / 更新 / 删除不再吞异常，失败时向上抛出真实错误，避免前端假成功导致数据丢失\r\n- **搜索竞态**：搜索请求增加 requestId/序号，仅接受最后一次请求的响应\r\n- **401 刷新**：收到 401 时先尝试一次单飞 token 刷新，失败后再登出，避免并发请求重复刷新\r\n- **导出鉴权**：CSV / OPML 导出改用带鉴权请求，后端错误 JSON 不再被写入导出文件\r\n- **邮件验证码**：统一按 `email_hash + code_hash` 匹配、写入 `max_attempts`、先校验状态再比对、超限提示与实际逻辑一致；失败计数统一由 `verifyCodeWithAttempts` 处理\r\n- **公开接口敏感配置**：所有公开接口过滤 `is_sensitive=1` 或未标记为公开的配置项\r\n- **公告删除**：同步清理关联的待发送邮件队列，避免无效任务堆积\r\n- **局部更新与 NOT NULL 字段**：局部更新使用动态 SET，INSERT/REPLACE 补全全部 NOT NULL 字段，避免意外清空或静默写入失败\r\n- **权限一致性**：标签、源、帖子、配置等资源的写操作统一在执行前校验权限\r\n- **计数与清理任务**：补齐计数、统计与定时清理的调用方，避免死代码和永久堆积数据\r\n- **前端审计项**：i18n 首次访问语言检测、管理端分页边界、重复请求与缓存失效等问题一并修复\r\n- **数据库迁移**：`INSERT OR IGNORE` / 条件冲突更新替代无条件覆盖，避免级联操作清空用户自定义数据\r\n\r\n### 优化\r\n\r\n- **首屏与请求**：收藏 / 历史服务端分页、屏幕外面板懒加载、跨设备缓存校验，减少无效请求\r\n- **缓存**：推荐画像 5 分钟、热度信号 1 小时、榜单与女优 6 小时，降低上游抓取压力\r\n- **搜索**：档位配额与提示保持一致，搜索缓存键按用户隔离\r\n- **邮件**：摘要合并、每日上限、退避重试与补发去重，降低 Resend 额度消耗与重复打扰\r\n- **通知**：`(user_id, dedup_key)` 保证重复触发幂等；公告读时合并减少冗余写入\r\n- **社区浏览**：24 小时去重表 + `(user_id, post_id)` 主键 upsert，避",
-        "stats": {
-          "commits": 23,
-          "filesChanged": 213,
-          "additions": null,
-          "deletions": null
-        }
+        "stats": null
       },
       {
         "version": "1.5.0",
@@ -349,12 +407,7 @@
         "prerelease": false,
         "source": "release",
         "body": "## [v1.5.0] - 2026-11-04\n\n### Added - 一体化工作台 + 三语国际化 + 榜单与推荐体系 🚀\n\n本次版本跨度 50 次提交，核心变化：主页面重构为一体化工作台；前端完成 zh-CN / zh-TW / en 三语国际化；JAV 榜单升级为 JavDB 周榜 / 月榜并接入热点推荐；搜索限流改为账号活跃度阶梯配额；后端完成 repository 分层与统一 zod 校验；小说搜索切换为多源跳转；管理后台新增用户活跃度排行。\n\n---\n\n#### 核心新功能（一）：一体化搜索工作台\n\n- **主页面重构**：搜索、快捷入口、公告与结果区域整合为单一工作台（`Workbench` + `SearchDock` + `SearchWorkspace`），统一五类搜索结果的页面骨架\n- **统一结果组件**：新增 `MediaCard` / `ResourceRow` / `GroupedSection` / `Pagination` / `Toolbar` 等工作台组件，类别结果共享同一套布局与交互\n- **常驻配额展示**：搜索页常驻展示当前档位与剩余配额，并说明晋升规则\n- **认证跳转**：登录 / 注册成功后统一进入主搜索页，不再跳转看板\n\n#### 核心新功能（二）：三语国际化（i18n）\n\n- **全量文案提取**：前端硬编码中文迁移到 i18n，覆盖 auth / home / layout / search / jav / feedback / community / dashboard / admin / ui 等 18 个命名空间、约 800+ key\n- **三语支持**：zh-CN、zh-TW、en 完整词条；首次访问按浏览器语言自动选择，用户手动选择持久化\n- **组件与接口**：新增 `LanguageSwitcher` 与 `languageStore`；非组件环境统一走 `i18next.t()`\n- **补齐遗漏**：搜索命名空间 65 个缺失 key、设置 / 公告 / 趋势 / 帖子详情等残余硬编码文案全部补齐\n\n#### 核心新功能（三）：JAV 榜单升级（JavDB 周榜 / 月榜）\n\n- **四通道导入**：JavDB 有码 / 无码 × 周榜 / 月榜；GitHub Actions 每日抓取并导入\n- **历史保留**：榜单作品与来源不删除，当前榜单只展示每个周期最新 `fetchedAt` 快照\n- **每小时补全**：最多 20 条 / 小时通过 JavBus 抓取演员、标签、发行商；失败 3 次后停止重试但保留活跃\n- **导入接口**：新增内部密钥保护的 `/api/internal/rankings/import`，榜单写入 `data_records` 占位与 `data_record_sources` 名次\n- **探测与容错**：新增 JavDB 榜单探测 workflow；CI 导入补充浏览器请求头并识别 Cloudflare 403\n- **封面**：榜单封面 CDN `tp.spfcas.com` 加入图片代理白名单\n\n#### 核心新功能（四）：热门女优榜与智能推荐\n\n- **热门女优榜**：站内近 30 天收藏 / 搜索热度 + 周榜 / 月榜上榜作品聚合，移除 JavBus 随机女优列表\n- **为你推荐**：12 个推荐位，top 5 标签各 2 位、top 2 演员各 3 位，名额不足从高分候选随机补位\n- **相关推荐**：8 个推荐位（演员 4 + 标签 4），标签桶随机轮转，每个标签最多 1 位；展示在多源聚合结果之前\n- **随机与缓存**：推荐接口 `Cache-Control: no-store`，前端请求加时间戳，每次刷新重新随机\n- **标签过滤**：高画质 / 蓝光 / 字幕 / 单体 / 有码无码 / DMM·FANZA 独家等技术与发行标签不参与匹配\n- **降级修复**：修复推荐结果固定不变、演员配比错误、标签数量不足等问题\n\n#### 核心新功能（五）：搜索限流档位化\n\n- **数据库**：`12_schema_search_tier.sql` 新增搜索限流档位字段，`13_backfill_search_tier.sql` 回填存量用户\n- **阶梯配额**：按账号活跃度动态分配搜索配额，替代固定限流\n- **晋升规则**：近 30 天内活跃 5 天即可晋升，前端展示当前档位与配额\n- **注册防护**：注册接口按出口 IP 多级限流（5 / 分、10 / 时、20 / 天），超限 429 并写入安全事件；GitHub / Google OAuth 仅自动注册分支共用配额；IPv6 按 /64 聚合，`CF-Connecting-IP` 优先\n\n#### 核心新功能（六）：小说搜索多源化\n\n- **知轩藏书接入**：新增 `zxcs.zip` 明文 HTML 直链源，置顶顺序调整为 zxcs → 奇书网 → Anna's Archive\n- **Anna 改为跳转**：Anna's Archive 人机验证无法稳定抓取，移除 `NovelItem` 抓取，保留为跳转卡片\n- **多源跳转卡片**：新增 Z-Library / Anna / 知轩藏书 / 奇书网 / SoBooks / Lunarora / PDFs.top / 读书派 8 个跳转源\n- **结果面板**：小说搜索复用数据库驱动多源卡片，独立展示\n\n#### 核心新功能（七）：管理后台\n\n- **用户活跃度排行**：新增 `/admin-panel/activity-ranking`，支持今日 / 7 天 / 30 天 / 全部；加权分数（搜索 ×2、收藏 ×3、登录 ×1、其他 ×1），今日按北京时间自然日\n- **社区统计修复**：修正统计字段别名与用户详情重复计数\n\n### Improved - 架构与性能 ⚡\n\n- **SearchProvider 契约扩展**：`SearchOptions` → `SearchContext`（db / user / categoryId / subMode / enabledSources），新增 `injectsUserSources` 与 `buildHistoryEnrichment`；JAV 三子模式与 Novel 多源注入下沉 Provider，`search.ts` 由 761 行降至约 400 行，路由零内联 SQL\n- **Repository 分层**：新增 `search-source` / `search-history` / `user` / `email-verification` / `community` / `admin` / `recommendation` repository，统一 SQL 查询\n- **鉴权性能**：`authMiddleware` 单次 LEFT JOIN 加载 session + role + permissions，每请求 D1 查库由 2~3 次降为 1 次；`admin` / `superAdmin` / `permission` 中间件改读上下文\n- **统一校验**：请求体统一为 zod `validateBody`，注册强制邮箱验证码；邮箱变更与注册使用同一套长度 / 规范化 / 可信域规则\n- **用户态缓存**：JAV / Novel 搜索缓存键按用户隔离，缓存命中仍补写搜索历史\n- **React Query 收敛**：收藏、搜索历史、搜索源、分类、分析页数据域统一到 react-query，删除双轨 hooks\n- **番号识别**：新增前后端共享 `jav-code` 宽识别解析器，非标准番号自动回退标题 / 多源搜索；搜索建议兼容带 / 不带横杠写法\n\n### Fixed - 问题修复 🔧\n\n- **女优数据源**：minnano-av 上线反爬导致资料恒空，切换 JavBus `/searchstar` + `/star`；资料源失败与未匹配分开展示，不再静默留白\n- **女优跳转代理**：女优面板、作品区、详情链接统一遵守用户网址跳转代理配置\n- **JAV 详情重试**：详情获取失败支持卡片内重试，无需重新搜索\n- **收藏标题**：收藏标题长度上限由 100 提升至 300\n- **榜单补全**：补全改为全量使用 JavBus 字段，仅缺失时回退原值\n- **榜单导入**：补充浏览器 UA / Accept 头并识别 Cloudflare 403\n- **注册校验**：验证码校验收口为无条件执行，移除路由内可选死分支\n\n### Changed - 行为变更 ⚠️\n\n- **Anna's Archive**：从抓取源改为跳转源，小说结果结构改为多源卡片\n- **推荐缓存**：推荐结果不再缓存，每次请求实时随机\n- **榜单展示**：周榜 / 月榜仅展示最新快照，历史作品保留但不在当前榜单出现\n- **版本号**：全项目版本号统一为 `1.5.0`（前端常量、后端 `APP_VERSION`、workspace 包、品牌页）\n\n### Technical Details\n\n- **新增文件**：\n  - `backend/src/repositories/` — admin / community / email-verification / recommendation / search-history / search-source / user repository\n  - `backend/src/routes/rankings.ts` / `recommend.ts` — 榜单导入与推荐接口\n ",
-        "stats": {
-          "commits": 51,
-          "filesChanged": 221,
-          "additions": null,
-          "deletions": null
-        }
+        "stats": null
       },
       {
         "version": "1.4.0",

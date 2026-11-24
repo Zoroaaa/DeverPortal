@@ -3,7 +3,7 @@
   "slug": "cf-bestip",
   "owner": "Zoroaaa",
   "repo": "cf-bestip",
-  "fetchedAt": "2026-11-13T06:51:41.866Z",
+  "fetchedAt": "2026-11-24T03:25:59.836Z",
   "etag": null,
   "readmeEtag": "\"20ac0680d62ba5b1050a177adc70f7d4ee94fb52\"",
   "stale": false,
@@ -15,7 +15,7 @@
     "url": "https://github.com/Zoroaaa/cf-bestip",
     "description": "Cloudflare 优选 IP/proxyip 获取工具",
     "homepage": "https://zoroaaa.github.io/cf-bestip/",
-    "stars": 21,
+    "stars": 22,
     "forks": 15,
     "openIssues": 0,
     "openPRs": 0,
@@ -76,8 +76,6 @@
     0,
     0,
     0,
-    0,
-    0,
     4,
     165,
     2,
@@ -121,13 +119,15 @@
     0,
     0,
     0,
+    0,
+    0,
     0
   ],
   "evidence": {
     "README.md": true
   },
   "releases": {
-    "fetchedAt": "2026-11-13T06:51:41.866Z",
+    "fetchedAt": "2026-11-24T03:25:59.836Z",
     "etag": null,
     "stale": false,
     "error": null,
