@@ -3,7 +3,7 @@
   "slug": "atlas",
   "owner": "Zoroaaa",
   "repo": "Atlas",
-  "fetchedAt": "2026-11-24T11:57:09.494Z",
+  "fetchedAt": "2026-11-25T10:48:54.370Z",
   "etag": null,
   "readmeEtag": "\"6010c05eed95c1b4d3e2ee04e4399ed6bad2fd58\"",
   "stale": false,
@@ -15,14 +15,14 @@
     "url": "https://github.com/Zoroaaa/Atlas",
     "description": "Atlas 将多个资源站点的结果按 JAV、动漫、影视、漫画、小说五类整理。登录后，搜索历史、收藏、关注与通知都保存在同一个账号里。",
     "homepage": "https://atlas.wort.uk/",
-    "stars": 139,
+    "stars": 140,
     "forks": 28,
     "openIssues": 0,
     "openPRs": 0,
     "language": "TypeScript",
     "license": "MIT",
     "createdAt": "2025-08-11",
-    "pushedAt": "2026-11-24",
+    "pushedAt": "2026-11-25",
     "archived": false,
     "fork": false,
     "topics": [
@@ -38,11 +38,11 @@
     ],
     "defaultBranch": "main",
     "readmeExcerpt": "Atlas An open-source search engine that aggregates content across categories — JAV, anime, movies, comics, and novels, all in one place. This repository contains both English and Chinese documentation. English — this file is the English README. 中文（简体） — 查看中文 README Table of Conte…",
-    "commitCount": 134,
+    "commitCount": 136,
     "languages": [
       {
         "name": "TypeScript",
-        "bytes": 3831647
+        "bytes": 3833039
       },
       {
         "name": "JavaScript",
@@ -327,7 +327,7 @@
     5,
     39,
     49,
-    7
+    9
   ],
   "evidence": {
     "README.md": true,
@@ -338,7 +338,7 @@
     "docs/deploy.md": true
   },
   "releases": {
-    "fetchedAt": "2026-11-24T11:57:09.494Z",
+    "fetchedAt": "2026-11-25T10:48:54.370Z",
     "etag": null,
     "stale": false,
     "error": null,
