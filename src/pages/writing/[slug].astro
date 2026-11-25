@@ -5,6 +5,8 @@ import Prose from '../../components/ui/Prose.astro';
 import Tag from '../../components/ui/Tag.astro';
 import { loadContentGraph, postSlugOf, type PostEntry } from '../../lib/content-graph';
 import { displayDate, formatDate } from '../../lib/format';
+import { site } from '../../data/site';
+import { blogPostingJsonLd, breadcrumbJsonLd } from '../../lib/seo';
 
 export async function getStaticPaths() {
   const { posts } = await loadContentGraph();
@@ -23,9 +25,24 @@ interface Props {
 
 const { post } = Astro.props;
 const { Content } = await render(post);
+
+const structuredData = [
+  blogPostingJsonLd({
+    title: post.data.title,
+    description: post.data.summary,
+    url: new URL(`/writing/${postSlugOf(post)}`, site.url).href,
+    datePublished: post.data.date,
+    tags: post.data.tags,
+  }),
+  breadcrumbJsonLd([
+    { label: '首页', href: '/' },
+    { label: '写作', href: '/writing' },
+    { label: post.data.title },
+  ]),
+];
 ---
 
-<BaseLayout title={post.data.title} description={post.data.summary} type="article">
+<BaseLayout title={post.data.title} description={post.data.summary} type="article" structuredData={structuredData}>
   <article class="container page">
     <header class="head">
       <h1>{post.data.title}</h1>

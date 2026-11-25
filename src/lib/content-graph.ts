@@ -35,6 +35,8 @@ export interface ProductView {
   snapshot: GithubSnapshot | null;
   // 由快照里的依赖推导，不读手写 tech
   tech: string[];
+  /** 关联到该产品的已发布文章（按日期倒序，最多 3 篇）。 */
+  relatedPosts: PostEntry[];
 }
 
 export interface ContentGraph {
@@ -300,6 +302,7 @@ async function buildContentGraph(): Promise<ContentGraph> {
         latestRelease: releaseViews[0],
         snapshot,
         tech: deriveTech(snapshot?.data?.techDeps ?? []),
+        relatedPosts: posts.filter((post) => !post.data.draft && post.data.product === slug).slice(0, 3),
       };
     })
     .sort(

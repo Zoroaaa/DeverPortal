@@ -2,6 +2,7 @@ import rss from '@astrojs/rss';
 import type { APIContext } from 'astro';
 import { site } from '../data/site';
 import { loadContentGraph, postSlugOf } from '../lib/content-graph';
+import { releaseFeedTitle } from '../lib/format';
 
 export async function GET(context: APIContext) {
   const { products, releaseViews, posts } = await loadContentGraph();
@@ -20,7 +21,11 @@ export async function GET(context: APIContext) {
     ...releaseViews
       .filter((release) => release.date !== null)
       .map((release) => ({
-        title: `${nameBySlug.get(release.productSlug) ?? release.productSlug} v${release.version} · ${release.title}`,
+        title: releaseFeedTitle(
+          nameBySlug.get(release.productSlug) ?? release.productSlug,
+          release.version,
+          release.title,
+        ),
         pubDate: release.date as Date,
         description: release.summary ?? '来自 GitHub Release 的版本记录',
         link: release.href,

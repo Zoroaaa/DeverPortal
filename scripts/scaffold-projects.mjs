@@ -15,7 +15,7 @@ import path from 'node:path';
 
 const ROOT = process.cwd();
 const curated = JSON.parse(await readFile(path.join(ROOT, 'src', 'data', 'curated.json'), 'utf8'));
-const DATA_DIR = path.join(ROOT, 'src', 'data', 'github');
+const DATA_DIR = path.join(ROOT, 'src', 'data', 'facts');
 const PRODUCTS_DIR = path.join(ROOT, 'src', 'content', 'products');
 const FORCE = process.argv.includes('--force');
 

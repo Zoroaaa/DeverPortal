@@ -5,6 +5,8 @@ import TOC from '../components/docs/TOC.astro';
 import type { DocEntry, ProductView } from '../lib/content-graph';
 import { docPathOf } from '../lib/content-graph';
 import { displayDate, formatDate } from '../lib/format';
+import { site } from '../data/site';
+import { breadcrumbJsonLd, techArticleJsonLd } from '../lib/seo';
 
 interface Heading {
   depth: number;
@@ -28,11 +30,39 @@ const index = current ? docs.findIndex((doc) => doc.id === current.id) : -1;
 const prev = index > 0 ? docs[index - 1] : undefined;
 const next = index >= 0 ? docs[index + 1] : undefined;
 const docHref = (doc: DocEntry) => `/docs/${product.slug}/${docPathOf(doc)}`;
+
+// 文档目录按 section 分组，组内保持 order 排序；没有文档时退回空状态。
+const sectionMap = new Map<string, DocEntry[]>();
+for (const doc of docs) {
+  const section = doc.data.section || '指南';
+  sectionMap.set(section, [...(sectionMap.get(section) ?? []), doc]);
+}
+const sections = [...sectionMap.entries()]
+  .map(([section, items]) => ({
+    section,
+    items,
+    order: Math.min(...items.map((doc) => doc.data.order)),
+  }))
+  .sort((a, b) => a.order - b.order);
+
+const structuredData = current
+  ? [
+      techArticleJsonLd({
+        title: current.data.title,
+        description: current.data.description ?? product.entry.data.summary,
+        url: new URL(`/docs/${product.slug}/${docPathOf(current)}`, site.url).href,
+        updatedAt: current.data.updatedAt,
+        productName: product.entry.data.name,
+      }),
+      breadcrumbJsonLd(breadcrumb),
+    ]
+  : undefined;
 ---
 
 <BaseLayout
   title={`${title} · ${product.entry.data.name}`}
   description={description ?? product.entry.data.summary}
+  structuredData={structuredData}
 >
   <div class="container docs-page">
     <Breadcrumb items={breadcrumb} />
@@ -44,19 +74,24 @@ const docHref = (doc: DocEntry) => `/docs/${product.slug}/${docPathOf(doc)}`;
           <a class="nav-product" href={`/products/${product.slug}`}>{product.entry.data.name}</a>
         </div>
         {
-          docs.length > 0 ? (
-            <ul>
-              {docs.map((doc) => (
-                <li>
-                  <a
-                    href={`/docs/${product.slug}/${docPathOf(doc)}`}
-                    aria-current={current && current.id === doc.id ? 'page' : undefined}
-                  >
-                    {doc.data.title}
-                  </a>
-                </li>
-              ))}
-            </ul>
+          sections.length > 0 ? (
+            sections.map((group) => (
+              <div class="nav-section">
+                <p class="nav-section-title">{group.section}</p>
+                <ul>
+                  {group.items.map((doc) => (
+                    <li>
+                      <a
+                        href={`/docs/${product.slug}/${docPathOf(doc)}`}
+                        aria-current={current && current.id === doc.id ? 'page' : undefined}
+                      >
+                        {doc.data.title}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))
           ) : (
             <p class="nav-empty">暂无文档</p>
           )
@@ -171,6 +206,17 @@ const docHref = (doc: DocEntry) => `/docs/${product.slug}/${docPathOf(doc)}`;
   .docs-nav a[aria-current='page'] {
     color: var(--ink);
     font-weight: 600;
+  }
+
+  .nav-section + .nav-section {
+    margin-top: var(--space-3);
+  }
+
+  .nav-section-title {
+    margin-bottom: 2px;
+    color: var(--ink-faint);
+    font-size: 12px;
+    letter-spacing: 0.02em;
   }
 
   .nav-empty {

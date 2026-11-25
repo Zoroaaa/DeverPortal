@@ -24,7 +24,15 @@ const facts = [
 ].filter(Boolean);
 ---
 
-<article class="item">
+<article
+  class="item"
+  data-product
+  data-status={entry.data.status}
+  data-platforms={entry.data.platforms.join(' ')}
+  data-tech={product.tech.join('|')}
+  data-updated={updatedSource ? updatedSource.getTime() : 0}
+  data-name={entry.data.name}
+>
   <a class="link" href={`/products/${product.slug}`}>
     <div class="main">
       <h3>{entry.data.name}</h3>

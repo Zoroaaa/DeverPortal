@@ -202,6 +202,8 @@ GitHub 自动生成的 release notes 通常是 "Full Changelog: …" 加一串 c
 - **不导入** release body。要说明"改了什么"，由人在 `releases/*.mdx` 里写 `summary` 与 `highlights`。
 - 页面上一句话区分来源：`来自 GitHub Release` / `人手写`，避免读者误以为自动条目也是精心撰写的。
 
+> 2026-11 更新：产品详情页与版本页现在会把快照里的 `body` 与 `stats` 折叠展示（构建期用 marked 渲染，不写入 `src/content/**`）。「不导入」仍指不进内容层；手写的 `summary` / `highlights` 依旧是主叙事，自动条目只作为补充。
+
 ### 6.3 没有 Release 也没有 tag
 
 - 版本区块**不渲染**，不显示 `v0.0.0` 之类的假版本。

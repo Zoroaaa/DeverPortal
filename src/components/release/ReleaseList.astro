@@ -6,9 +6,11 @@ interface Props {
   releases: ReleaseView[];
   /** 传入后按“产品名 + 版本”展示，用于跨产品的聚合列表 */
   names?: Map<string, string>;
+  /** 是否展开 GitHub Release 正文；聚合列表关掉以控制页面体积。 */
+  showNotes?: boolean;
 }
 
-const { releases, names } = Astro.props;
+const { releases, names, showNotes = true } = Astro.props;
 const hasAuto = releases.some((release) => release.source !== 'manual');
 ---
 
@@ -16,12 +18,16 @@ const hasAuto = releases.some((release) => release.source !== 'manual');
   {
     hasAuto && (
       <p class="note meta-text">
-        带 ↗ 的条目来自 GitHub 发布页，只提供版本事实；改了什么以手写说明为准。
+        {showNotes
+          ? '带 ↗ 的条目来自 GitHub 发布页；版本事实自动抓取，发布说明为仓库原文，改了什么仍以手写说明为准。'
+          : '带 ↗ 的条目来自 GitHub 发布页，只提供版本事实；改了什么以手写说明为准。'}
       </p>
     )
   }
   <div class="items">
-    {releases.map((release) => <ReleaseItem release={release} productName={names?.get(release.productSlug)} />)}
+    {releases.map((release) => (
+      <ReleaseItem release={release} productName={names?.get(release.productSlug)} showNotes={showNotes} />
+    ))}
   </div>
 </div>
 

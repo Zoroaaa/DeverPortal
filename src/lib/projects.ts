@@ -32,6 +32,13 @@ export interface CuratedFile {
 // 事实字段形状来自 facts-schema.ts，这里只做类型别名，不重复声明。
 export type GithubRepoFacts = import('./facts-schema').FactsData;
 
+export interface ReleaseStats {
+  commits: number | null;
+  filesChanged: number | null;
+  additions: number | null;
+  deletions: number | null;
+}
+
 export interface SnapshotRelease {
   version: string;
   tag: string | null;
@@ -40,6 +47,10 @@ export interface SnapshotRelease {
   url: string | null;
   prerelease: boolean;
   source: 'release' | 'tag';
+  /** GitHub Release 正文（同步时截断）；手写版本记录没有这一项。 */
+  body: string | null;
+  /** GitHub 统计的版本规模（commit / 文件 / 增删行）。 */
+  stats: ReleaseStats | null;
 }
 
 export interface GithubSnapshot {
@@ -70,6 +81,9 @@ export interface ReleaseView {
   source: 'manual' | 'release' | 'tag';
   url: string | null;
   href: string;
+  /** 仅 GitHub 自动条目有：Release 正文与版本规模。 */
+  body: string | null;
+  stats: ReleaseStats | null;
 }
 
 export interface ManualReleaseInput {
@@ -225,6 +239,8 @@ export function mergeReleases(
     source: 'manual',
     url: null,
     href: releaseHref(productSlug, release.version),
+    body: null,
+    stats: null,
   }));
 
   const manualVersions = new Set(manualViews.map((release) => release.version));
@@ -246,6 +262,8 @@ export function mergeReleases(
       source: release.source,
       url: release.url,
       href: releaseHref(productSlug, release.version),
+      body: release.body ?? null,
+      stats: release.stats ?? null,
     });
   }
 

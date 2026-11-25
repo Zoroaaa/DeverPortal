@@ -26,6 +26,7 @@ const { product } = Astro.props;
 <BaseLayout
   title={`${product.entry.data.name} 版本记录`}
   description={`${product.entry.data.name} 的全部版本记录与变更说明。`}
+  rss={`/products/${product.slug}/rss.xml`}
 >
   <div class="container page">
     <Breadcrumb
@@ -53,7 +54,11 @@ const { product } = Astro.props;
         />
       )
     }
-    <p class="back"><a href={`/products/${product.slug}`}>← 返回作品详情</a></p>
+    <p class="back">
+      <a href={`/products/${product.slug}`}>← 返回作品详情</a>
+      <span aria-hidden="true"> · </span>
+      <a href={`/products/${product.slug}/rss.xml`}>订阅版本记录 RSS</a>
+    </p>
   </div>
 </BaseLayout>
 

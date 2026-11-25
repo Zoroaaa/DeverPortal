@@ -12,8 +12,8 @@ let fontCache: Buffer | null = null;
 
 async function loadFont(): Promise<Buffer> {
   if (!fontCache) {
-    // 字体随仓库提交，构建期不联网。
-    fontCache = await readFile(path.join(process.cwd(), 'public', 'fonts', 'NotoSansSC-Regular.otf'));
+    // 字体随仓库提交，构建期不联网；放在 assets/ 而不是 public/，避免 8 MB 字体被当成站点资源发布。
+    fontCache = await readFile(path.join(process.cwd(), 'assets', 'fonts', 'NotoSansSC-Regular.otf'));
   }
   return fontCache;
 }

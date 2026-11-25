@@ -1,0 +1,108 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/docs/Breadcrumb.astro';
+import SectionHeader from '../../components/ui/SectionHeader.astro';
+import { loadContentGraph } from '../../lib/content-graph';
+
+const graph = await loadContentGraph();
+
+// 与 /tech/[tag] 使用同一套 slug 规则，避免索引页和详情页对不上。
+const tagOf = (tech: string) => tech.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+const map = new Map<string, { label: string; slugs: string[] }>();
+for (const product of graph.products) {
+  for (const tech of product.tech) {
+    const tag = tagOf(tech);
+    if (!tag) continue;
+    const current = map.get(tag) ?? { label: tech, slugs: [] };
+    if (!current.slugs.includes(product.slug)) current.slugs.push(product.slug);
+    map.set(tag, current);
+  }
+}
+
+const techs = [...map.entries()]
+  .map(([tag, value]) => ({ tag, label: value.label, count: value.slugs.length }))
+  .sort((a, b) => b.count - a.count || a.label.localeCompare(b.label));
+---
+
+<BaseLayout title="技术栈" description="本站作品用到的技术与框架，按使用作品数排序。">
+  <div class="container page">
+    <Breadcrumb items={[{ label: '首页', href: '/' }, { label: '技术栈' }]} />
+    <div class="head">
+      <SectionHeader
+        level={1}
+        title="技术栈"
+        description={`${techs.length} 项技术，来自各仓库 package.json / 依赖清单的自动推导，不是手写标签。`}
+      />
+    </div>
+    {
+      techs.length > 0 ? (
+        <ul class="tech-list">
+          {techs.map((tech) => (
+            <li>
+              <a href={`/tech/${tech.tag}/`}>
+                <span class="label">{tech.label}</span>
+                <span class="count">{tech.count} 个作品</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p class="muted">还没有可展示的技术栈信息。</p>
+      )
+    }
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    padding-top: clamp(40px, 7vw, 88px);
+  }
+
+  .head {
+    margin-top: var(--space-4);
+  }
+
+  .tech-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0 32px;
+    margin: var(--space-6) 0 0;
+    padding: 0;
+    border-top: 1px solid var(--line);
+    list-style: none;
+  }
+
+  .tech-list li {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .tech-list a {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding: 14px 0;
+    text-decoration: none;
+  }
+
+  .label {
+    color: var(--ink);
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  .tech-list a:hover .label {
+    color: var(--accent-ink);
+  }
+
+  .count {
+    color: var(--ink-faint);
+    font-size: 13px;
+    white-space: nowrap;
+  }
+
+  .muted {
+    color: var(--ink-muted);
+  }
+</style>

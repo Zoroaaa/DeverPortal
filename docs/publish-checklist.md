@@ -1,7 +1,7 @@
 # 把一个产品从草稿发上线：最短路径
 
-> 现状：7 个产品全部是 `draft: true`，所以站点看起来是空的——不是没拉到 GitHub 数据。
-> 数据在 `src/data/facts/` 里已经是真实值，只差把内容写完并翻 `draft`。
+> 现状：6 个产品都已发布（`draft: false`）；缺的是文档、手写版本记录和文章——运行 `npm run content:audit` 可一眼看到缺口。
+> 本文是“把一份草稿发上线”的最短路径，适用于之后新增的产品。
 > 以 `src/content.config.ts`（schema）和 `src/lib/content-graph.ts`（构建期校验）为准，本文不引入新字段。
 
 ---
@@ -120,29 +120,19 @@ Get-ChildItem dist -Recurse -File | Select-String -Pattern "TODO：|DRAFT / 草�
 
 ---
 
-## 6. 当前 7 个产品的待办量
+## 6. 当前内容覆盖
 
-7 个文件的缺口**完全一致**，每个都是 8 项：
+以 `npm run content:audit` 的输出为准，不再手工维护待办表。2026-11-24 的基线：
 
-1. `draft` → `false`
-2. `tagline`（≤80 字）
-3. `summary`（≤160 字）
-4. `status`（现在是占位的 `lab`，需你定）
-5. `links`（`live` 时必须有 `demo`，否则可空）
-6. `limitations`（`live`/`beta` 至少 1 条）
-7. 正文 5 段 TODO 替换（一句话定位 / 为什么做 / 能力边界 / 已知限制 / 快速开始）
-8. 删除 DRAFT 提示块
+| 项 | 现状 | 目标 |
+|---|---|---|
+| 产品页 | 6/6 已发布 | — |
+| 文档 | 0 篇 | 每个 live 产品 ≥2 篇（快速开始 + FAQ） |
+| 手写版本记录 | 0 条 | 每个 live 产品 ≥1 条 |
+| 文章 | 0 篇 | ≥3 篇 |
+| TODO/草稿提示 | 0 处 | 0 处 |
 
-| 产品 | 文件 | featured | order | 需补 | 快照已有事实（只读，不用填） |
-|---|---|---|---|---|---|
-| atlas | `src/content/products/atlas/index.mdx` | true | 10 | 8 项 | 90★ · TypeScript · MIT · 7 个 Release |
-| it-toolbox | `src/content/products/it-toolbox/index.mdx` | true | 20 | 8 项 | 144★ · TypeScript · MIT · 7 个 Release |
-| omnibox | `src/content/products/omnibox/index.mdx` | true | 30 | 8 项 | 65★ · TypeScript · MIT · 0 个 Release（tag 级也为空） |
-| personal-blog | `src/content/products/personal-blog/index.mdx` | true | 40 | 8 项 | 54★ · TypeScript · MIT · 5 个 Release |
-| ossshelf | `src/content/products/ossshelf/index.mdx` | false | 50 | 8 项 | 8★ · TypeScript · MIT · 22 个 Release |
-| cf-bestip | `src/content/products/cf-bestip/index.mdx` | false | 60 | 8 项 | 21★ · Python · MIT · 0 个 Release（tag 级也为空） |
-
-**建议先发 `atlas` 或 `it-toolbox`**：两者都有 7 个 Release，发布后产品页立刻有版本记录可看，能一次验证卡片、详情、版本、首页、sitemap 全链路。`ossshelf` 版本最多（22 个），适合验证长列表；`omnibox` / `cf-bestip` 没有任何版本，详情页会显示“仓库未发布版本，按 commit 维护”，同样可以发。
+补齐后运行 `npm run content:audit -- --strict`，全部通过再考虑接进 CI 阻断。文档与版本骨架可以直接用 `npm run new:doc` / `npm run new:release` 生成。
 
 ---
 
@@ -154,4 +144,4 @@ git commit -m "content: 发布 atlas 产品页"
 git push origin main
 ```
 
-Cloudflare Pages 会根据你现有的部署配置构建 `dist`；`sync-github.yml` 每天 UTC 02:00 只更新快照并开 PR，不会改你的内容文件。
+Cloudflare Workers 静态资源按 `wrangler.jsonc` 构建并发布 `dist`；`sync-github.yml` 每天 UTC 02:00 只更新 `src/data/facts` 并直推 main，不会改你的内容文件。

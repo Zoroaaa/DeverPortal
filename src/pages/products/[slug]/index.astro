@@ -3,6 +3,7 @@ import { render } from 'astro:content';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Breadcrumb from '../../../components/docs/Breadcrumb.astro';
 import ProductMeta from '../../../components/product/ProductMeta.astro';
+import ProductMedia from '../../../components/product/ProductMedia.astro';
 import StatusPill from '../../../components/product/StatusPill.astro';
 import LimitationsList from '../../../components/product/LimitationsList.astro';
 import ReleaseList from '../../../components/release/ReleaseList.astro';
@@ -14,8 +15,10 @@ import ActivityChart from '../../../components/product/ActivityChart.astro';
 import LanguageBar from '../../../components/product/LanguageBar.astro';
 import StackDiagram from '../../../components/product/StackDiagram.astro';
 import MaintenanceChecks from '../../../components/product/MaintenanceChecks.astro';
-import { loadContentGraph, docPathOf, type ProductView } from '../../../lib/content-graph';
-import { formatDate } from '../../../lib/format';
+import { loadContentGraph, docPathOf, postSlugOf, type ProductView } from '../../../lib/content-graph';
+import { displayDate, formatDate } from '../../../lib/format';
+import { site } from '../../../data/site';
+import { breadcrumbJsonLd, softwareApplicationJsonLd } from '../../../lib/seo';
 
 export async function getStaticPaths() {
   const { products } = await loadContentGraph();
@@ -37,6 +40,26 @@ const firstDoc = docs[0];
 const repoUrl = entry.data.links.repo ?? snapshot?.data?.url ?? null;
 const stale = snapshot?.stale || snapshot?.missing || snapshot?.releasesStale;
 
+const breadcrumbItems = [
+  { label: '首页', href: '/' },
+  { label: '作品', href: '/products' },
+  { label: entry.data.name },
+];
+
+// 作品页的结构化数据：软件条目 + 面包屑；事实字段来自快照，不手写。
+const structuredData = [
+  softwareApplicationJsonLd({
+    name: entry.data.name,
+    description: entry.data.seo?.description ?? entry.data.summary,
+    url: new URL(`/products/${product.slug}/`, site.url).href,
+    repoUrl,
+    demoUrl: entry.data.links.demo ?? null,
+    datePublished: entry.data.startedAt,
+    language: snapshot?.data?.language ?? null,
+  }),
+  breadcrumbJsonLd(breadcrumbItems),
+];
+
 // 事实条：全部来自 GitHub 快照，不手写。
 const repo = snapshot?.data ?? null;
 const updated = latestRelease?.date ?? (repo?.pushedAt ? new Date(repo.pushedAt) : null);
@@ -44,6 +67,7 @@ const facts = [
   repo?.stars != null ? `★ ${repo.stars}` : null,
   repo?.forks != null ? `fork ${repo.forks}` : null,
   repo?.openIssues != null ? `issue ${repo.openIssues}` : null,
+  repo?.openPRs ? `PR ${repo.openPRs}` : null,
   latestRelease ? `v${latestRelease.version}` : null,
   repo?.createdAt ? `建于 ${repo.createdAt.slice(0, 7)}` : null,
   updated ? `最近提交 ${formatDate(updated)}` : null,
@@ -71,15 +95,11 @@ const stateMark = { done: '✓', partial: '◐', planned: '○' } as const;
   description={entry.data.seo?.description ?? entry.data.summary}
   ogImage={entry.data.seo?.ogImage ?? `/og/${product.slug}.png`}
   type="website"
+  structuredData={structuredData}
+  rss={releaseViews.length > 0 ? `/products/${product.slug}/rss.xml` : undefined}
 >
   <div class="container page">
-    <Breadcrumb
-      items={[
-        { label: '首页', href: '/' },
-        { label: '作品', href: '/products' },
-        { label: entry.data.name },
-      ]}
-    />
+    <Breadcrumb items={breadcrumbItems} />
 
     <header class="hero">
       <div class="hero-main">
@@ -135,6 +155,13 @@ const stateMark = { done: '✓', partial: '◐', planned: '○' } as const;
       />
     </header>
 
+    <ProductMedia
+      slug={product.slug}
+      name={entry.data.name}
+      cover={entry.data.cover}
+      gallery={entry.data.gallery}
+    />
+
     {
       entry.data.audience &&
         (entry.data.audience.for.length > 0 || entry.data.audience.notFor.length > 0) && (
@@ -185,6 +212,20 @@ const stateMark = { done: '✓', partial: '◐', planned: '○' } as const;
             tech={product.tech}
             languages={snapshot?.data?.languages ?? []}
           />
+          {
+            repo?.envKeys && repo.envKeys.length > 0 && (
+              <div class="env-keys">
+                <p class="env-label">
+                  环境变量 <span class="meta-text">来自仓库 .env.example，自动抓取</span>
+                </p>
+                <ul>
+                  {repo.envKeys.map((key) => (
+                    <li><code>{key}</code></li>
+                  ))}
+                </ul>
+              </div>
+            )
+          }
         </section>
       )
     }
@@ -276,6 +317,33 @@ const stateMark = { done: '✓', partial: '◐', planned: '○' } as const;
             从 <a href={`/docs/${product.slug}/${docPathOf(firstDoc)}`}>{firstDoc.data.title}</a> 开始，
             按最短路径把它跑起来。
           </p>
+        </section>
+      )
+    }
+
+    {
+      repo?.readmeExcerpt && (
+        <section class="section" id="readme">
+          <SectionHeader title="仓库说明" description="来自 GitHub README 首段，自动截取；以仓库原文为准。" />
+          <p class="readme-excerpt">{repo.readmeExcerpt}</p>
+        </section>
+      )
+    }
+
+    {
+      product.relatedPosts.length > 0 && (
+        <section class="section" id="related-posts">
+          <SectionHeader title="相关文章" description="记录这个作品的做法、取舍与踩坑。" />
+          <ul class="post-list">
+            {product.relatedPosts.map((post) => (
+              <li>
+                <a href={`/writing/${postSlugOf(post)}`}>{post.data.title}</a>
+                <span class="meta-text">
+                  {displayDate(post.data.date)} · {post.data.summary}
+                </span>
+              </li>
+            ))}
+          </ul>
         </section>
       )
     }
@@ -423,6 +491,67 @@ const stateMark = { done: '✓', partial: '◐', planned: '○' } as const;
     max-width: 62ch;
     color: var(--ink-muted);
     font-size: 16px;
+  }
+
+  .env-keys {
+    margin-top: var(--space-5);
+  }
+
+  .env-label {
+    margin-bottom: var(--space-2);
+    color: var(--ink-faint);
+    font-size: 13px;
+  }
+
+  .env-keys ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .env-keys code {
+    padding: 2px 8px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: var(--bg-soft);
+    font-size: 12px;
+  }
+
+  .readme-excerpt {
+    max-width: 62ch;
+    color: var(--ink-muted);
+    font-size: 15px;
+    line-height: 1.85;
+    white-space: pre-line;
+  }
+
+  .post-list {
+    display: grid;
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--line);
+    list-style: none;
+  }
+
+  .post-list li {
+    display: grid;
+    gap: 4px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .post-list a {
+    font-size: 17px;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .post-list a:hover {
+    color: var(--accent-ink);
   }
 
   .snapshot-note {

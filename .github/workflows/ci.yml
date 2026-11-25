@@ -18,4 +18,8 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
       - run: npm ci
+
+      - name: 内容覆盖体检（报告模式，不阻断）
+        run: npm run content:audit
+
       - run: npm run build

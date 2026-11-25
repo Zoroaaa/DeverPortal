@@ -21,7 +21,7 @@ const nameBySlug = new Map(products.map((product) => [product.slug, product.entr
     />
     {
       releaseViews.length > 0 ? (
-        <ReleaseList releases={releaseViews} names={nameBySlug} />
+        <ReleaseList releases={releaseViews} names={nameBySlug} showNotes={false} />
       ) : (
         <EmptyState
           title="更新记录整理中"

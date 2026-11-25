@@ -1,4 +1,4 @@
-import { existsSync, readdirSync, statSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import path from 'node:path';
 import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
@@ -21,6 +21,43 @@ const hasDocs =
 const hasPosts = hasMdx('src/content/posts');
 
 const emptyPaths = [!hasDocs && '/docs/', !hasPosts && '/writing/'].filter(Boolean);
+
+// sitemap 的 lastmod 只从仓库内 GitHub 快照推导（构建期不联网、不用手工维护日期）。
+const FACTS_DIR = 'src/data/facts';
+
+function loadProductLastmod() {
+  const map = new Map();
+  if (!existsSync(FACTS_DIR)) return map;
+  for (const name of readdirSync(FACTS_DIR)) {
+    if (!name.endsWith('.json')) continue;
+    try {
+      const facts = JSON.parse(readFileSync(path.join(FACTS_DIR, name), 'utf8'));
+      const dates = [facts?.data?.pushedAt, ...(facts?.releases?.items ?? []).map((item) => item.date)]
+        .filter((value) => typeof value === 'string')
+        .map((value) => new Date(value))
+        .filter((date) => !Number.isNaN(date.getTime()));
+      if (dates.length > 0) {
+        map.set(name.slice(0, -5), new Date(Math.max(...dates.map((date) => date.getTime()))));
+      }
+    } catch {
+      // 单个快照损坏不阻断构建；内容层会给出更明确的错误。
+    }
+  }
+  return map;
+}
+
+const productLastmod = loadProductLastmod();
+const siteLastmod = [...productLastmod.values()].reduce(
+  (max, date) => (max === null || date > max ? date : max),
+  null,
+);
+
+function lastmodFor(pathname) {
+  if (pathname === '/' || pathname === '/products/' || pathname === '/changelog/') return siteLastmod;
+  const match = /^\/products\/([^/]+)\/(releases\/)?$/.exec(pathname);
+  if (match) return productLastmod.get(match[1]) ?? null;
+  return null;
+}
 
 // 正文末尾的 `> 证据：…` 行改为默认折叠的 details，正文只看叙事。
 function textOf(node) {
@@ -70,7 +107,17 @@ export default defineConfig({
   prefetch: { prefetchAll: true, defaultStrategy: 'hover' },
   integrations: [
     mdx(),
-    sitemap({ filter: (page) => !emptyPaths.includes(new URL(page).pathname) }),
+    sitemap({
+      filter: (page) => {
+        const pathname = new URL(page).pathname;
+        // 空状态页与站内搜索页不进 sitemap。
+        return !emptyPaths.includes(pathname) && pathname !== '/search/';
+      },
+      serialize: (item) => {
+        const lastmod = lastmodFor(new URL(item.url).pathname);
+        return lastmod ? { ...item, lastmod: lastmod.toISOString() } : item;
+      },
+    }),
   ],
   markdown: {
     shikiConfig: { theme: 'github-light' },

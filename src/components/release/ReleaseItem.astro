@@ -1,23 +1,51 @@
 ---
+import { marked } from 'marked';
 import type { ReleaseView } from '../../lib/content-graph';
 import { displayDate, formatDate } from '../../lib/format';
+import Prose from '../ui/Prose.astro';
 
 interface Props {
   release: ReleaseView;
   productName?: string;
+  /** 聚合列表（首页 / 更新日志）默认不展开正文，避免把整页 Release 说明都塞进一个 HTML。 */
+  showNotes?: boolean;
 }
 
-const { release, productName } = Astro.props;
-const { version, date, title, summary, highlights, breaking, channel, source, url, href, productSlug } = release;
+const { release, productName, showNotes = true } = Astro.props;
+const { version, date, title, summary, highlights, breaking, channel, source, url, href, productSlug, body, stats } = release;
 
 const dateText = date ? displayDate(date) : '日期未知';
 
 // 标题只是版本号本身时没有信息量：聚合列表改显示产品名，单产品列表显示来源。
-const customTitle = title.replace(/^v/i, '') === version ? null : title;
+const rawCustomTitle = title.replace(/^v/i, '') === version ? null : title;
+let customTitle = rawCustomTitle;
+if (customTitle && productName) {
+  const lower = customTitle.toLowerCase();
+  if (lower.startsWith(productName.toLowerCase())) {
+    const rest = customTitle.slice(productName.length).replace(/^[\s·:：\-–—]+/, '').trim();
+    customTitle = rest && rest.replace(/^v/i, '') !== version ? rest : null;
+  }
+}
 const sourceLabel = source === 'tag' ? 'Git tag' : 'GitHub Release';
 const label = productName ? (customTitle ? `${productName} · ${customTitle}` : productName) : (customTitle ?? sourceLabel);
 const target = source === 'manual' ? href : url;
 const external = source !== 'manual' && Boolean(url);
+
+// 自动条目里的 GitHub 统计：版本规模比正文更适合扫读，正文折叠到「发布说明」。
+const statsText =
+  stats && (stats.commits !== null || stats.filesChanged !== null || stats.additions !== null || stats.deletions !== null)
+    ? [
+        stats.commits !== null ? `${stats.commits} 次提交` : null,
+        stats.filesChanged !== null ? `${stats.filesChanged} 个文件变更` : null,
+        stats.additions !== null || stats.deletions !== null
+          ? `+${stats.additions ?? 0} / −${stats.deletions ?? 0}`
+          : null,
+      ]
+        .filter((item): item is string => Boolean(item))
+        .join(' · ')
+    : null;
+// Release 正文是 GitHub 上的 Markdown，构建期转成 HTML；来源是自己仓库的公开内容，不做二次清洗。
+const notesHtml = body ? (marked.parse(body, { async: false }) as string) : null;
 ---
 
 
@@ -41,6 +69,7 @@ const external = source !== 'manual' && Boolean(url);
       <time datetime={date ? formatDate(date) : undefined}>{dateText}</time>
     </p>
   </div>
+  {statsText && <p class="stats meta-text">{statsText}</p>}
   {summary && <p class="summary">{summary}</p>}
   {
     highlights.length > 0 && (
@@ -57,6 +86,16 @@ const external = source !== 'manual' && Boolean(url);
         {breaking && <span class="breaking">破坏性变更</span>}
         {channel === 'beta' && <span class="channel">Beta 通道</span>}
       </p>
+    )
+  }
+  {
+    showNotes && notesHtml && (
+      <details class="notes">
+        <summary>GitHub 发布说明</summary>
+        <Prose>
+          <div set:html={notesHtml} />
+        </Prose>
+      </details>
     )
   }
 </article>
@@ -103,10 +142,40 @@ const external = source !== 'manual' && Boolean(url);
     white-space: nowrap;
   }
 
+  .stats,
   .summary,
   .highlights,
-  .flags {
+  .flags,
+  .notes {
     margin-left: calc(72px + var(--space-4));
+  }
+
+  .stats {
+    margin-top: 6px;
+  }
+
+  .notes {
+    margin-top: 10px;
+  }
+
+  .notes summary {
+    color: var(--ink-faint);
+    font-size: 13px;
+    cursor: pointer;
+  }
+
+  .notes summary:hover {
+    color: var(--accent-ink);
+  }
+
+  .notes :global(.prose) {
+    margin-top: var(--space-3);
+    font-size: 15px;
+  }
+
+  .notes :global(h2:first-child),
+  .notes :global(h3:first-child) {
+    margin-top: 0;
   }
 
   .summary {
@@ -158,9 +227,11 @@ const external = source !== 'manual' && Boolean(url);
       text-align: left;
     }
 
+    .stats,
     .summary,
     .highlights,
-    .flags {
+    .flags,
+    .notes {
       margin-left: 0;
     }
   }

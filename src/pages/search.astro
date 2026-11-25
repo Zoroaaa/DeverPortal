@@ -1,0 +1,241 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeader from '../components/ui/SectionHeader.astro';
+---
+
+<BaseLayout title="搜索" description="站内搜索：作品、文档与文章。" noindex>
+  <div class="container page" data-pagefind-ignore>
+    <SectionHeader
+      level={1}
+      title="搜索"
+      description="搜作品名、技术栈、文档标题或文章关键词。索引在构建时生成，不经过任何服务器。"
+    />
+
+    <form class="search-form" data-search-form role="search" action="/search/" method="get">
+      <label class="visually-hidden" for="search-input">搜索关键词</label>
+      <input
+        id="search-input"
+        name="q"
+        type="search"
+        autocomplete="off"
+        spellcheck="false"
+        placeholder="输入关键词，例如：Cloudflare / 版本 / 搜索"
+        data-search-input
+        autofocus
+      />
+      <button type="submit">搜索</button>
+    </form>
+    <p class="hint meta-text">⌘K / Ctrl+K 可从任意页面打开搜索</p>
+
+    <p class="status" data-search-status aria-live="polite">输入关键词开始搜索。</p>
+    <ol class="results" data-search-results></ol>
+
+    <noscript>
+      <p class="status">搜索需要 JavaScript；也可以直接浏览 <a href="/products">作品</a> 或 <a href="/docs">文档</a>。</p>
+    </noscript>
+  </div>
+</BaseLayout>
+
+<script is:inline>
+  // 索引是 pagefind 在 npm run build 之后生成的静态文件；开发模式没有索引，给出提示而不是报错。
+  const form = document.querySelector('[data-search-form]');
+  const input = document.querySelector('[data-search-input]');
+  const statusEl = document.querySelector('[data-search-status]');
+  const resultsEl = document.querySelector('[data-search-results]');
+
+  let pagefind = null;
+  let pagefindFailed = false;
+  let searchToken = 0;
+  let debounceTimer = 0;
+
+  const initialQuery = new URL(location.href).searchParams.get('q') ?? '';
+  input.value = initialQuery;
+
+  function setStatus(text) {
+    statusEl.textContent = text;
+  }
+
+  async function loadPagefind() {
+    if (pagefind || pagefindFailed) return pagefind;
+    try {
+      pagefind = await import('/pagefind/pagefind.js');
+    } catch {
+      pagefindFailed = true;
+    }
+    return pagefind;
+  }
+
+  function render(items) {
+    resultsEl.replaceChildren();
+    for (const item of items) {
+      const li = document.createElement('li');
+      const link = document.createElement('a');
+      link.href = item.url;
+
+      const title = document.createElement('h2');
+      title.textContent = item.meta?.title || item.url;
+      link.append(title);
+
+      if (item.excerpt) {
+        const excerpt = document.createElement('p');
+        excerpt.className = 'excerpt';
+        // Pagefind 的 excerpt 已做 HTML 转义，只保留 <mark> 高亮。
+        excerpt.innerHTML = item.excerpt;
+        link.append(excerpt);
+      }
+
+      li.append(link);
+      resultsEl.append(li);
+    }
+  }
+
+  async function run(query) {
+    const token = ++searchToken;
+    const trimmed = query.trim();
+    if (!trimmed) {
+      resultsEl.replaceChildren();
+      setStatus('输入关键词开始搜索。');
+      return;
+    }
+
+    const engine = await loadPagefind();
+    if (!engine) {
+      setStatus('当前构建没有搜索索引：请运行 npm run build && npm run preview 后再试。');
+      return;
+    }
+
+    setStatus('搜索中…');
+    try {
+      const search = await engine.search(trimmed);
+      const items = await Promise.all(search.results.map((result) => result.data()));
+      if (token !== searchToken) return;
+      render(items);
+      const total = search.unfilteredResultCount ?? items.length;
+      if (!items.length) {
+        setStatus('没有找到「' + trimmed + '」相关的内容');
+      } else if (total > items.length) {
+        setStatus('找到 ' + total + ' 条结果，显示前 ' + items.length + ' 条');
+      } else {
+        setStatus('找到 ' + items.length + ' 条结果');
+      }
+    } catch {
+      if (token !== searchToken) return;
+      setStatus('搜索出错了，请刷新页面后重试。');
+    }
+  }
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const query = input.value.trim();
+    const url = query ? '/search/?q=' + encodeURIComponent(query) : '/search/';
+    history.replaceState(null, '', url);
+    run(input.value);
+  });
+
+  input.addEventListener('input', () => {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => run(input.value), 180);
+  });
+
+  if (initialQuery) run(initialQuery);
+</script>
+
+<style>
+  .page {
+    padding-top: clamp(40px, 7vw, 88px);
+    max-width: 880px;
+  }
+
+  .search-form {
+    display: flex;
+    gap: var(--space-3);
+    margin-top: var(--space-6);
+    padding-bottom: var(--space-4);
+    border-bottom: 1px solid var(--line-strong);
+  }
+
+  input[type='search'] {
+    flex: 1;
+    min-width: 0;
+    padding: 10px 0;
+    border: 0;
+    background: transparent;
+    color: var(--ink);
+    font: inherit;
+    font-size: clamp(20px, 2.6vw, 26px);
+    outline: none;
+  }
+
+  input[type='search']::placeholder {
+    color: var(--ink-faint);
+  }
+
+  button {
+    flex: none;
+    align-self: center;
+    padding: 8px 18px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--ink);
+    color: var(--bg);
+    font: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background: var(--accent);
+    color: var(--on-accent);
+  }
+
+  .hint {
+    margin-top: var(--space-2);
+  }
+
+  .status {
+    margin-top: var(--space-6);
+    color: var(--ink-muted);
+    font-size: 15px;
+  }
+
+  .results {
+    display: grid;
+    gap: 0;
+    margin: var(--space-4) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .results li {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .results a {
+    display: block;
+    padding: 18px 0;
+    text-decoration: none;
+  }
+
+  .results h2 {
+    font-size: 19px;
+    line-height: 1.5;
+  }
+
+  .results a:hover h2 {
+    color: var(--accent-ink);
+  }
+
+  .excerpt {
+    margin-top: 4px;
+    color: var(--ink-muted);
+    font-size: 14px;
+    line-height: 1.75;
+  }
+
+  .excerpt :global(mark) {
+    background: var(--accent-soft);
+    color: var(--accent-ink);
+    padding: 0 2px;
+  }
+</style>

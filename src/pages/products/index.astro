@@ -6,6 +6,21 @@ import EmptyState from '../../components/ui/EmptyState.astro';
 import { loadContentGraph } from '../../lib/content-graph';
 
 const { products } = await loadContentGraph();
+
+const statusLabels = { live: '在线', beta: '测试', lab: '实验', archived: '已归档' } as const;
+const platformLabels = {
+  web: 'Web',
+  desktop: 'Desktop',
+  cli: 'CLI',
+  'self-host': 'Self-host',
+  cloudflare: 'Cloudflare',
+} as const;
+
+const statuses = [...new Set(products.map((product) => product.entry.data.status))];
+const platforms = [...new Set(products.flatMap((product) => product.entry.data.platforms))];
+const techs = [...new Set(products.flatMap((product) => product.tech))].sort((a, b) =>
+  a.localeCompare(b, 'zh-Hans-CN'),
+);
 ---
 
 <BaseLayout title="作品" description="全部作品：状态、最近版本、已知限制。">
@@ -17,11 +32,47 @@ const { products } = await loadContentGraph();
     />
     {
       products.length > 0 ? (
-        <div class="list">
-          {products.map((product) => (
-            <ProductCard product={product} />
-          ))}
-        </div>
+        <>
+          <form class="filters" data-filters hidden aria-label="筛选与排序作品">
+            <label class="field">
+              <span>状态</span>
+              <select data-filter-status>
+                <option value="">全部</option>
+                {statuses.map((status) => <option value={status}>{statusLabels[status]}</option>)}
+              </select>
+            </label>
+            <label class="field">
+              <span>平台</span>
+              <select data-filter-platform>
+                <option value="">全部</option>
+                {platforms.map((platform) => <option value={platform}>{platformLabels[platform]}</option>)}
+              </select>
+            </label>
+            <label class="field">
+              <span>技术</span>
+              <select data-filter-tech>
+                <option value="">全部</option>
+                {techs.map((tech) => <option value={tech}>{tech}</option>)}
+              </select>
+            </label>
+            <label class="field">
+              <span>排序</span>
+              <select data-sort>
+                <option value="default">默认顺序</option>
+                <option value="updated">最近更新</option>
+                <option value="name">名称 A–Z</option>
+              </select>
+            </label>
+            <p class="count meta-text" data-filter-count aria-live="polite"></p>
+          </form>
+
+          <div class="list" data-product-list>
+            {products.map((product) => (
+              <ProductCard product={product} />
+            ))}
+          </div>
+          <p class="no-match" data-filter-empty hidden>没有符合筛选条件的作品；试试放宽条件。</p>
+        </>
       ) : (
         <EmptyState
           title="作品内容整理中"
@@ -32,12 +83,128 @@ const { products } = await loadContentGraph();
   </div>
 </BaseLayout>
 
+<script is:inline>
+  // 纯前端筛选/排序：DOM 里始终是全部作品，脚本只做显隐与重排，无 JS 时不影响阅读。
+  const form = document.querySelector('[data-filters]');
+  if (form) {
+    const list = document.querySelector('[data-product-list]');
+    const cards = [...list.querySelectorAll('[data-product]')];
+    const originalOrder = new Map(cards.map((card, index) => [card, index]));
+    const statusSelect = form.querySelector('[data-filter-status]');
+    const platformSelect = form.querySelector('[data-filter-platform]');
+    const techSelect = form.querySelector('[data-filter-tech]');
+    const sortSelect = form.querySelector('[data-sort]');
+    const count = form.querySelector('[data-filter-count]');
+    const empty = document.querySelector('[data-filter-empty]');
+    const params = new URLSearchParams(location.search);
+
+    if (params.get('status')) statusSelect.value = params.get('status');
+    if (params.get('platform')) platformSelect.value = params.get('platform');
+    if (params.get('tech')) techSelect.value = params.get('tech');
+    if (params.get('sort')) sortSelect.value = params.get('sort');
+
+    const apply = () => {
+      const status = statusSelect.value;
+      const platform = platformSelect.value;
+      const tech = techSelect.value;
+      let visible = 0;
+
+      for (const card of cards) {
+        const matchesStatus = !status || card.dataset.status === status;
+        const matchesPlatform = !platform || (card.dataset.platforms || '').split(' ').includes(platform);
+        const matchesTech = !tech || (card.dataset.tech || '').split('|').includes(tech);
+        const show = matchesStatus && matchesPlatform && matchesTech;
+        card.hidden = !show;
+        if (show) visible += 1;
+      }
+
+      const sort = sortSelect.value;
+      const ordered = [...cards];
+      if (sort === 'updated') {
+        ordered.sort((a, b) => Number(b.dataset.updated || 0) - Number(a.dataset.updated || 0));
+      } else if (sort === 'name') {
+        ordered.sort((a, b) => (a.dataset.name || '').localeCompare(b.dataset.name || '', 'zh-Hans-CN'));
+      } else {
+        ordered.sort((a, b) => originalOrder.get(a) - originalOrder.get(b));
+      }
+      for (const card of ordered) list.append(card);
+
+      empty.hidden = visible > 0;
+      count.textContent = '显示 ' + visible + ' / ' + cards.length + ' 个作品';
+
+      const next = new URLSearchParams();
+      if (status) next.set('status', status);
+      if (platform) next.set('platform', platform);
+      if (tech) next.set('tech', tech);
+      if (sort !== 'default') next.set('sort', sort);
+      const query = next.toString();
+      history.replaceState(null, '', query ? location.pathname + '?' + query : location.pathname);
+    };
+
+    form.addEventListener('change', apply);
+    form.hidden = false;
+    apply();
+  }
+</script>
+
 <style>
   .page {
     padding-top: clamp(40px, 7vw, 88px);
   }
 
+  .filters:not([hidden]) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: var(--space-3) var(--space-5);
+    padding-bottom: var(--space-5);
+  }
+
+  .field {
+    display: grid;
+    gap: 4px;
+  }
+
+  .field span {
+    color: var(--ink-faint);
+    font-size: 12px;
+  }
+
+  select {
+    padding: 6px 10px;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    background: var(--bg);
+    color: var(--ink);
+    font: inherit;
+    font-size: 14px;
+  }
+
+  select:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .count {
+    margin-left: auto;
+    padding-bottom: 7px;
+    white-space: nowrap;
+  }
+
   .list {
     border-top: 1px solid var(--line);
+  }
+
+  .no-match {
+    padding: var(--space-8) 0;
+    color: var(--ink-muted);
+    font-size: 15px;
+  }
+
+  @media (max-width: 599px) {
+    .count {
+      margin-left: 0;
+      padding-bottom: 0;
+    }
   }
 </style>

@@ -54,8 +54,8 @@ src/content/
 | `links.demo` | `string`（URL） | 选填 | 在线演示地址 | 产品页"打开 Demo"按钮；`status: live` 时必填 |
 | `links.repo` | `string`（URL） | 选填 | 源码地址 | 产品页"源码仓库"按钮 |
 | `links.download` | `string`（URL） | 选填 | 下载地址 | 产品页"下载"按钮 |
-| `cover` | `string` | 选填 | 封面图路径 | 不显示（当前没有模板读取） |
-| `gallery` | `{ src: string; alt: string }[]` | 选填，默认 `[]` | 截图集 | 不显示（当前没有模板读取） |
+| `cover` | `string` | 选填 | 封面图路径（建议 1200×630） | 产品页标题下的主视觉；不填则用构建时自动生成的 OG 分享卡兜底 |
+| `gallery` | `{ src: string; alt: string }[]` | 选填，默认 `[]` | 截图集（`alt` 必填） | 产品页「截图」区块，点击在新标签页看原图 |
 | `limitations` | `string[]` | 选填，默认 `[]` | 已知限制 | 产品页"现状与已知限制"区块；`live` / `beta` 至少 1 条 |
 | `seo` | `object` | 选填 | 页面元信息 | 不直接显示 |
 | `seo.title` | `string` | 选填 | 浏览器标题 | `<title>`，不写则用 `name` |
@@ -108,9 +108,17 @@ src/content/
 2. 运行 `npm run sync:github` 抓快照，再运行 `npm run new:drafts` 生成草稿骨架 `src/content/products/<slug>/index.mdx`。
 3. 打开草稿，补全所有 TODO：`tagline`、`summary`、正文三段；把 `draft` 改成 `false`。`beta` / `live` 必须保留至少 1 条 `limitations`，`live` 必须有 `links.demo`。
 4. 本地预览：`npm run dev`，打开 `http://localhost:4321/products/<slug>`。
-5. 构建校验：`npm run build`。看到 `✓ 内容检查通过` 且最后 `Complete!` 才算通过。
+5. 构建校验：`npm run content:audit` 看覆盖度，再跑 `npm run build`；最后出现 `Complete!` 且没有 `✗ 内容检查失败` 才算通过。
 
-需要版本记录或文档时，再把 `release.mdx`、`doc.mdx` 复制到 `<slug>/releases/`、`<slug>/docs/`。手写 release 会覆盖 GitHub 同版本号条目；文档的 `appliesTo` 必须与已有 release 版本有交集，否则删掉该行。
+需要版本记录、文档或文章时，用脚手架生成骨架（也可以复制 `docs/content-guide/templates/` 下的模板）：
+
+```bash
+npm run new:release -- <slug> 1.2.0 "版本标题"
+npm run new:doc -- <slug> getting-started
+npm run new:post -- why-i-build-tools
+```
+
+手写 release 会覆盖 GitHub 同版本号条目；文档的 `appliesTo` 必须与已有 release 版本有交集，否则删掉该行。
 
 **草稿不会上线**：`draft: true` 的产品不生成页面，也不进列表、RSS、sitemap，但仍要求白名单与快照存在。
 
@@ -123,7 +131,8 @@ src/content/
 ```
 
 - 文件名用小写英文和连字符，不要空格与中文。
-- 正文里的 `![]()` 会正常显示；`cover`、`gallery` 目前没有模板读取，填了也不显示。
+- 正文里的 `![]()` 会正常显示；`cover` 显示在产品页标题下，`gallery` 渲染成「截图」区块，点击在新标签页看原图。
+- 建议 `cover` 用 1200×630（与 OG 卡同比例），`gallery` 截图用 16:9 或 4:3；`alt` 必填，描述画面内容。
 - `seo.ogImage` 也用同样的 `/images/...` 路径，会出现在分享卡片。
 - 不写相对路径，不用 `src/assets` 导入；当前内容模板没有接图片组件。
 
@@ -180,9 +189,9 @@ links:
 ## 7. 发布流程
 
 1. 改 `src/content/` 下的 MDX。
-2. `npm run build` 必须通过。
+2. `npm run content:audit` 看覆盖度，`npm run build` 必须通过。
 3. `git add src/content`，提交并推送。
-4. Cloudflare Pages 监听仓库，推送后自动执行 `npm run build` 并部署 `dist/`。
+4. Cloudflare（Workers 静态资源）按 `wrangler.jsonc` 构建并发布 `dist/`；也可本地 `npm run deploy`。
 5. 线上打开发布页确认：标题、状态、最近版本、限制段落都在。
 
 构建不通过就不要提交；线上只会得到和本地一样的失败结果。

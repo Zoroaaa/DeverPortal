@@ -2,14 +2,15 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
-<BaseLayout title="页面不存在" description="请求的页面不存在。">
-  <div class="container page">
+<BaseLayout title="页面不存在" description="请求的页面不存在。" noindex>
+  <div class="container page" data-pagefind-ignore>
     <p class="code" aria-hidden="true">404<span class="stop">.</span></p>
     <h1>页面不存在</h1>
     <p class="desc">这个地址没有对应的内容，可能是链接过期或拼写有误。</p>
     <p class="links">
       <a class="btn" href="/">返回首页</a>
       <a class="ghost" href="/products">浏览作品 →</a>
+      <a class="ghost" href="/search/">搜索站内内容 →</a>
     </p>
   </div>
 </BaseLayout>

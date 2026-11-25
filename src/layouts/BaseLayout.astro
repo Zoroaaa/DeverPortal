@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import { site, nav } from '../data/site';
+import { loadContentGraph } from '../lib/content-graph';
 
 interface Props {
   title?: string;
@@ -9,6 +10,10 @@ interface Props {
   ogImage?: string;
   type?: string;
   noindex?: boolean;
+  /** 页面级 JSON-LD（单个对象或数组），与首页的站点级数据分开输出。 */
+  structuredData?: Record<string, unknown> | Record<string, unknown>[];
+  /** 页面专属的 RSS 地址，例如每个产品的版本记录 feed。 */
+  rss?: string;
 }
 
 const {
@@ -18,7 +23,15 @@ const {
   ogImage = '/og.png',
   type = 'website',
   noindex = false,
+  structuredData,
+  rss,
 } = Astro.props;
+
+const structuredDataList = structuredData
+  ? Array.isArray(structuredData)
+    ? structuredData
+    : [structuredData]
+  : [];
 
 const pageTitle = title ? `${title} · ${site.ownerName}` : `${site.ownerName} · ${site.title}`;
 const siteUrl = Astro.site ?? new URL(site.url);
@@ -26,6 +39,14 @@ const canonicalUrl = new URL(canonical, siteUrl);
 const pathname = Astro.url.pathname;
 
 const isActive = (href: string) => (href === '/' ? pathname === '/' : pathname.startsWith(href));
+
+// 导航跟着内容走：还没有文档 / 文章时先不展示对应入口，避免把访客带进空页面。
+const graph = await loadContentGraph();
+const navItems = nav.filter((item) => {
+  if (item.href === '/docs') return graph.docs.length > 0;
+  if (item.href === '/writing') return graph.posts.length > 0;
+  return true;
+});
 
 const year = new Date().getFullYear();
 
@@ -58,6 +79,7 @@ const jsonLd =
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl.href} />
     <link rel="alternate" type="application/rss+xml" title={`${site.ownerName} · 订阅`} href="/rss.xml" />
+    {rss && <link rel="alternate" type="application/rss+xml" title={`${pageTitle} · RSS`} href={rss} />}
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 
     <meta property="og:type" content={type} />
@@ -74,11 +96,16 @@ const jsonLd =
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={new URL(ogImage, siteUrl).href} />
     {jsonLd && <script type="application/ld+json" set:html={jsonLd} />}
+    {
+      structuredDataList.map((data) => (
+        <script type="application/ld+json" set:html={JSON.stringify(data)} />
+      ))
+    }
   </head>
   <body>
     <a class="skip-link" href="#main">跳到正文</a>
 
-    <header class="site-header">
+    <header class="site-header" data-pagefind-ignore>
       <div class="container header-inner">
         <a class="brand" href="/" aria-label={`${site.ownerName} · 首页`}>
           <span class="brand-dot" aria-hidden="true"></span>
@@ -87,7 +114,7 @@ const jsonLd =
         <nav class="site-nav" aria-label="主导航">
           <ul>
             {
-              nav.map((item) => (
+              navItems.map((item) => (
                 <li>
                   <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>
                     {item.label}
@@ -100,15 +127,17 @@ const jsonLd =
       </div>
     </header>
 
-    <main id="main">
+    <main id="main" data-pagefind-body>
       <slot />
     </main>
 
-    <footer class="site-footer">
+    <footer class="site-footer" data-pagefind-ignore>
       <div class="container foot-inner">
         <p>© {year} {site.ownerName}</p>
         <ul>
           <li><a href="/changelog">更新日志</a></li>
+          <li><a href="/stats">统计</a></li>
+          <li><a href="/tech/">技术栈</a></li>
           <li>
             <a href={site.githubUrl} target="_blank" rel="noopener noreferrer">
               GitHub<span aria-hidden="true"> ↗</span>
@@ -120,6 +149,16 @@ const jsonLd =
         </ul>
       </div>
     </footer>
+
+    <script is:inline>
+      // 站内搜索快捷键：⌘K / Ctrl+K 跳到搜索页；页面本身零框架、零外部依赖。
+      addEventListener('keydown', (event) => {
+        if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
+          event.preventDefault();
+          if (!location.pathname.startsWith('/search')) location.href = '/search/';
+        }
+      });
+    </script>
   </body>
 </html>
 

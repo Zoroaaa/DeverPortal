@@ -1,0 +1,126 @@
+---
+import SectionHeader from '../ui/SectionHeader.astro';
+
+interface GalleryItem {
+  src: string;
+  alt: string;
+}
+
+interface Props {
+  slug: string;
+  name: string;
+  cover?: string;
+  gallery: GalleryItem[];
+}
+
+const { slug, name, cover, gallery } = Astro.props;
+
+// 没有真实封面时用构建期自动生成的 OG 卡兜底：既不空着，也提醒这里该放截图。
+const fallback = `/og/${slug}.png`;
+const heroSrc = cover ?? fallback;
+const isFallback = !cover;
+---
+
+<figure class="media">
+  <a class="frame" href={heroSrc} target="_blank" rel="noopener noreferrer">
+    <img
+      src={heroSrc}
+      alt={isFallback ? `${name} 的分享卡（构建时自动生成）` : `${name} 封面`}
+      width="1200"
+      height="630"
+      loading="eager"
+      decoding="async"
+    />
+  </a>
+  <figcaption>
+    {
+      isFallback
+        ? '分享卡 · 构建时自动生成；有真实截图时在 frontmatter 的 cover 指定'
+        : `${name} · 封面`
+    }
+  </figcaption>
+</figure>
+
+{
+  gallery.length > 0 && (
+    <section class="gallery" aria-labelledby="gallery-title">
+      <SectionHeader title="截图" description="点击在新标签页查看原图。" />
+      <ul>
+        {gallery.map((item) => (
+          <li>
+            <a href={item.src} target="_blank" rel="noopener noreferrer">
+              <img src={item.src} alt={item.alt} loading="lazy" decoding="async" />
+              <span>{item.alt}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )
+}
+
+<style>
+  .media {
+    margin-top: clamp(32px, 5vw, 56px);
+  }
+
+  .frame {
+    display: block;
+    max-width: 860px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--bg-soft);
+  }
+
+  .frame img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  figcaption {
+    margin-top: 8px;
+    color: var(--ink-faint);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .gallery {
+    margin-top: clamp(32px, 5vw, 48px);
+  }
+
+  .gallery ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: var(--space-4);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .gallery a {
+    display: grid;
+    gap: 8px;
+    text-decoration: none;
+  }
+
+  .gallery img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: var(--bg-soft);
+  }
+
+  .gallery span {
+    color: var(--ink-muted);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .gallery a:hover span {
+    color: var(--accent-ink);
+  }
+</style>
