@@ -3,7 +3,7 @@
   "slug": "personal-blog",
   "owner": "Zoroaaa",
   "repo": "personal-blog",
-  "fetchedAt": "2026-11-24T03:25:59.836Z",
+  "fetchedAt": "2026-11-28T09:44:30.640Z",
   "etag": null,
   "readmeEtag": "\"a0f53d36a7f0394cb3185852391457d0ad4011e8\"",
   "stale": false,
@@ -16,7 +16,7 @@
     "description": "使用cloudflare workers+pages+kv+d1+r2、resend 搭建的轻量化个人博客网站，功能丰富，页面美观。",
     "homepage": "https://blog.wort.uk",
     "stars": 57,
-    "forks": 20,
+    "forks": 21,
     "openIssues": 0,
     "openPRs": 0,
     "language": "TypeScript",
@@ -257,7 +257,7 @@
     "scripts/migrate.sh": true
   },
   "releases": {
-    "fetchedAt": "2026-11-24T03:25:59.836Z",
+    "fetchedAt": "2026-11-28T09:44:30.640Z",
     "etag": null,
     "stale": false,
     "error": null,
